@@ -1,0 +1,31 @@
+.item-sidebar {
+    color: #eeeeee;
+    cursor: pointer;
+}
+
+.item-sidebar:hover {
+    color: #888888;
+}
+
+.item-sidebar-selected {
+    color: #888888;
+}
+
+.font-awesome-icon {
+    margin-right: 10px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.mat-drawer-container {
+    width: 100%;
+    height: 1000px;
+    border: 1px solid #555;
+    background-color: #3f3f3f;
+}
+
+.mat-drawer {
+    background-color: #212121;
+}

@@ -1,0 +1,65 @@
+<div fxLayout="column">
+
+    <!-- <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+
+        <div href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <h3>Sidebar</h3>
+        </div>
+        <hr>
+
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li *ngFor="let itemSidebar of vItemsSidebar" class="nav-item">
+                <span class="nav-link item-sidebar" [routerLink]="itemSidebar.path"
+                    *ngIf="mostrarOpcion(itemSidebar)"
+                    routerLinkActive="item-sidebar-selected">
+                    <i class="font-awesome-icon" [ngClass]="getClass(itemSidebar)"></i>
+                    {{ itemSidebar.nombre }}
+                </span>
+            </li>
+
+        </ul>
+        <hr>
+        
+        <button class="btn btn-primary" (click)="logOut()">Cerrar sesión</button>
+        
+    </div> -->
+
+    <mat-toolbar color="primary">
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+         <mat-icon>menu</mat-icon>
+       </button>
+       <span>Lacuca Zone</span>
+       <span class="example-spacer"></span>
+       
+       
+
+     </mat-toolbar>
+
+    <div>
+        <mat-drawer-container class="mat-drawer-container">
+            <mat-drawer class="mat-drawer" mode="side" opened>
+
+                <ul class="nav nav-pills flex-column mb-auto">
+
+                    <li *ngFor="let itemSidebar of vItemsSidebar" class="nav-item mt-3">
+                        <span class="nav-link item-sidebar" [routerLink]="itemSidebar.path"
+                            *ngIf="mostrarOpcion(itemSidebar)" routerLinkActive="item-sidebar-selected">
+                            <i class="font-awesome-icon" [ngClass]="getClass(itemSidebar)"></i>
+                            {{ itemSidebar.nombre }}
+                        </span>
+
+                    </li>
+
+                </ul>
+            </mat-drawer>
+
+            <mat-drawer-content class="p-3">
+
+                <router-outlet></router-outlet>
+
+            </mat-drawer-content>
+
+        </mat-drawer-container>
+    </div>
+
+</div>

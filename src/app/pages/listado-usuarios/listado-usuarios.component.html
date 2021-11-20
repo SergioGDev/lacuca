@@ -1,0 +1,40 @@
+<div class="card">
+
+    <div class="card-header">
+        <h1 class="p-2 text-center">Listado de usuarios</h1>
+    </div>
+
+    <div class="card-body">
+        
+        <div class="d-flex justify-content-center" *ngIf="cargandoUsuarios">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        
+        <table class="table table-striped table-hover" *ngIf="!cargandoUsuarios">
+            <thead>
+                <tr class="p-1">
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Último Login</th>
+                    <th>Rol</th>
+                    <th>Correo electrónico</th>
+                </tr>
+            </thead>
+        
+            <tbody>
+                <tr class="p-1" *ngFor="let usuario of listadoUsuarios; index as i">
+                    <th> {{ i }} </th>
+                    <td> {{ usuario.nombre}} </td>
+                    <td> {{ usuario.apellidos }} </td>
+                    <td> {{ convertToDate(usuario.lastLogin) | date:"dd/MM/yyyy HH:mm" }} </td>
+                    <td> {{ usuario.rol | rol }} </td>
+                    <td> {{ usuario.email }} </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
