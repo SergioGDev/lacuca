@@ -11,6 +11,14 @@
     color: #888888;
 }
 
+.sidebar {
+    min-width: 200px;
+}
+
+.sidebar li {
+    list-style: none;
+}
+
 .font-awesome-icon {
     margin-right: 10px;
 }
@@ -21,11 +29,15 @@
 
 .mat-drawer-container {
     width: 100%;
-    height: 1000px;
+    height: 100%;
     border: 1px solid #555;
     background-color: #3f3f3f;
 }
 
 .mat-drawer {
     background-color: #212121;
+}
+
+.h-100 {
+    height: 100%;
 }

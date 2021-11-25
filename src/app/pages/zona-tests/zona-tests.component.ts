@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { lStorageNumeroPreguntas } from '../../interfaces/constantes.interface';
 
 @Component({
   selector: 'app-zona-tests',
@@ -16,7 +17,8 @@ export class ZonaTestsComponent implements OnInit {
   }
 
   generarTest(numeroPreguntas: number) {
-    this.router.navigateByUrl(`dashboard/nuevo-test/${numeroPreguntas}`);
+    localStorage.setItem(lStorageNumeroPreguntas, `${numeroPreguntas}`);
+    this.router.navigateByUrl(`dashboard/nuevo-test`);
   }
 
 }

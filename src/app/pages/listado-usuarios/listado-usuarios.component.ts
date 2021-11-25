@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from '../../services/data.service';
 import { User } from 'src/app/interfaces/user.interface';
+import { AuthService } from '../../services/auth.service';
+import { DataService } from '../../services/data.service';
+import { rolUsuario } from '../../interfaces/constantes.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listado-usuarios',
@@ -15,15 +18,28 @@ export class ListadoUsuariosComponent implements OnInit {
   listadoUsuarios: User[] = [];
 
   constructor(
-    private dataService: DataService
+    private authService: AuthService,
+    private dataService: DataService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.dataService.getListadoUsuarios()
-      .subscribe(resp => {
-        this.listadoUsuarios = resp;
-        this.cargandoUsuarios = false;
-      });
+    if (this.authService.getCurrentUserRol() === rolUsuario) {
+
+      // Solamente pueden acceder al listado de usuarios los administradores o diseñadores
+      this.router.navigateByUrl('/dashboard/inicio');
+      return;
+
+    } else {
+
+      this.dataService.getListadoUsuarios()
+        .subscribe(resp => {
+          this.listadoUsuarios = resp;
+          this.cargandoUsuarios = false;
+        });
+
+    }
+
   }
 
   convertToDate(date: any) {

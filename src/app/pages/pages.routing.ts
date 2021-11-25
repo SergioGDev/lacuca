@@ -10,6 +10,7 @@ import { DesignacionesComponent } from './designaciones/designaciones.component'
 import { JugadasComponent } from './jugadas/jugadas.component';
 import { ListadoUsuariosComponent } from './listado-usuarios/listado-usuarios.component';
 import { NuevoTestComponent } from './nuevo-test/nuevo-test.component';
+import { SolucionTestComponent } from './solucion-test/solucion-test.component';
 
 const routes: Routes = [
   { 
@@ -22,7 +23,8 @@ const routes: Routes = [
       { path: 'designaciones', component: DesignacionesComponent, data: { titulo: 'Designaciones' } },
       { path: 'jugadas', component: JugadasComponent, data: { titulo: 'Jugadas' } },
       { path: 'listado-usuarios', component: ListadoUsuariosComponent, data: {titulo: 'Listado de usuarios' } },
-      { path: 'nuevo-test/:numeroPreguntas', component: NuevoTestComponent, data: {titulo: 'Nuevo test' } },
+      { path: 'nuevo-test', component: NuevoTestComponent, data: {titulo: 'Nuevo test' } },
+      { path: 'solucion-test', component: SolucionTestComponent, data: {titulo: 'Solución test'} },
       { path: '**', redirectTo: 'inicio' },
     ]
 

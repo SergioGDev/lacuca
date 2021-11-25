@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div>
 
     <!-- <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
 
@@ -31,12 +31,30 @@
        <span>Lacuca Zone</span>
        <span class="example-spacer"></span>
        
-       
+       <button class="btn btn-info" (click)="logOut()">Cerrar sesión</button>
 
      </mat-toolbar>
 
-    <div>
-        <mat-drawer-container class="mat-drawer-container">
+    <div fxLayout="row">
+        <div class="sidebar" fxFlex="15">
+            <li *ngFor="let itemSidebar of vItemsSidebar" class="nav-item m-3">
+                <span class="nav-link item-sidebar" [routerLink]="itemSidebar.path"
+                    *ngIf="mostrarOpcion(itemSidebar)" routerLinkActive="item-sidebar-selected">
+                    <i class="font-awesome-icon" [ngClass]="getClass(itemSidebar)"></i>
+                    {{ itemSidebar.nombre }}
+                </span>
+    
+            </li>
+        </div>
+
+        <div class="content p-3">
+            <router-outlet></router-outlet>
+        </div>
+
+
+
+
+        <!-- <mat-drawer-container class="mat-drawer-container">
             <mat-drawer class="mat-drawer" mode="side" opened>
 
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -55,11 +73,10 @@
 
             <mat-drawer-content class="p-3">
 
-                <router-outlet></router-outlet>
 
             </mat-drawer-content>
 
-        </mat-drawer-container>
+        </mat-drawer-container> -->
     </div>
 
 </div>

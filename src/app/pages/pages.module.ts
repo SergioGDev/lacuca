@@ -16,6 +16,7 @@ import { RolPipe } from '../pipes/rol.pipe';
 import { NuevoTestComponent } from './nuevo-test/nuevo-test.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SolucionTestComponent } from './solucion-test/solucion-test.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     JugadasComponent,
     ListadoUsuariosComponent,
     RolPipe,
-    NuevoTestComponent
+    NuevoTestComponent,
+    SolucionTestComponent
   ],
   exports: [
     DashboardComponent,

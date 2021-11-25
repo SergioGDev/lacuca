@@ -3,7 +3,6 @@ import { DataService } from '../services/data.service';
 import { SidebarService } from '../services/sidebar.service';
 import { ItemSidebar } from '../interfaces/sidebar.interface';
 import { AuthService } from '../services/auth.service';
-import { User } from '../interfaces/user.interface';
 
 @Component({
   selector: 'app-pages',
