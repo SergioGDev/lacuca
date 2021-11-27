@@ -1,43 +1,54 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ItemPregunta } from '../../interfaces/data.interface';
-import { lStorageVPreguntasFalladas, lStorageVMisRespuestas } from '../../interfaces/constantes.interface';
+import { ItemPreguntaRespondida } from '../../interfaces/data.interface';
+import { lStorageVSoluciones, lStorageNumeroPreguntas } from '../../interfaces/constantes.interface';
 
 @Component({
   selector: 'app-solucion-test',
   templateUrl: './solucion-test.component.html',
-  styles: [
-  ]
+  styleUrls: ['./solucion-test.component.css']
 })
 export class SolucionTestComponent implements OnInit, OnDestroy {
 
-  vPreguntasFalladas: ItemPregunta[] = [];
-  vMisRespuestas: string[] = [];
+  vMisRespuestas: ItemPreguntaRespondida[] = [];
+  mensajeNumeroAciertos: string = "";
 
   constructor(
     private router: Router
   ) { }
 
+  // ng onInit
   ngOnInit(): void {
-    const itemPreguntas = localStorage.getItem(lStorageVPreguntasFalladas);
-    const itemRespuestas = localStorage.getItem(lStorageVMisRespuestas);
-
-    if (itemPreguntas && itemRespuestas) {
-      
-      this.vPreguntasFalladas = JSON.parse(itemPreguntas!);
+    const itemRespuestas = localStorage.getItem(lStorageVSoluciones);
+    
+    if (itemRespuestas) {
       this.vMisRespuestas = JSON.parse(itemRespuestas!);
+      const numeroPreguntas: number = parseInt(localStorage.getItem(lStorageNumeroPreguntas)!);
+      const preguntasAcertadas: number = numeroPreguntas - this.vMisRespuestas.length;
+
+      this.mensajeNumeroAciertos = `Has acertado ${preguntasAcertadas} 
+        de ${numeroPreguntas} ${numeroPreguntas === 1 ? 'pregunta' : 'preguntas'}`;
 
     } else {
       this.router.navigateByUrl('/dashboard/inicio')
     } 
-
   }
 
+  // ng onDestroy
   ngOnDestroy(): void {
-    
-    localStorage.removeItem(lStorageVMisRespuestas);
-    localStorage.removeItem(lStorageVPreguntasFalladas);
+    localStorage.removeItem(lStorageVSoluciones);
+  }
 
+  terminarTest(): void {
+    this.router.navigateByUrl('/dashboard/inicio');
+  }
+
+  verMisResultados(): void {
+    console.log("NO IMPLEMENTADO");
+  }
+
+  realizarOtroTest(): void {
+    this.router.navigateByUrl('dashboard/zona-tests')
   }
 
 }

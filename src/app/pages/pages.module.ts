@@ -10,26 +10,28 @@ import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 import { DesignacionesComponent } from './designaciones/designaciones.component';
-import { JugadasComponent } from './jugadas/jugadas.component';
 import { ListadoUsuariosComponent } from './listado-usuarios/listado-usuarios.component';
 import { RolPipe } from '../pipes/rol.pipe';
 import { NuevoTestComponent } from './nuevo-test/nuevo-test.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SolucionTestComponent } from './solucion-test/solucion-test.component';
+import { VideosComponent } from './videos/videos.component';
+import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/registrar-nuevo-partido.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     
-    PagesComponent,
-    ZonaTestsComponent,
     DesignacionesComponent,
-    JugadasComponent,
     ListadoUsuariosComponent,
-    RolPipe,
     NuevoTestComponent,
-    SolucionTestComponent
+    PagesComponent,
+    RegistrarNuevoPartidoComponent,
+    RolPipe,
+    SolucionTestComponent,
+    VideosComponent,
+    ZonaTestsComponent,
   ],
   exports: [
     DashboardComponent,

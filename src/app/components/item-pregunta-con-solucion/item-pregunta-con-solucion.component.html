@@ -1,1 +1,15 @@
-<p>item-pregunta-con-solucion works!</p>
+<div class="mt-2">
+    <b>{{ numeroPregunta }}) {{ item.pregunta.texto }}</b>
+
+    <div class="m-2">
+
+        <div class="mi-respuesta mt-3">
+            <b>Tu respuesta:</b> {{ item.miRespuesta }}
+        </div>
+
+        <div class="respuesta-correcta mt-2">
+            <b>Respuesta correcta:</b><i> {{ item.pregunta.correcta }}</i>
+        </div>
+    </div>
+
+</div>

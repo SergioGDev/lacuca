@@ -1,11 +1,16 @@
 export interface ItemPregunta {
     _id:             string;
-    texto:       string;
+    texto:          string;
     respuesta1:     string;
     respuesta2:     string;
     respuesta3:     string;
     correcta:       string;
     justificacion:  string;
+}
+
+export interface ItemPreguntaRespondida {
+    pregunta: ItemPregunta;
+    miRespuesta: string;
 }
 
 export interface LacucaRespuesta {

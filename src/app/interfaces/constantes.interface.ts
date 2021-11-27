@@ -4,6 +4,7 @@ export const rolUsuario = 'user';
 
 export const lStorageVMisRespuestas = 'vMisRespuestas';
 export const lStorageVPreguntasFalladas = 'vPreguntasFalladas';
+export const lStorageVSoluciones = 'vSoluciones';
 
 export const lStorageNumeroPreguntas = 'numeroPreguntas';
 

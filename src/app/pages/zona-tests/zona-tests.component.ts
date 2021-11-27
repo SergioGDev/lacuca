@@ -18,7 +18,7 @@ export class ZonaTestsComponent implements OnInit {
 
   generarTest(numeroPreguntas: number) {
     localStorage.setItem(lStorageNumeroPreguntas, `${numeroPreguntas}`);
-    this.router.navigateByUrl(`dashboard/nuevo-test`);
+    this.router.navigateByUrl(`dashboard/zona-tests/nuevo-test`);
   }
 
 }

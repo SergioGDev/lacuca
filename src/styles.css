@@ -9,3 +9,12 @@ body, html {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+:root {
+    --color-texto-blanco: #efefef;
+    --color-texto-blanco-transparente: #efefef80;
+}

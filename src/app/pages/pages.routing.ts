@@ -7,10 +7,11 @@ import { PagesComponent } from './pages.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 import { DesignacionesComponent } from './designaciones/designaciones.component';
-import { JugadasComponent } from './jugadas/jugadas.component';
 import { ListadoUsuariosComponent } from './listado-usuarios/listado-usuarios.component';
 import { NuevoTestComponent } from './nuevo-test/nuevo-test.component';
 import { SolucionTestComponent } from './solucion-test/solucion-test.component';
+import { VideosComponent } from './videos/videos.component';
+import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/registrar-nuevo-partido.component';
 
 const routes: Routes = [
   { 
@@ -19,12 +20,13 @@ const routes: Routes = [
     canActivate: [ AuthGuard ],
     children: [
       { path: 'inicio', component: DashboardComponent, data: { titulo: 'Dashboard' } },
-      { path: 'tests', component: ZonaTestsComponent, data: { titulo: 'Zona tests ' } },
+      { path: 'zona-tests', component: ZonaTestsComponent, data: { titulo: 'Zona tests ' } },
       { path: 'designaciones', component: DesignacionesComponent, data: { titulo: 'Designaciones' } },
-      { path: 'jugadas', component: JugadasComponent, data: { titulo: 'Jugadas' } },
+      { path: 'videos', component: VideosComponent, data: { titulo: 'Videos' } },
+      { path: 'videos/registrar-nuevo-partido', component: RegistrarNuevoPartidoComponent, data: { titulo: 'Nuevo partido' } },
       { path: 'listado-usuarios', component: ListadoUsuariosComponent, data: {titulo: 'Listado de usuarios' } },
-      { path: 'nuevo-test', component: NuevoTestComponent, data: {titulo: 'Nuevo test' } },
-      { path: 'solucion-test', component: SolucionTestComponent, data: {titulo: 'Solución test'} },
+      { path: 'zona-tests/nuevo-test', component: NuevoTestComponent, data: {titulo: 'Nuevo test' } },
+      { path: 'zona-tests/solucion-test', component: SolucionTestComponent, data: {titulo: 'Solución test'} },
       { path: '**', redirectTo: 'inicio' },
     ]
 

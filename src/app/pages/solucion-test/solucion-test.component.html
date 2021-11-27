@@ -4,14 +4,23 @@
     </div>
     <div class="card-body">
 
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let pregunta of vPreguntasFalladas; index as i">
+        <div class="mensaje-acertadas m-4 text-center">
+            {{ mensajeNumeroAciertos }}
+        </div>
 
-                <app-item-pregunta-con-solucion></app-item-pregunta-con-solucion>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let item of vMisRespuestas; index as i">
+
+                <app-item-pregunta-con-solucion [item]="item" [numeroPregunta]="i+1"></app-item-pregunta-con-solucion>
 
             </li>
         </ul>
 
+        <div class="botonera-inferior text-center mt-4">
+            <button class="btn btn-outline-dark m-3" (click)="terminarTest()">Terminar test</button>
+            <button class="btn btn-outline-dark m-3" (click)="verMisResultados()">Ver mis resultados</button>
+            <button class="btn btn-outline-dark m-3" (click)="realizarOtroTest()">Realizar otro test</button>
+        </div>
 
     </div>
 </div>
