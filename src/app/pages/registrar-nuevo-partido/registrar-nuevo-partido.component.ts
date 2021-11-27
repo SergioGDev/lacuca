@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-registrar-nuevo-partido',
   templateUrl: './registrar-nuevo-partido.component.html',
-  styleUrls: ['../pages.component.css']
+  styleUrls: ['../pages.component.css', './registrar-nuevo-partido.component.css']
 })
 export class RegistrarNuevoPartidoComponent implements OnInit {
 

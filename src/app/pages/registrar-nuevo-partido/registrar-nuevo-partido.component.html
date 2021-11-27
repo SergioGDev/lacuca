@@ -10,25 +10,65 @@
                 Volver
             </button>
         </div>
-        
+
     </div>
 
     <div class="caja-contenido p-5">
         <form>
 
-            <div >
-                    
-                    <div fxLayout="row wrap" class="input-group mb-3">
-                        <!-- Equipo local -->
-                        <input type="text" class="form-control" placeholder="Equipo local" aria-label="Username">
+            <div fxLayout="row wrap">
 
-                        <span class="input-group-text">-</span>
+                <div fxFlex="49" fxFlex.sm="100">
+                    <mat-form-field class="w-100 p-2" appearance="fill">
+                        <mat-label>Equipo local</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
 
-                        <!-- Equipo visitante -->
-                        <input type="text" class="form-control" placeholder="Equipo visitante" aria-label="Server">
-                    </div>
+                <div fxFlex="2" fxShow.sm="false" class="text-center guion"> - </div>
+
+                <div fxFlex="49" fxFlex.sm="100">
+                    <mat-form-field class="w-100 p-2" appearance="fill">
+                        <mat-label>Equipo visitante</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
 
             </div>
+
+            <div fxLayout="row wrap">
+
+                <div fxFlex="35" fxFlex.sm="100">
+                    <mat-form-field class="w-100 p-2" appearance="fill">
+                        <mat-label>Fecha</mat-label>
+                        <!-- #docregion toggle -->
+                        <input matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <!-- #enddocregion toggle -->
+                    </mat-form-field>
+                </div>
+
+                <div fxFlex="65" fxFlex.sm="100">
+
+                    <mat-form-field class="w-100 p-2" appearance="fill">
+                        <mat-label>Localidad</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+
+            <div fxLayout="row">
+
+                <mat-form-field class="w-100 p-2" appearance="fill">
+                    <mat-label>Enlace del partido</mat-label>
+                    <input matInput>
+                </mat-form-field>
+
+            </div>
+
 
         </form>
 
