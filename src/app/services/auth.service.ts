@@ -1,9 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, DocumentSnapshot } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 
 import { GoogleAuthProvider } from 'firebase/auth';
+import { Observable, of } from 'rxjs';
+import { tap, map, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 import Swal from 'sweetalert2';
 
@@ -17,8 +21,11 @@ export class AuthService {
   constructor(
     private authFire: AngularFireAuth,
     private db: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) { }
+
+  BASE_URL = environment.herokuUrl;
 
   // Registra un nuevo usuario en la base de datos
   registrarNuevoUsuario(nuevoUsuario: User, password: string) {
@@ -146,4 +153,34 @@ export class AuthService {
         });
       });
   }
+
+  herokuLogin(user: string, password: string): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/auth/login`, {
+      user,
+      password
+    })
+    .pipe(
+      tap((resp: any) => {
+        localStorage.setItem('token', resp.token);
+      })
+    );  
+  }
+
+  herokuValidarToken(): Observable<boolean>{
+    const token = localStorage.getItem('token') || '';
+    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}})
+    .pipe(
+      tap((resp: any) => {
+        localStorage.setItem('token', resp.token);
+      }),
+      map(resp => true),
+      catchError(err => of(false))
+      
+    );
+  }
+
+  herokuNewUser(name: string, password: string): Observable<any> { 
+    return this.http.post(`${this.BASE_URL}/auth/new`, { name, password });
+  }
+
 }

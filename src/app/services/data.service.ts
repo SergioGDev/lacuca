@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import { LacucaRespuesta, ItemPregunta } from '../interfaces/data.interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../interfaces/user.interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  urlPreguntas: string = "https://lacucatest.herokuapp.com/api/pregunta";
+  urlPreguntas: string = `${environment.herokuUrl}/pregunta`;
 
   vPreguntas: ItemPregunta[] = [];
 
