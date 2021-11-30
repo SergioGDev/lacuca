@@ -1,6 +1,6 @@
-<div>
+ <div>
 
-    <mat-toolbar color="primary">
+    <!-- <mat-toolbar color="primary">
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
          <mat-icon>menu</mat-icon>
        </button>
@@ -10,50 +10,29 @@
        
        <button class="btn btn-outline-light" (click)="logOut()">Cerrar sesión</button>
 
-     </mat-toolbar>
+     </mat-toolbar> -->
 
-    <div fxLayout="row">
-        <div class="sidebar" fxFlex="15">
+        <div class="my-sidebar">
             <li *ngFor="let itemSidebar of vItemsSidebar" class="nav-item m-3">
                 <span class="nav-link item-sidebar" [routerLink]="itemSidebar.path"
                     *ngIf="mostrarOpcion(itemSidebar)" routerLinkActive="item-sidebar-selected">
                     <i class="font-awesome-icon" [ngClass]="getClass(itemSidebar)"></i>
                     {{ itemSidebar.nombre }}
                 </span>
-    
             </li>
+
+            <div class="my-user-name">
+                <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item>Item 1</button>
+                  <button mat-menu-item>Item 2</button>
+                </mat-menu>
+            </div>
         </div>
 
-        <div class="content p-3" fxFlex="85">
+        <div class="content-dashboard p-3">
             <router-outlet></router-outlet>
         </div>
 
-
-
-
-        <!-- <mat-drawer-container class="mat-drawer-container">
-            <mat-drawer class="mat-drawer" mode="side" opened>
-
-                <ul class="nav nav-pills flex-column mb-auto">
-
-                    <li *ngFor="let itemSidebar of vItemsSidebar" class="nav-item mt-3">
-                        <span class="nav-link item-sidebar" [routerLink]="itemSidebar.path"
-                            *ngIf="mostrarOpcion(itemSidebar)" routerLinkActive="item-sidebar-selected">
-                            <i class="font-awesome-icon" [ngClass]="getClass(itemSidebar)"></i>
-                            {{ itemSidebar.nombre }}
-                        </span>
-
-                    </li>
-
-                </ul>
-            </mat-drawer>
-
-            <mat-drawer-content class="p-3">
-
-
-            </mat-drawer-content>
-
-        </mat-drawer-container> -->
-    </div>
 
 </div>

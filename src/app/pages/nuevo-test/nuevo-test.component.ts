@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DataService } from '../../services/data.service';
-import { ItemPregunta, ItemPreguntaRespondida } from '../../interfaces/data.interface';
+import { ItemPregunta, ItemPreguntaRespondida, LacucaRespuesta } from '../../interfaces/data.interface';
 import { Validators, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { lStorageNumeroPreguntas, lStorageTestAleatorio, lStorageVSoluciones } from '../../interfaces/constantes.interface';
 
@@ -16,6 +16,7 @@ export class NuevoTestComponent implements OnInit {
 
   vPreguntas: ItemPregunta[] = [];
   formTest: FormGroup = this.fb.group({});
+  obteniendoPreguntas: boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -25,23 +26,26 @@ export class NuevoTestComponent implements OnInit {
 
   // NG ONINIT //
   ngOnInit(): void {
+    this.obteniendoPreguntas = true;
     const numeroPreguntas: number = parseInt(localStorage.getItem(lStorageNumeroPreguntas)!);
+    this.obteniendoPreguntas = true;
 
-    if (this.dataService.getVPreguntas().length == 0) {
-      this.dataService.almacenarPreguntasEnVPreguntas();
-    }
+    this.dataService.getTestAleatorio(numeroPreguntas)
+      .subscribe( resp => {
+        this.vPreguntas = resp.preguntas;
+        this.obteniendoPreguntas = false;
+        // Si se ha recargado la página, se obtiene del localStorage
+        if (this.vPreguntas.length > 0) {
+          localStorage.setItem(lStorageTestAleatorio, JSON.stringify(this.vPreguntas));
+        } else {
+          this.vPreguntas = JSON.parse(localStorage.getItem(lStorageTestAleatorio)!);
+        }
 
-    this.vPreguntas = this.dataService.getTestAleatorio(numeroPreguntas);
-    // Si se ha recargado la página, se obtiene del localStorage
-    if (this.vPreguntas.length > 0) {
-      localStorage.setItem(lStorageTestAleatorio, JSON.stringify(this.vPreguntas));
-    } else {
-      this.vPreguntas = JSON.parse(localStorage.getItem(lStorageTestAleatorio)!);
-    }
+        for (let i = 1; i <= this.vPreguntas.length; i++) {
+          this.formTest.addControl(`pregunta-${i}`, new FormControl('', Validators.required))
+        }
+      });
 
-    for (let i = 1; i <= this.vPreguntas.length; i++) {
-      this.formTest.addControl(`pregunta-${i}`, new FormControl('', Validators.required))
-    }
   }
 
   // Obtiene el nombre del FormControl asignado a la pregunta
@@ -78,5 +82,5 @@ export class NuevoTestComponent implements OnInit {
       this.router.navigateByUrl('/dashboard/zona-tests/solucion-test');
     }
 
-  } 
+  }
 }

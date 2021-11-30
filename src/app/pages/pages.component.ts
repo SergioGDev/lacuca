@@ -21,7 +21,7 @@ export class PagesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { 
-    this.dataService.almacenarPreguntasEnVPreguntas();
+    //this.dataService.almacenarPreguntasEnVPreguntas();
     this.currentUserRol = this.authService.getCurrentUserRol();
   }
 

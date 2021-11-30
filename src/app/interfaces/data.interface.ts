@@ -1,9 +1,7 @@
 export interface ItemPregunta {
-    _id:             string;
+    _id:            string;
     texto:          string;
-    respuesta1:     string;
-    respuesta2:     string;
-    respuesta3:     string;
+    respuestas:     string[];
     correcta:       string;
     justificacion:  string;
 }
@@ -14,5 +12,18 @@ export interface ItemPreguntaRespondida {
 }
 
 export interface LacucaRespuesta {
+    length: number;
     preguntas: ItemPregunta[];
+}
+
+export interface DatosPartido {
+    _id?:               string;
+    __v?:               number;
+    equipoLocal:        string;
+    equipoVisitante:    string;
+    fechaHora:          Date;
+    localidad:          string;
+    url:                string;
+    status:             boolean;
+
 }

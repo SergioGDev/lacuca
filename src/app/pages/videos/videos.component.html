@@ -10,15 +10,73 @@
                 Registrar nuevo partido
             </button>
         </div>
-        
+
     </div>
 
-    <div class="caja-contenido">
 
-        <div class="no-hay-videos text-center m-5">
-            No hay videos registrados
+
+    <div class="d-flex justify-content-center" *ngIf="cargandoListado">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
-
     </div>
+
+    <div class="no-hay-videos text-center m-5" *ngIf="!cargandoListado && listadoPartidos.length === 0">
+        No hay videos registrados
+    </div>
+
+    <div fxLayout="row" class="no-hay-videos m-5" *ngIf="!cargandoListado && listadoPartidos.length !== 0">
+
+        <table color="dark" fxFlex="100" mat-table [dataSource]="listadoPartidos" class="mat-elevation-z8">
+
+            <!-- Equipo Local -->
+            <ng-container matColumnDef="equipoLocal">
+                <th mat-header-cell *matHeaderCellDef> Local </th>
+                <td mat-cell *matCellDef="let element"> {{element.equipoLocal}} </td>
+            </ng-container>
+
+            <!-- Equipo Visitante -->
+            <ng-container matColumnDef="equipoVisitante">
+                <th mat-header-cell *matHeaderCellDef> Visitante </th>
+                <td mat-cell *matCellDef="let element"> {{element.equipoVisitante}} </td>
+            </ng-container>
+
+            <!-- Fecha -->
+            <ng-container matColumnDef="fechaHora">
+                <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaHora | date:'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- Localidad -->
+            <ng-container matColumnDef="localidad">
+                <th mat-header-cell *matHeaderCellDef> Localidad </th>
+                <td mat-cell *matCellDef="let element"> {{element.localidad}} </td>
+            </ng-container>
+
+            <!-- Acciones -->
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <a style="box-shadow: none; min-width: 25px; padding: 0px;" 
+                        class="enlace" [href]="" mat-raised-button matTooltip="Ver partido completo">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a style="box-shadow: none; min-width: 25px; padding: 0px;" 
+                        class="enlace" [href]="" mat-raised-button matTooltip="Jugadas">
+                        <i class="fas fa-cut"></i>
+                    </a>
+                    <a style="box-shadow: none; min-width: 25px; padding: 0px;" 
+                        class="enlace" [href]="" mat-raised-button matTooltip="Opciones">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+
+
 
 </div>
