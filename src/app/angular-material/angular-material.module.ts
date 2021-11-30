@@ -5,9 +5,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 
 
@@ -18,18 +22,24 @@ import { MatNativeDateModule } from '@angular/material/core';
 
     MatButtonModule,
     MatDatepickerModule,
-    MatNativeDateModule,
     MatInputModule,
     MatIconModule,
-    MatToolbarModule
+    MatMenuModule,
+    MatNativeDateModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatTooltipModule
   ],
   exports: [
     MatButtonModule,
     MatDatepickerModule,
     MatIconModule,
     MatInputModule,
+    MatMenuModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatTableModule,
+    MatToolbarModule,
+    MatTooltipModule
   ]
 })
 export class AngularMaterialModule { }
