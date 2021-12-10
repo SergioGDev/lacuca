@@ -183,4 +183,8 @@ export class AuthService {
     return this.http.post(`${this.BASE_URL}/auth/new`, { name, password });
   }
 
+  herokuNewCompleteUser(user: User): Observable<any> { 
+    return this.http.post(`${this.BASE_URL}/auth/new`, user);
+  }
+
 }

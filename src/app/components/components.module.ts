@@ -3,13 +3,17 @@ import { CommonModule } from '@angular/common';
 import { ItemPreguntaComponent } from './item-pregunta/item-pregunta.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ItemPreguntaConSolucionComponent } from './item-pregunta-con-solucion/item-pregunta-con-solucion.component';
+import { CreateUserComponent } from './create-user/create-user.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 
 @NgModule({
   declarations: [
     ItemPreguntaComponent,
-    ItemPreguntaConSolucionComponent
+    ItemPreguntaConSolucionComponent,
+    CreateUserComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +21,9 @@ import { ItemPreguntaConSolucionComponent } from './item-pregunta-con-solucion/i
   ],
   exports: [
     ItemPreguntaComponent,
-    ItemPreguntaConSolucionComponent
+    ItemPreguntaConSolucionComponent,
+    CreateUserComponent,
+    ChangePasswordComponent
   ]
 })
 export class ComponentsModule { }

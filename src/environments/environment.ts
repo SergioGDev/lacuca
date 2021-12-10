@@ -14,6 +14,10 @@ export const environment = {
     measurementId: "G-LVX617210M"
   },
   herokuUrl: "https://ref-monitoring.herokuapp.com/"
+=======
+  // herokuUrl: "https://ref-monitoring.herokuapp.com"
+  herokuUrl: "http://localhost:3000"
+>>>>>>> Stashed changes
 };
 
 /*
