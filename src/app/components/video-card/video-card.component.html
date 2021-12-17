@@ -1,0 +1,55 @@
+<mat-card class="video-card">
+
+    <div class="mat-class-header">
+
+        <mat-card-title class="card-title">
+            <div fxFlexLayout="column" class="text-center">
+
+                <div>{{datosVideo.equipoLocal}}</div>
+                <div> - </div>
+                <div>{{datosVideo.equipoVisitante}}</div>
+
+            </div>
+        </mat-card-title>
+
+    </div>
+
+    <!-- Video del partido -->
+    <iframe class="iframe-video" src="https://www.youtube.com/embed/HGeIxYzy7SM" frameBorder="0"
+        allowfullscreen></iframe>
+
+    <!-- [src]="getPathEmbed(datosVideo.url)" -->
+
+    <mat-card-content>
+        <div class="card-content">
+
+            <div class="fecha" fxLayout="row">
+                <div class="m-1" fxFlex="25" fxLayoutAlign="end">
+                    Fecha:
+                </div>
+                <div class="m-1 negrita" fxFlex="75" fxLayoutAlign="start">
+                    {{ datosVideo.fechaHora | date:'dd/MM/yyyy'}}
+                </div>
+            </div>
+
+            <div class="localidad" fxLayout="row">
+                <div class="m-1" fxFlex="25" fxLayoutAlign="end">
+                    Localidad:
+                </div>
+                <div class="m-1 negrita" fxFlex="75" fxLayoutAlign="start">
+                    {{ datosVideo.localidad }}
+                </div>
+            </div>
+        </div>
+
+    </mat-card-content>
+
+    <mat-card-actions class="text-center mb-1">
+        <button class="my-button" mat-raised-button>Cortes</button>
+        <button class="my-button" mat-raised-button [matMenuTriggerFor]="menu" #menuTrigger>Opciones</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Modificar datos</button>
+            <button mat-menu-item (click)="openDialogEliminarVideo()">Eliminar video</button>
+        </mat-menu>
+    </mat-card-actions>
+</mat-card>

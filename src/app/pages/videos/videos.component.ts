@@ -26,7 +26,6 @@ export class VideosComponent implements OnInit {
     this.dataService.obtenerListadoPartidos()
       .subscribe( resp => {
         this.cargandoListado = false;
-        console.log(resp);
         this.listadoPartidos = resp;
         console.log(this.listadoPartidos);
       })

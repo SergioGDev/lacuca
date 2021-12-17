@@ -9,8 +9,7 @@ import { lStorageNumeroPreguntas, lStorageTestAleatorio, lStorageVSoluciones } f
 @Component({
   selector: 'app-nuevo-test',
   templateUrl: './nuevo-test.component.html',
-  styles: [
-  ]
+  styleUrls: [ './nuevo-test.component.css' ]
 })
 export class NuevoTestComponent implements OnInit {
 
