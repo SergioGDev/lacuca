@@ -53,14 +53,25 @@ export class DataService {
     return this.db.collection('usuarios').valueChanges() as Observable<User[]>;
   }
   
-    /* ****************************************** */
-    /* ***********     PARTIDOS      ************ */
-    /* ****************************************** */
-    guardarPartido(datosPartido: DatosPartido): Observable<any> {
-      return this.http.post( `${environment.herokuUrl}/partido/`, datosPartido );
-    }
+  /* ****************************************** */
+  /* ***********     PARTIDOS      ************ */
+  /* ****************************************** */
+  guardarPartido(datosPartido: DatosPartido): Observable<any> {
+    datosPartido.url = this.formatearPathVideo(datosPartido.url);
+    console.log("Datos del partido:", datosPartido);
+    return this.http.post(`${environment.herokuUrl}/partido/`, datosPartido);
+  }
 
-    obtenerListadoPartidos(): Observable<any> {
-      return this.http.get(`${environment.herokuUrl}/partido/`);
-    }
+  formatearPathVideo(path: string) {
+    const idVideo: string = path.split('watch?v=')[1].split('&')[0];
+    return `https://www.youtube.com/watch?v=${idVideo}`;
+  }
+
+  obtenerListadoPartidos(): Observable<any> {
+    return this.http.get(`${environment.herokuUrl}/partido/`);
+  }
+
+  eliminarPartido(idPartido: string): Observable<any> {
+    return this.http.delete(`${environment.herokuUrl}/partido/${idPartido}`);
+  }
 }
