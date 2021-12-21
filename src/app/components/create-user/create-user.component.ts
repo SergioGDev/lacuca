@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
-import { User } from '../../interfaces/user.interface';
+import { Usuario } from '../../interfaces/usuario.interface';
 
 @Component({
   selector: 'create-user-comp',
@@ -11,17 +11,18 @@ import { User } from '../../interfaces/user.interface';
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent implements OnInit {
+  
+  
+  @Input() user: Usuario = {
+    nombre: '',
+    apellidos: '',
+    email: '',
+    nif: '',
+    password: '',
+    role: [],
+  };
 
-  editMode: boolean = true;
-
-  @Input() user: User = {
-    nombre: 'Jesús',
-    apellidos: 'Ferrer',
-    email: 'xule@xule.com',
-    nif: '12345678A',
-    delegacion: 'Sur',
-    role: ['ROLE_ADMIN', 'ROLE_INFORMADOR'],
-  }
+  editMode: boolean = this.user.id ? true : false;
 
   formSubmitted: boolean = false;
   registrando: boolean = false;
@@ -72,29 +73,6 @@ export class CreateUserComponent implements OnInit {
     } else {
       this.saveNewUSer();
     }
-
-    // this.formSubmitted = true;
-    // this.registrando = true;
-
-    // if ( this.registerForm.invalid ) {
-    //   console.log("Formulario inválido!");
-    //   return;
-    // }
-
-    // const nuevoUsuario: User = {
-    //   nombre: this.registerForm.value['nombre'],
-    //   apellidos: this.registerForm.value['apellidos'],
-    //   email: this.registerForm.value['email'],
-    //   rol: 'user',
-    //   lastLogin: new Date(),
-    //   firstLogin: new Date()
-    // }
-
-    // Realizar el posteo
-    // this.authService.registrarNuevoUsuario( nuevoUsuario, this.registerForm.value['password'] )
-    //   .then( () => this.registrando = false )
-    //   .catch( () => this.registrando = false );
-
   }
 
   getFormValue(){
@@ -104,8 +82,8 @@ export class CreateUserComponent implements OnInit {
   }
 
   saveNewUSer() {
-    const newUser = Object.assign({}, this.getFormValue(), {
-      password: this.user.nif!.substr(0, 8)
+    const newUser: Usuario = Object.assign({}, this.getFormValue(), {
+      password: this.registerForm.value.nif!.substring(0, 8),
     });
     Swal.fire({
       title: 'Crear usuario',
@@ -118,7 +96,7 @@ export class CreateUserComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed){
-        this.authService.herokuNewCompleteUser(newUser).subscribe(
+        this.authService.herokuNewUser(newUser).subscribe(
           res => {
             Swal.fire(
               'Usuario creado',
@@ -141,6 +119,10 @@ export class CreateUserComponent implements OnInit {
   }
 
   editUser() {
+    const updateUser: Usuario = Object.assign({}, this.getFormValue(), {
+      password: this.user.nif!.substring(0, 8),
+      id: this.user.id
+    });
     Swal.fire({
       title: 'Editar usuario',
       text: '¿Estás seguro de que quieres editar este usuario?',
@@ -151,8 +133,25 @@ export class CreateUserComponent implements OnInit {
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Sí, editarlo!'
     }).then((result) => {
-      if(result.isConfirmed){
-        console.log(this.getFormValue());
+      if (result.isConfirmed){
+        this.authService.herokuUpdateUser(updateUser).subscribe(
+          res => {            
+            Swal.fire(
+              'Usuario actualizado',
+              'El usuario ha sido actualizado correctamente',
+              'success'
+            )
+            //this.router.navigate(['/users']);
+          
+          },
+          err => {
+            Swal.fire(
+              'Error',
+              'Ha ocurrido un error al actualizar el usuario',
+              'error'
+            )
+          }
+        );        
       }
     });
   }
@@ -162,34 +161,7 @@ export class CreateUserComponent implements OnInit {
     return this.registerForm.value[key].map((v: string, i: number) => v ? this.roles[i] : null).filter((v: null) => v !== null).map((v: any) => v.value);
   }
 
-  // onCheckChange(event: any): void {
-  //   const formArray: FormArray = this.registerForm.get('role') as FormArray;
-  
-  //   /* Selected */
-  //   if(event.target.checked){
-  //     console.log(event.target);
-  //     // Add a new control in the arrayForm
-  //     formArray.push(new FormControl(event.target.value));
-  //   }
-  //   /* unselected */
-  //   else{
-  //     // find the unselected element
-  //     let i: number = 0;
-  
-  //     formArray.controls.forEach((ctrl) => {
-  //       if(ctrl.value == event.target.value) {
-  //         // Remove the unselected element from the arrayForm
-  //         formArray.removeAt(i);
-  //         return;
-  //       }
-  
-  //       i++;
-  //     });
-  //   }
-  //   console.log(this.registerForm.value);
-  // }
-
   resetPassword() {
-    this.user.password = this.user.password = this.user.nif!.substr(0, 8);
+    this.user.password = this.user.password = this.user.nif!.substring(0, 8);
   }
 }

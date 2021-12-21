@@ -18,8 +18,10 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
-                    <th>Último Login</th>
-                    <th>Rol</th>
+                    <th>Nif</th>
+                    <th>Delegación</th>
+                    <th>Informador</th>
+                    <th>Administrador</th>
                     <th>Correo electrónico</th>
                 </tr>
             </thead>
@@ -29,8 +31,10 @@
                     <th> {{ i }} </th>
                     <td> {{ usuario.nombre}} </td>
                     <td> {{ usuario.apellidos }} </td>
-                    <td> {{ convertToDate(usuario.lastLogin) | date:"dd/MM/yyyy HH:mm" }} </td>
-                    <td> {{ usuario.rol | rol }} </td>
+                    <td> {{ usuario.nif }} </td>
+                    <td> {{ usuario.delegacion }} </td>
+                    <td> {{ esInformador(usuario) }} </td>
+                    <td> {{ esAdmin(usuario) }} </td>
                     <td> {{ usuario.email }} </td>
                 </tr>
             </tbody>

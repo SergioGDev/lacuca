@@ -154,9 +154,9 @@ export class AuthService {
       });
   }
 
-  herokuLogin(user: string, password: string): Observable<any> {
+  herokuLogin(nif: string, password: string): Observable<any> {
     return this.http.post(`${this.BASE_URL}/auth/login`, {
-      user,
+      nif,
       password
     })
     .pipe(
@@ -177,14 +177,32 @@ export class AuthService {
       catchError(err => of(false))
       
     );
-  }
+  } 
 
-  herokuNewUser(name: string, password: string): Observable<any> { 
-    return this.http.post(`${this.BASE_URL}/auth/new`, { name, password });
-  }
-
-  herokuNewCompleteUser(user: User): Observable<any> { 
+  herokuNewUser(user: User): Observable<any> { 
+    console.log(`${this.BASE_URL}/auth/new`);
+    console.log({user});
     return this.http.post(`${this.BASE_URL}/auth/new`, user);
   }
 
+  herokuUpdateUser(user: User): Observable<any> { 
+    return this.http.put(`${this.BASE_URL}/auth/update/${user.id}`, user);
+  }
+
+  herokuRenew(): Observable<any> {
+    const token = localStorage.getItem('token') || '';
+    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}});
+  }
+
+  herokuChangePassword(nif: string, oldPassword: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/auth/change-password`, {
+      nif,
+      oldPassword,
+      newPassword
+    });
+  }
+
+  herokuGetUserList(): Observable<any> {
+    return this.http.get(`${this.BASE_URL}/auth/user`);
+  }
 }

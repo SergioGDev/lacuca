@@ -68,8 +68,50 @@ export class ChangePasswordComponent implements OnInit {
 
   // Crea el nuevo usuario en caso de que no esté ya registrado
   onSubmit() {
-    
-   
+    if (this.registerForm.invalid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Por favor, revisa los campos resaltados'
+      });
+      return;
+    }
+    Swal.fire({
+      title: 'Cambiar contraseña',
+      text: '¿Estás seguro de que quieres cambiar la contraseña?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cambiarla!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed){
+        const changePass = {
+          oldPassword: this.registerForm.get('oldPassword')!.value,
+          newPassword: this.registerForm.get('newPassword')!.value,
+          nif: '44410688Z'
+        }
+        this.authService.herokuChangePassword(changePass.nif, changePass.oldPassword, changePass.newPassword).subscribe(
+          res => {
+            Swal.fire(
+              'Contraseña cambiada',
+              'La contraseña se ha cambiado correctamente',
+              'success'
+            )
+            //this.router.navigate(['/users']);
+          
+          },
+          err => {
+            Swal.fire(
+              'Error',
+              'Ha ocurrido un error al cambiar la contraseña',
+              'error'
+            )
+          }
+        );        
+      }
+    });   
   }
 
   
