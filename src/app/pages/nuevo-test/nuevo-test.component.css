@@ -1,0 +1,46 @@
+.container-zona-tests {
+    color: var(--color-texto-negro);
+}
+
+.titulo {
+    font-size: 30pt;
+    color: var(--color-texto-negro);
+    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
+}
+
+.seleccion-preguntas {
+    border: 1px solid var(--color-texto-negro);
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px var(--color-texto-negro-transparente);
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: rgb(66, 134, 244);
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+    color: rgb(66, 134, 244);
+    background-color: rgb(66, 134, 244);
+}
+
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: rgb(255, 37, 37, .26);
+}
+
+.example-radio-group {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.example-radio-button {
+    margin: 5px;
+    white-space: normal !important;
+}
+
+.example-radio-button .mat-radio-label {
+    white-space: normal !important;
+}
+
+.example-radio-button>* {
+    white-space: normal !important;
+}

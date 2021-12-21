@@ -1,33 +1,43 @@
-.item-sidebar {
-    color: #eeeeee;
-    cursor: pointer;
+/**********     TOOLBAR     **********/
+.toolbar-header {
+    background-color: var(--color-fondo-header);
+    color: var(--color-texto-blanco);
 }
 
-.item-sidebar:hover {
-    color: #888888;
+
+
+/**********     SIDEBAR     **********/
+.my-sidebar {
+    min-width: 200px;
+    background-color: var(--color-fondo-sidebar);
+}
+
+.sidenav-item {
+    list-style: none;
+    color: var(--color-texto-blanco);
+    cursor: pointer
+}
+
+.nav-link {
+    color: var(--color-texto-blanco);
 }
 
 .item-sidebar-selected {
-    color: #888888;
-}
-
-.sidebar {
-    min-width: 200px;
-}
-
-.sidebar li {
-    list-style: none;
+    background-color: var(--color-texto-blanco-transparente);
+    transition: 0.15s;
 }
 
 .font-awesome-icon {
     margin-right: 10px;
 }
 
+/**********     container     **********/
 .mat-drawer-container {
     width: 100%;
     height: 100%;
     border: 1px solid #555;
-    background-color: #3f3f3f;
+    background-color: var(--color-fondo-body);
+    color: var(--color-texto-negro)
 }
 
 .mat-drawer {
@@ -40,16 +50,48 @@
 
 .titulo {
     font-size: 30pt;
-    text-shadow: 1px 1px 1px var(--color-texto-blanco-transparente);
+    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
 }
 
-.container {
+.my-user-name {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+}
+
+.logout-container {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+}
+
+/**********     comunes     **********/
+button {
+    background-color: var(--color-texto-negro);
     color: var(--color-texto-blanco);
 }
 
-.caja-contenido {
-    border: 1px solid var(--color-texto-blanco);
-    border-radius: 3px;
-    margin-top: 20px;
-    box-shadow: 1px 1px 1px var(--color-texto-blanco);
+button.bsidenav {
+    background-color: white;
+    color: var(--color-texto-negro);
+}
+
+mat-label {
+    color: var(--color-texto-negro);
+}
+
+
+@media screen and (max-width: 959px) {
+    
+    .my-sidebar {
+        min-width: 100%;
+    }
+
+    .sidenav-item {
+        text-align: center;
+    }
+
+    .content-dashboard {
+        margin-left: 0;
+    }
 }

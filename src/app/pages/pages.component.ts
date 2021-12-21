@@ -14,6 +14,9 @@ export class PagesComponent implements OnInit {
   vItemsSidebar: ItemSidebar[] = this.sidebarService.getVItemsSidebar();
   currentUserRol!: string | null;
 
+  events: string[] = [];
+  opened: boolean = false;
+
   constructor(
     private dataService: DataService,
     private sidebarService: SidebarService,
@@ -21,7 +24,7 @@ export class PagesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { 
-    this.dataService.almacenarPreguntasEnVPreguntas();
+    //this.dataService.almacenarPreguntasEnVPreguntas();
     this.currentUserRol = this.authService.getCurrentUserRol();
   }
 
@@ -35,7 +38,9 @@ export class PagesComponent implements OnInit {
       (item.adminOption && this.currentUserRol === 'admin');
   }
 
-
+  cerrarSidebar(drawer: any) {
+    drawer.toggle();
+  }
 
   logOut() {
     this.authService.logout();

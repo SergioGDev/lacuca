@@ -1,0 +1,30 @@
+.iframe-video {
+    width: 100%;
+}
+
+mat-card-header {
+    min-height: 85px;
+}
+
+.mat-card-header-text {
+    width: 100%;
+    text-align: center; 
+}
+
+.card-title {
+    font-size: 13pt;
+}
+
+mat-card-content div {
+    font-size: 12pt;
+
+}
+
+.negrita {
+    font-weight: 500;
+}
+
+.my-button {
+    background-color: var(--color-texto-negro);
+    color: var(--color-texto-blanco);
+}

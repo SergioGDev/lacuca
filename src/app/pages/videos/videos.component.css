@@ -2,3 +2,18 @@
 button i {
     margin-left: 5px;
 }
+
+.material-icons {
+    margin-right: 5px;
+}
+
+.enlace {
+    font-size: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    color: black;
+}
+
+.enlace:hover {
+    color: gray
+}

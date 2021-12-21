@@ -13,7 +13,6 @@ import { PagesModule } from './pages/pages.module';
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { environment } from 'src/environments/environment';
-import { RolPipe } from './pipes/rol.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentsModule } from './components/components.module';
 

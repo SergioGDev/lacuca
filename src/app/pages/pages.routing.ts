@@ -24,9 +24,9 @@ const routes: Routes = [
       { path: 'designaciones', component: DesignacionesComponent, data: { titulo: 'Designaciones' } },
       { path: 'videos', component: VideosComponent, data: { titulo: 'Videos' } },
       { path: 'videos/registrar-nuevo-partido', component: RegistrarNuevoPartidoComponent, data: { titulo: 'Nuevo partido' } },
-      { path: 'listado-usuarios', component: ListadoUsuariosComponent, data: {titulo: 'Listado de usuarios' } },
-      { path: 'zona-tests/nuevo-test', component: NuevoTestComponent, data: {titulo: 'Nuevo test' } },
-      { path: 'zona-tests/solucion-test', component: SolucionTestComponent, data: {titulo: 'Solución test'} },
+      { path: 'listado-usuarios', component: ListadoUsuariosComponent, data: { titulo: 'Listado de usuarios' } },
+      { path: 'zona-tests/nuevo-test', component: NuevoTestComponent, data: { titulo: 'Nuevo test' } },
+      { path: 'zona-tests/solucion-test', component: SolucionTestComponent, data: { titulo: 'Solución test' } },
       { path: '**', redirectTo: 'inicio' },
     ]
 
