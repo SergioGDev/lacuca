@@ -1,28 +1,30 @@
+/**********     TOOLBAR     **********/
+.toolbar-header {
+    background-color: var(--color-fondo-header);
+    color: var(--color-texto-blanco);
+}
+
+
+
 /**********     SIDEBAR     **********/
 .my-sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
     min-width: 200px;
-    background-color: #efefef;
+    background-color: var(--color-fondo-sidebar);
 }
 
-.my-sidebar li {
+.sidenav-item {
     list-style: none;
+    color: var(--color-texto-blanco);
+    cursor: pointer
 }
 
-.item-sidebar {
-    color: #252525;
-    cursor: pointer;
-}
-
-.item-sidebar:hover {
-    color: #444444;
+.nav-link {
+    color: var(--color-texto-blanco);
 }
 
 .item-sidebar-selected {
-    color: #444444;
+    background-color: var(--color-texto-blanco-transparente);
+    transition: 0.15s;
 }
 
 .font-awesome-icon {
@@ -34,7 +36,8 @@
     width: 100%;
     height: 100%;
     border: 1px solid #555;
-    background-color: #3f3f3f;
+    background-color: var(--color-fondo-body);
+    color: var(--color-texto-negro)
 }
 
 .mat-drawer {
@@ -47,15 +50,48 @@
 
 .titulo {
     font-size: 30pt;
-    text-shadow: 1px 1px 1px var(--color-texto-blanco-transparente);
-}
-
-.content-dashboard {
-    margin-left: 200px;
+    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
 }
 
 .my-user-name {
     position: fixed;
     bottom: 15px;
     left: 15px;
+}
+
+.logout-container {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+}
+
+/**********     comunes     **********/
+button {
+    background-color: var(--color-texto-negro);
+    color: var(--color-texto-blanco);
+}
+
+button.bsidenav {
+    background-color: white;
+    color: var(--color-texto-negro);
+}
+
+mat-label {
+    color: var(--color-texto-negro);
+}
+
+
+@media screen and (max-width: 959px) {
+    
+    .my-sidebar {
+        min-width: 100%;
+    }
+
+    .sidenav-item {
+        text-align: center;
+    }
+
+    .content-dashboard {
+        margin-left: 0;
+    }
 }

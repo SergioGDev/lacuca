@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { DatosPartido } from '../../interfaces/data.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registrar-nuevo-partido',
@@ -48,7 +49,17 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
     }
 
     this.dataService.guardarPartido(datosPartido)
-      .subscribe( resp => console.log("Respuesta guardar partido:", resp) );
+      .subscribe( () => {
+        this.router.navigateByUrl('/dashboard/videos');
+      }, () => {
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Ha ocurrido un problema',
+          text: 'Debido a un error inesperado no se ha podido registrar el partido. Inténtelo de nuevo más tarde.'
+        })
+
+      });
 
   }
 }

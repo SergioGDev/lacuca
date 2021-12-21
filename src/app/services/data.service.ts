@@ -52,7 +52,7 @@ export class DataService {
   getListadoUsuarios(): Observable<User[]> {
     return this.db.collection('usuarios').valueChanges() as Observable<User[]>;
   }
-  
+
   /* ****************************************** */
   /* ***********     PARTIDOS      ************ */
   /* ****************************************** */
@@ -72,6 +72,7 @@ export class DataService {
   }
 
   eliminarPartido(idPartido: string): Observable<any> {
+    console.log("ID PARTIDO", idPartido);
     return this.http.delete(`${environment.herokuUrl}/partido/${idPartido}`);
   }
 }
