@@ -1,0 +1,99 @@
+<div class="container-fluid">
+    <div class="row mt-4">
+        <!-- Espacio lateral -->
+        <div class="col"></div>
+
+        <div class="col-sm-8 col-md-6 col-lg-4 col-12">
+            <div class="card text-center p-3">
+
+                <div class="card-body">
+                    <h2 class="card-title mt-2">{{ editMode ? 'Modificar usuario' : 'Registrar usuario' }}</h2>
+
+                    <h6 class="card-subtitle mt-4 text-muted">Introduce los siguientes datos:</h6>
+
+                    <!-- Formulario -->
+                    <form autocomplete="off" [formGroup]="registerForm" (submit)="onSubmit()">
+                        <!-- Apellidos -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="apellidos" formControlName="apellidos"
+                                placeholder="Apellidos">
+                            <label for="apellidos">Apellidos</label>
+                        </div>
+
+                        <!-- Nombre -->
+                        <div class="form-floating mt-4 mb-3">
+                            <input type="text" class="form-control" id="nombre" formControlName="nombre"
+                                placeholder="Nombre">
+                            <label for="nombre">Nombre</label>
+                        </div>                        
+
+                        <!-- NIF -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nif" formControlName="nif"
+                                placeholder="NIF">
+                            <label for="nif">NIF</label>
+                        </div>
+                        
+                        <!-- Correo electrónico -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="email" formControlName="email"
+                                placeholder="Correo electrónico">
+                            <label for="email">Correo electrónico</label>
+                        </div>
+
+                        <!-- Delegación -->
+                        <div class="form-floating mb-3">
+                            <select class="form-control" id='delegacion' formControlName="delegacion">
+                                <option *ngFor="let delegacion of delegaciones" [value]='delegacion'>{{delegacion}}</option>
+                              </select>
+                            <label for="delegacion">Delegación</label>
+                        </div>
+
+                        <!-- Roles -->
+                        <!-- <div class="form-floating mb-3">
+                            <div *ngFor="let choice of roles; let i=index">
+                                <label>
+                                  <input type="checkbox" [value]="choice.value" (change)="onCheckChange($event)" [id]='choice.value'>
+                                  {{choice.description}}
+                                </label>
+                              </div>
+                        </div> -->
+
+                        <!-- Roles -->
+                        <div class="form-floating mb-3">
+                            <div *ngFor="let role of roles; let i = index" formArrayName="role">
+                                <label>
+                                <input type="checkbox" [formControlName]="i">
+                                {{role.description}}
+                            </label>
+                              </div>
+                        </div>
+
+                        <!-- Contraseña -->
+                        <div *ngIf="editMode" class="form-floating mb-3">
+                            <button id="registrar-usuario" type="button" class="btn btn-secondary" [disabled]="registrando" (click)=resetPassword()>
+                                <span class="spinner-border spinner-border-sm" *ngIf="registrando" role="status" aria-hidden="true"></span>
+                                Resetear contraseña
+                            </button>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-3">
+                            <button id="registrar-usuario" type="submit" class="btn btn-primary" [disabled]="registrando">
+                                <span class="spinner-border spinner-border-sm" *ngIf="registrando" role="status" aria-hidden="true"></span>
+                                {{ editMode ? 'Actualizar datos' : 'Registrar usuario' }}
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <!-- Espacio lateral -->
+        <div class="col"></div>
+
+    </div>
+</div>

@@ -35,7 +35,8 @@ import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/regist
   ],
   exports: [
     DashboardComponent,
-    PagesComponent
+    PagesComponent,
+    ListadoUsuariosComponent
   ],
   imports: [
     CommonModule,

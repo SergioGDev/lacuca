@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +17,8 @@ export class LoginComponent implements OnInit {
   gLoging: boolean = false;
 
   loginForm = this.fb.group({
-    email: [ "admin@admin.com" , [ Validators.required, Validators.email ] ],
-    password: [ "admin01" , [ Validators.required ] ],
+    nif: [ "" , [ Validators.required ] ],
+    password: [ "" , [ Validators.required ] ],
     check: [ , [ ] ]
   });
 
@@ -43,20 +44,28 @@ export class LoginComponent implements OnInit {
 
     this.loging = true;
 
-    const v = this.authService.login(
-      this.loginForm.value['email'], 
+    const v = this.authService.herokuLogin(
+      this.loginForm.value['nif'], 
       this.loginForm.value['password']
-    )
-    .then( () => this.loging = false)
-    .catch( () => this.loging = false);
-    
-  }
-
-  glogin() {
-    this.gLoging = true;
-    this.authService.glogin()
-      .then( () => this.gLoging = false )
-      .catch( () => this.gLoging = false );
+    ).subscribe(      data => {
+      this.loging = false;
+      Swal.fire({
+        title: 'Login',
+        text: 'Login correcto',
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      });
+        // this.router.navigate(['/']);
+      },
+      error => {
+        this.gLoging = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Usuario o contraseña incorrectos'
+        });
+      }
+    );    
   }
 
 }

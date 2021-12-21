@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { DataService } from '../../services/data.service';
 import { rolUsuario } from '../../interfaces/constantes.interface';
 import { Router } from '@angular/router';
+import { Usuario } from 'src/app/interfaces/usuario.interface';
 
 @Component({
   selector: 'app-listado-usuarios',
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 export class ListadoUsuariosComponent implements OnInit {
 
   cargandoUsuarios: boolean = true;
-  listadoUsuarios: User[] = [];
+  listadoUsuarios: Usuario[] = [];
 
   constructor(
     private authService: AuthService,
@@ -24,26 +25,34 @@ export class ListadoUsuariosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.authService.getCurrentUserRol() === rolUsuario) {
-
-      // Solamente pueden acceder al listado de usuarios los administradores o diseñadores
-      this.router.navigateByUrl('/dashboard/inicio');
-      return;
-
-    } else {
-
-      this.dataService.getListadoUsuarios()
-        .subscribe(resp => {
-          this.listadoUsuarios = resp;
-          this.cargandoUsuarios = false;
-        });
-
-    }
+    this.authService.herokuGetUserList().subscribe(
+      data => {
+        this.listadoUsuarios = data.users;
+        this.cargandoUsuarios = false;
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
   }
 
   convertToDate(date: any) {
     return date.toDate();
+  }
+
+  esInformador(user: Usuario): string{
+    if(user.role?.includes('ROLE_INFORMADOR')){
+      return 'Sí';
+    }
+    return 'No';
+  }
+
+  esAdmin(user: Usuario): string{
+    if(user.role?.includes('ROLE_ADMIN')){
+      return 'Sí';
+    }
+    return 'No';
   }
 
 }

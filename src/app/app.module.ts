@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { environment } from 'src/environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
