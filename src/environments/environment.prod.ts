@@ -9,5 +9,5 @@ export const environment = {
     appId: "1:390334813333:web:87a97acce0c7131058379c",
     measurementId: "G-LVX617210M"
   },
-  herokuUrl: "https://ref-monitoring.herokuapp.com/"
+  herokuUrl: "https://ref-monitoring.herokuapp.com"
 };

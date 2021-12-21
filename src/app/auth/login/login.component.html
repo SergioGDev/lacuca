@@ -9,17 +9,17 @@
                 <div class="card-body">
                     <h2 class="card-title mt-2">Iniciar sesión</h2>
 
-                    <h6 class="card-subtitle mt-4 text-muted">Por favor, introduce tu email y contraseña</h6>
+                    <h6 class="card-subtitle mt-4 text-muted">Por favor, introduce tu nif y contraseña</h6>
 
                     <!-- Formulario -->
                     <form autocomplete="off" [formGroup]="loginForm">
                         <div class="form-floating mt-5 mb-3">
-                            <input type="text" class="form-control" id="email" formControlName="email"
-                                placeholder="Correo electrónico">
-                            <label for="email">Correo electrónico</label>
+                            <input type="text" class="form-control" id="nif" formControlName="nif"
+                                placeholder="NIF">
+                            <label for="nif">NIF</label>
                             <div class="text-start">
-                                <span class="form-text text-danger" *ngIf="campoEsValido('email')">
-                                    El email es obligatorio y debe tener formato correcto
+                                <span class="form-text text-danger" *ngIf="campoEsValido('nif')">
+                                    El nif es obligatorio y debe tener formato correcto
                                 </span>
                             </div>
                         </div>
@@ -35,37 +35,14 @@
                             </div>
                         </div>
 
-                        <div class="form-check text-start mb-5">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Recordar
-                            </label>
-                        </div>
-
                         <div class="d-grid gap-2 mt-3">
                             <button type="button" class="btn btn-primary" (click)="login()" [disabled]="loging || gLoging">
                                 <span class="spinner-border spinner-border-sm" *ngIf="loging" role="status" aria-hidden="true"></span>
                                 Acceder
                             </button>
-                            <button type="button" class="btn btn-danger" (click)="glogin()" [disabled]="loging || gLoging">
-                                <span class="spinner-border spinner-border-sm" *ngIf="gLoging" role="status" aria-hidden="true"></span>
-                                Acceder con Google
-                            </button>
                         </div>
 
                     </form>
-
-
-                    <div class="login-or">
-                        <hr class="hr-or">
-                        <span class="span-or">o</span>
-                    </div>
-
-                    <h6 class="card-subtitle mt-4 text-muted">si no tienes cuenta, regístrate en un minuto:</h6>
-                    <div class="d-grid gap-2 mt-3">
-                        <button id="register" class="btn btn-outline-primary" type="button"
-                            routerLink="/register">Registrarme</button>
-                    </div>
                 </div>
 
             </div>

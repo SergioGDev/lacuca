@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <div class="row mt-4">
+      <!-- Espacio lateral -->
+      <div class="col"></div>
+
+      <div class="col-sm-8 col-md-6 col-lg-4 col-12">
+          <div class="card text-center p-3">
+
+              <div class="card-body">
+                  <h2 class="card-title mt-2">Cargar usuarios desde fichero</h2>
+
+                  <h6 class="card-subtitle mt-4 text-muted">A continuación podrás subir un fichero con los datos de nuevos usuarios:</h6>
+                      <div class="form-floating mb-3">
+                        <app-load-csv (onLoadCsv)="loadCsv($event)"></app-load-csv>
+                      </div>
+                      <h6 class="card-subtitle mt-4 text-muted">Aquí puedes descargar un fichero modelo para rellenar los datos</h6>
+                  <a href="/assets/modelo.csv" 
+                    download="modelo.csv">
+                    modelo.csv
+                  </a>
+              </div>
+
+
+
+          </div>
+      </div>
+
+      <!-- Espacio lateral -->
+      <div class="col"></div>
+
+  </div>
+</div>
