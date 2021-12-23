@@ -83,13 +83,13 @@ mat-label {
 
 @media screen and (max-width: 959px) {
     
-    .my-sidebar {
+    /* .my-sidebar {
         min-width: 100%;
-    }
+    } 
 
     .sidenav-item {
         text-align: center;
-    }
+    }*/
 
     .content-dashboard {
         margin-left: 0;

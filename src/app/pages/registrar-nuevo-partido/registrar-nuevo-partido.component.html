@@ -10,16 +10,16 @@
             
             <div fxLayout="row wrap">
                 
-                <div fxFlex="49" fxFlex.sm="100">
+                <div fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
                     <mat-form-field class="w-100 p-2" appearance="fill">
                         <mat-label>Equipo local</mat-label>
                         <input matInput formControlName="equipoLocal">
                     </mat-form-field>
                 </div>
                 
-                <div fxFlex="2" fxShow.sm="false" class="text-center guion"> - </div>
+                <div fxFlex="2" fxShow.sm="false" fxShow.xs="false" class="text-center guion"> - </div>
                 
-                <div fxFlex="49" fxFlex.sm="100">
+                <div fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
                     <mat-form-field class="w-100 p-2" appearance="fill">
                         <mat-label>Equipo visitante</mat-label>
                         <input matInput formControlName="equipoVisitante">
@@ -30,7 +30,16 @@
             
             <div fxLayout="row wrap">
                 
-                <div fxFlex="35" fxFlex.sm="100">
+                <div fxFlex="40" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
+                    
+                    <mat-form-field class="w-100 p-2" appearance="fill">
+                        <mat-label>Localidad</mat-label>
+                        <input matInput formControlName="localidad">
+                    </mat-form-field>
+                    
+                </div>
+
+                <div fxFlex="20" fxFlex.md="30" fxFlex.sm="100" fxFlex.xs="100">
                     <mat-form-field class="w-100 p-2" appearance="fill">
                         <mat-label>Fecha</mat-label>
                         <!-- #docregion toggle -->
@@ -41,14 +50,24 @@
                     </mat-form-field>
                 </div>
                 
-                <div fxFlex="65" fxFlex.sm="100">
+                <div fxFlex="20" fxFlex.md="40" fxFlex.sm="100" fxFlex.xs="100">
                     
                     <mat-form-field class="w-100 p-2" appearance="fill">
-                        <mat-label>Localidad</mat-label>
-                        <input matInput formControlName="localidad">
+                        <mat-label>Fase</mat-label>
+                        <input matInput formControlName="fase">
                     </mat-form-field>
                     
                 </div>
+                
+                <div fxFlex="20" fxFlex.md="30" fxFlex.sm="100" fxFlex.xs="100">
+                    
+                    <mat-form-field class="w-100 p-2" appearance="fill">
+                        <mat-label>Jornada</mat-label>
+                        <input type="number" matInput formControlName="jornada">
+                    </mat-form-field>
+                    
+                </div>
+                
                 
             </div>
             
@@ -59,6 +78,22 @@
                     <input matInput formControlName="url">
                 </mat-form-field>
                 
+            </div>
+
+            <div fxLayout="row wrap">
+
+                <h3 fxFlex="100">Otros datos</h3>
+
+                <div fxFlex="100">
+                    
+                    <mat-form-field class="w-100 p-2" appearance="fill">
+                        <mat-label>Otros datos de interés</mat-label>
+                        <textarea matInput formControlName="comentario"></textarea>
+                    </mat-form-field>
+                    
+                </div>
+                
+
             </div>
 
         

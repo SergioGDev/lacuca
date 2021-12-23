@@ -15,7 +15,7 @@
     </div>
 
     <!-- Video del partido -->
-    <iframe class="iframe-video" src="https://www.youtube.com/embed/HGeIxYzy7SM" frameBorder="0"
+    <iframe class="iframe-video" [src]="getPathEmbed(datosVideo.url)" frameBorder="0"
         allowfullscreen></iframe>
 
     <!-- [src]="getPathEmbed(datosVideo.url)" -->
@@ -24,19 +24,19 @@
         <div class="card-content">
 
             <div class="fecha" fxLayout="row">
-                <div class="m-1" fxFlex="25" fxLayoutAlign="end">
+                <div class="m-1" fxFlex="35" fxLayoutAlign="end">
                     Fecha:
                 </div>
-                <div class="m-1 negrita" fxFlex="75" fxLayoutAlign="start">
+                <div class="m-1 negrita" fxFlex="65" fxLayoutAlign="start">
                     {{ datosVideo.fechaHora | date:'dd/MM/yyyy'}}
                 </div>
             </div>
 
             <div class="localidad" fxLayout="row">
-                <div class="m-1" fxFlex="25" fxLayoutAlign="end">
+                <div class="m-1" fxFlex="35" fxLayoutAlign="end">
                     Localidad:
                 </div>
-                <div class="m-1 negrita" fxFlex="75" fxLayoutAlign="start">
+                <div class="m-1 negrita" fxFlex="65" fxLayoutAlign="start">
                     {{ datosVideo.localidad }}
                 </div>
             </div>

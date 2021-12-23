@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { SidebarService } from '../services/sidebar.service';
 import { ItemSidebar } from '../interfaces/sidebar.interface';
 import { AuthService } from '../services/auth.service';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
   styleUrls: ['./pages.component.css']
 })
-export class PagesComponent implements OnInit {
+export class PagesComponent implements OnInit, OnDestroy {
+
+  mobileQuery!: MediaQueryList;
+  _mobileQueryListener!: () => void;
 
   vItemsSidebar: ItemSidebar[] = this.sidebarService.getVItemsSidebar();
   currentUserRol!: string | null;
@@ -20,12 +24,22 @@ export class PagesComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private sidebarService: SidebarService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private media: MediaMatcher
+  ) { 
+    this.mobileQuery = media.matchMedia('(max-width: 956px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addEventListener("resize", this._mobileQueryListener);
+  }
 
   ngOnInit(): void { 
     //this.dataService.almacenarPreguntasEnVPreguntas();
     this.currentUserRol = this.authService.getCurrentUserRol();
+  }
+
+  ngOnDestroy(): void {
+      this.mobileQuery.removeEventListener("resize", this._mobileQueryListener);
   }
 
   getClass(itemSidebar: ItemSidebar) {

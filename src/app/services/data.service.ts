@@ -57,8 +57,6 @@ export class DataService {
   /* ***********     PARTIDOS      ************ */
   /* ****************************************** */
   guardarPartido(datosPartido: DatosPartido): Observable<any> {
-    datosPartido.url = this.formatearPathVideo(datosPartido.url);
-    console.log("Datos del partido:", datosPartido);
     return this.http.post(`${environment.herokuUrl}/partido/`, datosPartido);
   }
 
@@ -72,7 +70,6 @@ export class DataService {
   }
 
   eliminarPartido(idPartido: string): Observable<any> {
-    console.log("ID PARTIDO", idPartido);
-    return this.http.delete(`${environment.herokuUrl}/partido/${idPartido}`);
+    return this.http.delete(`${environment.herokuUrl}/partido/${idPartido.toString()}`);
   }
 }

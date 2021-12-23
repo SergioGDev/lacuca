@@ -1,11 +1,11 @@
-<div class="container">
+<div>
 
-    <div class="header mt-2 mb-5" fxLayout="row">
+    <div class="header mt-2 mb-5" fxLayout="row" fxLayout.xs="column">
         <span class="titulo">Zona videos</span>
 
-        <span class="spacer"></span>
+        <span fxShow.xs="false" class="spacer"></span>
 
-        <div class="m-2">
+        <div class="m-2" fxLayoutAlign.xs="end">
             <button mat-raised-button color="basic" (click)="registrarPartido()">
                 Registrar nuevo partido
             </button>
@@ -23,12 +23,13 @@
         No hay videos registrados
     </div>
 
-    <div fxLayout="row wrap" fxLayoutAlign="center" class="m-2"
+    <div fxLayout="row wrap" fxLayoutAlign="left" fxLayoutAlign.sm="center"
+        fxLayoutAlign.xs="center"
         *ngIf="!cargandoListado && listadoPartidos.length !== 0">
 
-        <div class="item-video m-2" fxFlex="30" fxFlex.sm="48" fxFlex.xs="95"
+        <div class="item-video m-1" fxFlex="31" fxFlex.md="48" fxFlex.sm="48" fxFlex.xs="100"
             *ngFor="let video of listadoPartidos">
-            <app-video-card [datosVideo]="video"></app-video-card>
+            <app-video-card [datosVideo]="video" (videoBorrado)="eliminarPartido($event)"></app-video-card>
         </div>
 
     </div>

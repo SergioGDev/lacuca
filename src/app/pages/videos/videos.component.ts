@@ -21,6 +21,11 @@ export class VideosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.cargarListadoPartidos();
+  }
+  
+  cargarListadoPartidos(): void {
+    
     this.cargandoListado = true;
     
     this.dataService.obtenerListadoPartidos()
@@ -29,10 +34,20 @@ export class VideosComponent implements OnInit {
         this.listadoPartidos = resp;
         console.log(this.listadoPartidos);
       })
+    
   }
 
   registrarPartido(): void {
     this.router.navigateByUrl('/dashboard/videos/registrar-nuevo-partido');
+  }
+
+  eliminarPartido(idPartido: string): void {
+    if (idPartido) {
+      this.dataService.eliminarPartido(idPartido)
+      .subscribe ( 
+        () => this.cargarListadoPartidos(), 
+        err => console.log(err));
+    }
   }
 
 }

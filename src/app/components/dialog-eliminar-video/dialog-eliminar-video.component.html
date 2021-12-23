@@ -6,7 +6,7 @@
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close>Volver</button>
+        <button mat-button mat-dialog-close (click)="clickVolver()">Volver</button>
         <button mat-button color="warn" (click)="eliminarPartido()" [mat-dialog-close]="true">Eliminar</button>
     </mat-dialog-actions>
 

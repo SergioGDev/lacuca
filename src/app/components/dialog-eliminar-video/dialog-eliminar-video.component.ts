@@ -7,23 +7,17 @@ import { DataService } from '../../services/data.service';
   templateUrl: './dialog-eliminar-video.component.html',
   styleUrls: ['./dialog-eliminar-video.component.css']
 })
-export class DialogEliminarVideoComponent implements OnInit {
+export class DialogEliminarVideoComponent {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public id: string,
-    private dataService: DataService
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  ngOnInit(): void {
+  eliminarPartido(): void {
+    this.data.borrado = true;
   }
 
-  eliminarPartido(): void {
-    this.dataService.eliminarPartido(this.id)
-      .subscribe(resp => {
-        console.log("Partido eliminado correctamente:", resp);
-      }, err => {
-        console.log("Error!!", err);
-      })
+  clickVolver(): void {
+    this.data.borrado = false;
   }
-  
 }
