@@ -1,0 +1,48 @@
+.etiqueta {
+    font-weight: 500;
+    text-align: end;
+}
+
+.titulo {
+    text-shadow: 1px 1px 2px var(--color-texto-negro-transparente);
+    font-size: 30pt;
+}
+
+.info-content {
+    border: 1px solid var(--color-texto-negro-transparente);
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px var(--color-texto-negro-transparente);
+    background-color: white;
+    padding: 20px 0px 10px 0px
+}
+
+/* Botones */
+#eliminar-partido {
+    background-color: var(--color-eliminar);
+    color: var(--color-texto-blanco)
+}
+
+#modificar-partido {
+    background-color: var(--color-modificar);
+    color: var(--color-texto-blanco);
+}
+
+#ver-video-partido {
+    background-color: var(--color-ver-video);
+    color: var(--color-texto-blanco);
+}
+
+#cortes-partido {
+    background-color: white;
+    color: var(--color-texto-negro);
+}
+
+.acciones {
+    margin-top: 25px;
+}
+
+@media screen and (max-width: 599px) {
+    .info-partido {
+        margin-left: 10px;
+    }
+}

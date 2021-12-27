@@ -6,7 +6,7 @@
     </div>
     
     <div class="caja-contenido pl-3 pr-3">
-        <form [formGroup]="formNuevoVideo" (submit)="registrarNuevoPartido()">
+        <form [formGroup]="formNuevoVideo" (submit)="submit()">
             
             <div fxLayout="row wrap">
                 
@@ -100,7 +100,7 @@
             
             <div class="text-end mt-3 pe-2">
                 <button mat-raised-button color="primary" class="m-1" (click)="volver()">Volver</button>
-                <button mat-raised-button type="submit" class="m-1">Guardar partido</button>
+                <button mat-raised-button type="submit" class="m-1"> {{ this.datosPartido ? 'Modificar partido' : 'Guardar partido'}} </button>
             </div>
             
         </form>

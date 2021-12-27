@@ -72,4 +72,13 @@ export class DataService {
   eliminarPartido(idPartido: string): Observable<any> {
     return this.http.delete(`${environment.herokuUrl}/partido/${idPartido.toString()}`);
   }
+
+  obtenerDatosPartido(idPartido: string): Observable<any> {
+    return this.http.get(`${environment.herokuUrl}/partido/${idPartido}`);
+  }
+
+  modificarDatosPartido(datosPartido: DatosPartido): Observable<any> {
+    console.log("SERVICE MODIFICAR DATOS PARTIDO:", datosPartido);
+    return this.http.put(`${environment.herokuUrl}/partido/${datosPartido._id}/`, datosPartido);
+  }
 }

@@ -12,6 +12,9 @@ import { VideoCardComponent } from './video-card/video-card.component';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DialogEliminarVideoComponent } from './dialog-eliminar-video/dialog-eliminar-video.component';
+import { ListadoVideosComponent } from './listado-videos/listado-videos.component';
+import { DialogNuevoPartidoComponent } from './dialog-nuevo-partido/dialog-nuevo-partido.component';
+import { DialogModificarPartidoComponent } from './dialog-modificar-partido/dialog-modificar-partido.component';
 
 
 
@@ -25,7 +28,10 @@ import { DialogEliminarVideoComponent } from './dialog-eliminar-video/dialog-eli
     UsersFromCsvComponent,
     ModalVideoComponent,
     VideoCardComponent,
-    DialogEliminarVideoComponent
+    DialogEliminarVideoComponent,
+    ListadoVideosComponent,
+    DialogNuevoPartidoComponent,
+    DialogModificarPartidoComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +44,7 @@ import { DialogEliminarVideoComponent } from './dialog-eliminar-video/dialog-eli
     ItemPreguntaConSolucionComponent,
     CreateUserComponent,
     ChangePasswordComponent,
+    ListadoVideosComponent, 
     LoadCsvComponent,
     UsersFromCsvComponent,
     ModalVideoComponent,

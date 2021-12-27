@@ -2,9 +2,8 @@
 .toolbar-header {
     background-color: var(--color-fondo-header);
     color: var(--color-texto-blanco);
+    height: 56px;
 }
-
-
 
 /**********     SIDEBAR     **********/
 .my-sidebar {
@@ -82,14 +81,10 @@ mat-label {
 
 
 @media screen and (max-width: 959px) {
-    
-    /* .my-sidebar {
-        min-width: 100%;
-    } 
 
-    .sidenav-item {
-        text-align: center;
-    }*/
+    .mat-drawer-container {
+        height: calc(100% - 56px);
+    }
 
     .content-dashboard {
         margin-left: 0;

@@ -26,4 +26,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --color-fondo-header: #313131;
     --color-fondo-sidebar: #4d4d4d;
     --color-fondo-body: #fafffa;
+
+    --color-eliminar: #990000;
+    --color-modificar: #282800;
+    --color-ver-video: #42a242;
+    --color-cortes:  #efefef;
 }

@@ -23,15 +23,20 @@
         No hay videos registrados
     </div>
 
-    <div fxLayout="row wrap" fxLayoutAlign="left" fxLayoutAlign.sm="center"
-        fxLayoutAlign.xs="center"
-        *ngIf="!cargandoListado && listadoPartidos.length !== 0">
+    <div class="w-100">
+        <app-listado-videos class="w-100" [listadoPartidos]="listadoPartidos"></app-listado-videos>
+    </div>
+    
 
-        <div class="item-video m-1" fxFlex="31" fxFlex.md="48" fxFlex.sm="48" fxFlex.xs="100"
+
+    <!-- <div fxLayout="row wrap" fxLayoutAlign="left" fxLayoutAlign.sm="center"
+        fxLayoutAlign.xs="center" *ngIf="!cargandoListado && listadoPartidos.length !== 0">
+
+        <div class="item-video m-1" fxFlex="32" fxFlex.md="48" fxFlex.sm="48" fxFlex.xs="100"
             *ngFor="let video of listadoPartidos">
             <app-video-card [datosVideo]="video" (videoBorrado)="eliminarPartido($event)"></app-video-card>
         </div>
 
-    </div>
+    </div> -->
 
 </div>
