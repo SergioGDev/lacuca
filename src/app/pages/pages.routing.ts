@@ -13,6 +13,7 @@ import { SolucionTestComponent } from './solucion-test/solucion-test.component';
 import { VideosComponent } from './videos/videos.component';
 import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/registrar-nuevo-partido.component';
 import { DatosPartidoComponent } from './datos-partido/datos-partido.component';
+import { NuevoCorteComponent } from './nuevo-corte/nuevo-corte.component';
 
 const routes: Routes = [
   { 
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'videos/partido/:id', component: DatosPartidoComponent, data: { titulo: 'Datos partido'} },
       { path: 'videos/registrar-nuevo-partido', component: RegistrarNuevoPartidoComponent, data: { titulo: 'Nuevo partido' } },
       { path: 'videos/modificar-partido/:id', component: RegistrarNuevoPartidoComponent, data: { titulo: 'Modificar partido' } },
+      { path: 'videos/partido/:id/nuevo-corte', component: NuevoCorteComponent, data: { titulo: 'Nuevo corte' } },
       { path: 'listado-usuarios', component: ListadoUsuariosComponent, data: { titulo: 'Listado de usuarios' } },
       { path: 'zona-tests/nuevo-test', component: NuevoTestComponent, data: { titulo: 'Nuevo test' } },
       { path: 'zona-tests/solucion-test', component: SolucionTestComponent, data: { titulo: 'Solución test' } },

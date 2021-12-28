@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { LacucaRespuesta, ItemPregunta, DatosPartido } from '../interfaces/data.interface';
+import { LacucaRespuesta, ItemPregunta, DatosPartido, OptionItem } from '../interfaces/data.interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../interfaces/user.interface';
 import { environment } from 'src/environments/environment';
@@ -78,7 +78,83 @@ export class DataService {
   }
 
   modificarDatosPartido(datosPartido: DatosPartido): Observable<any> {
-    console.log("SERVICE MODIFICAR DATOS PARTIDO:", datosPartido);
     return this.http.put(`${environment.herokuUrl}/partido/${datosPartido._id}/`, datosPartido);
+  }
+
+  /* ****************************************** */
+  /* ***********     CORTES        ************ */
+  /* ****************************************** */
+  obtenerCortesDelPartido(idPartido: string): Observable<any> {
+    return this.http.get(`${environment.herokuUrl}/corte?_partidoId=${idPartido}`);
+  }
+
+  /* ****************************************** */
+  /* ***********     SELECTS       ************ */
+  /* ****************************************** */
+  obtenerVValoracion(): OptionItem[] {
+    return [
+      {value: 'correcta', texto: 'Correcta'}, 
+      {value: 'inorrecta', texto: 'Incorrecta'}
+    ]
+  }
+
+  obtenerVSituacion(): OptionItem[] {
+    return [
+      { value: 'falta', texto: 'Falta' },
+      { value: 'violacion', texto: 'Violación' },
+      { value: 'no-call', texto: 'No call' },
+      { value: 'falta-no-pitada', texto: 'Falta no pitada' },
+      { value: 'violacion-no-pitada', texto: 'Violación no pitada' },
+      { value: 'mecanica', texto: 'Mecánica'}
+    ];
+  }
+
+  obtenerVTipo(): OptionItem[] {
+    return [ 
+      { value: 'accion-continua', texto:'Acción Continua' }, 
+      { value: 'accion-tiro', texto:'Acción tiro' }, 
+      { value: 'agarra', texto:'Agarra' }, 
+      { value: 'antideportiva', texto:'Antideportiva' }, 
+      { value: 'ataque', texto:'Ataque' }, 
+      { value: 'bloqueo', texto:'Bloqueo' }, 
+      { value: 'campo-atras', texto:'Campo atrás' }, 
+      { value: 'carga', texto:'Carga' }, 
+      { value: 'descalificante', texto:'Descalificante' }, 
+      { value: 'doble-regate', texto:'Doble regate' }, 
+      { value: 'empujar', texto:'Empujar' }, 
+      { value: 'falta-doble', texto:'Falta doble' }, 
+      { value: 'fuera-banda', texto:'Fuera de banda' }, 
+      { value: 'intereferencia', texto:'Interferencia' }, 
+      { value: 'interposicion', texto:'Interposición' }, 
+      { value: 'intuye', texto:'Intuye' }, 
+      { value: 'manos', texto:'Manos' }, 
+      { value: 'pasos', texto:'Pasos' }, 
+      { value: 'pie', texto:'Pie' }, 
+      { value: 'pos-defensa', texto:'Pos. defensa' }, 
+      { value: 'rebote', texto:'Rebote' }, 
+      { value: 'simula', texto:'Simula' }, 
+      { value: 'tecnica', texto:'Técnica' }, 
+      { value: 'temporal', texto:'Temporal' }, 
+      { value: 'vertical', texto:'Vertical' }, 
+      { value: 'otras', texto:'Otras' }
+    ]
+
+  }
+
+  obtenerVPosicion(): OptionItem[] {
+    return [
+      { value: 'cabeza', texto: 'Cabeza'},
+      { value: 'cola', texto: 'Cola'},
+      { value: 'cabeza-cola', texto: 'Cabeza - Cola'},
+      { value: 'cola-cabeza', texto: 'Cola - Cabeza'}
+    ]
+  }
+
+  obtenerVArbitro(): OptionItem[] {
+    return [
+      { value: 'principal', texto: 'Principal' },
+      { value: 'auxiliar', texto: 'Auxiliar' },
+      { value: 'ambos', texto: 'Ambos' }
+    ];
   }
 }

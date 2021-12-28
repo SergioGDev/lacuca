@@ -21,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SolucionTestComponent } from './solucion-test/solucion-test.component';
 import { VideosComponent } from './videos/videos.component';
 import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
+import { NuevoCorteComponent } from './nuevo-corte/nuevo-corte.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
     SolucionTestComponent,
     VideosComponent,
     ZonaTestsComponent,
+    NuevoCorteComponent,
   ],
   exports: [
     DashboardComponent,

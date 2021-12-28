@@ -28,5 +28,22 @@ export interface DatosPartido {
     fase:               string;
     jornada:            number;
     comentario:         string;
+}
 
+export interface DatosCorte {
+    _id?:           string,
+    __v?:           number,
+    idPartido:      string,
+    segInicio:      number,
+    duracion:       number,
+    comentario?:    string,
+    valoracion?:    string,
+    situacion?:     string,
+    tipo?:          string,
+    posicion?:      string
+}
+
+export interface OptionItem {
+    value: string,
+    texto: string
 }

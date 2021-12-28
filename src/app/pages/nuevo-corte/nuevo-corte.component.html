@@ -1,0 +1,221 @@
+<div class="nuevo-corte-container">
+
+    <h1 class="titulo">Registrar nuevo corte</h1>
+
+    <div fxLayout="row" fxLayout.md="column" fxLayout.sm="column" fxLayout.xs="column">
+
+        <div fxFlex="40" class="iframe-video-content">
+            <iframe class="iframe-video" [src]="urlIframe" frameBorder="0" allowfullscreen></iframe>
+        </div>
+
+        <div fxFlex="60" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="formulario">
+            <form [formGroup]="formNuevoCorte" (submit)="submit()">
+
+                <div class="formulario-parte-uno" fxLayout="column">
+                    <!-- Hora:Min:Seg inicio -->
+                    <div class="fila" fxLayout="row">
+
+                        <div fxFlex="5" fxShow.xs="false" fxShow.sm="false"></div>
+        
+                        <div fxFlex="29">
+                            <mat-form-field class="w-100 p-1" appearance="fill">
+                                <mat-label>Hora de inicio</mat-label>
+                                <input type="number" matInput formControlName="horaInicio">
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="centrado-total" fxFlex="2">:</div>
+
+                        <div fxFlex="29">
+                            <mat-form-field class="w-100 p-1" appearance="fill">
+                                <mat-label>Minuto de inicio</mat-label>
+                                <input type="number" matInput formControlName="minInicio">
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="centrado-total" fxFlex="2">:</div>
+        
+        
+                        <div fxFlex="29">
+                            <mat-form-field class="w-100 p-1" appearance="fill">
+                                <mat-label>Segundo de inicio</mat-label>
+                                <input type="number" matInput formControlName="segInicio">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <!-- Hora:Min:Seg fin -->
+                    <div class="fila" fxLayout="row">
+
+                        <div fxFlex="5" fxShow.xs="false" fxShow.sm="false"></div>
+        
+                        <div fxFlex="29">
+                            <mat-form-field class="w-100 p-1" appearance="fill">
+                                <mat-label>Hora de inicio</mat-label>
+                                <input type="number" matInput formControlName="horaFin">
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="centrado-total" fxFlex="2">:</div>
+
+                        <div fxFlex="29">
+                            <mat-form-field class="w-100 p-1" appearance="fill">
+                                <mat-label>Minuto de inicio</mat-label>
+                                <input type="number" matInput formControlName="minFin">
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="centrado-total" fxFlex="2">:</div>
+        
+        
+                        <div fxFlex="29">
+                            <mat-form-field class="w-100 p-1" appearance="fill">
+                                <mat-label>Segundo de inicio</mat-label>
+                                <input type="number" matInput formControlName="segFin">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+    
+                    <!-- Duración -->
+                    <!-- <div class="fila" fxLayout="row">
+
+                        <div fxFlex="5" fxShow.xs="false" fxShow.sm="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="w-100 p-1" appearance="fill">
+                                <mat-label>Duración (en segundos)</mat-label>
+                                <input type="number" matInput formControlName="duracion">
+                            </mat-form-field>
+                        </div>
+
+                    </div> -->
+
+                    <div class="fila" fxLayout="row">
+                        <div fxFlex="5"></div>
+
+                        <mat-checkbox color="primary" class="check-mas-info" formControlName="checkMasInfo">
+                            Incluir valoración del corte
+                        </mat-checkbox>
+                    </div>
+                </div>
+    
+                <div class="formulario-parte-dos" fxFlexLayout="column" *ngIf="mostrarValoracionCorte()">
+
+                    <h3 class="sub-titulo">Valoración de la jugada</h3>
+    
+                    <!-- Valoración -->
+                    <div class="fila" fxLayout="row wrap">
+
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Valoración</mat-label>
+                                <select matNativeControl formControlName="valoracion">
+                                    <option *ngFor="let item of vValoracion" [value]="item.value">{{ item.texto }}</option>   
+                                </select>
+                                <!-- <mat-error *ngIf="nativeSelectFormControl.hasError('required')">You must make a
+                                    selection</mat-error> -->
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+    
+                    <!-- Situación -->
+                    <div class="fila" fxLayout="row wrap">
+
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Situación</mat-label>
+                                <select matNativeControl formControlName="situacion">
+                                    <option *ngFor="let item of vSituacion" [value]="item.value">{{ item.texto }}</option>
+                                </select>
+                                <!-- <mat-error *ngIf="nativeSelectFormControl.hasError('required')">You must make a
+                                    selection</mat-error> -->
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+    
+                    <!-- Tipo -->
+                    <div class="fila" fxLayout="row wrap">
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Tipo</mat-label>
+                                <select matNativeControl formControlName="tipo">
+                                    <option *ngFor="let item of vTipo" [value]="item.value">{{ item.texto }}</option>
+                                </select>
+                                <!-- <mat-error *ngIf="nativeSelectFormControl.hasError('required')">You must make a
+                                    selection</mat-error> -->
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+    
+                    <!-- Posición -->
+                    <div class="fila" fxLayout="row wrap">
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Posición</mat-label>
+                                <select matNativeControl formControlName="posicion">
+                                    <option *ngFor="let item of vPosicion" [value]="item.value">{{ item.texto }}</option>
+                                </select>
+                                <!-- <mat-error *ngIf="nativeSelectFormControl.hasError('required')">You must make a
+                                    selection</mat-error> -->
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                    <!-- Arbitro -->
+                    <div class="fila" fxLayout="row wrap">
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Árbitro</mat-label>
+                                <select matNativeControl formControlName="arbitro">
+                                    <option *ngFor="let item of vArbitro" [value]="item.value">{{ item.texto }}</option>
+                                </select>
+                                <!-- <mat-error *ngIf="nativeSelectFormControl.hasError('required')">You must make a
+                                    selection</mat-error> -->
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                    <!-- Comentario -->
+                    <div class="fila mb-4" fxLayout="row wrap">
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="95" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Breve comentario sobre el corte:</mat-label>
+                                <textarea matInput formControlName="comentario" rows="4"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="end">
+                    <button mat-raised-button type="submit" class="m-1"> Guardar corte </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+</div>

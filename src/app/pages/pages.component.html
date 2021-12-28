@@ -13,7 +13,7 @@
 
         <li *ngFor="let itemSidebar of vItemsSidebar" class="sidenav-item nav-item">
             <span class="nav-link item-sidebar p-3" [routerLink]="itemSidebar.path" *ngIf="mostrarOpcion(itemSidebar)"
-                routerLinkActive="item-sidebar-selected">
+                routerLinkActive="item-sidebar-selected" (click)="mobileQuery.matches ? sidenav.toggle() : null">
                 <i class="font-awesome-icon" [ngClass]="getClass(itemSidebar)"></i>
                 <span class="nombre-item-sidebar">{{ itemSidebar.nombre }}</span>
             </span>

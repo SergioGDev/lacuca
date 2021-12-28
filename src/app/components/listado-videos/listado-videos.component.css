@@ -1,7 +1,13 @@
-.w-100 {
-    width: 100%;
+.input-busqueda {
+    width: calc(100% - 32px);
 }
 
-.w-50 {
-    width: 50%;
+.negrita {
+    font-weight: 500;
+}
+
+@media screen and (max-width: 595px) {
+    .input-busqueda {
+        width: calc(100% - 32px);
+    }
 }

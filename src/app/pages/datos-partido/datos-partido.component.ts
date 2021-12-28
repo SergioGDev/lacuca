@@ -42,8 +42,8 @@ export class DatosPartidoComponent implements OnInit {
     return `https://www.youtube.com/watch?v=${this.datosPartido.url}`;
   }
 
-  cortesPartido() {
-
+  generarNuevoCorte() {
+    this.router.navigateByUrl(`/dashboard/videos/partido/${this.datosPartido._id}/nuevo-corte`);
   }
 
   modificarPartido() {

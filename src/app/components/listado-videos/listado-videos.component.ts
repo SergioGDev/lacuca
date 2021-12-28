@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
 })
 export class ListadoVideosComponent implements OnInit {
 
-  displayedColumns: string[] = ['equipoLocal', 'equipoVisitante', 'fecha', 'acciones'];
-
   @Input() listadoPartidos!: DatosPartido[];
+  displayedColumns: string[] = ['equipoLocal', 'equipoVisitante', 'fecha', 'acciones'];
+  displayedColumsXS: string[] = ['partido'];
+  filtro: string = '';
 
   constructor(
     private router: Router
@@ -20,11 +21,20 @@ export class ListadoVideosComponent implements OnInit {
   ngOnInit(): void {}
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    // console.log(event); 
-    // console.log('EventFilter:', this.listadoPartidos);
-    console.log(filterValue);
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.filtro = (event.target as HTMLInputElement).value;    
+  }
+  
+  listadoAMostrar(): DatosPartido[] {
+    return this.listadoPartidos.filter(partido => 
+      partido.equipoLocal.toLowerCase().includes(this.filtro.trim().toLowerCase()) || 
+      partido.equipoVisitante.toLowerCase().includes(this.filtro.trim().toLowerCase()) || 
+      this.formatDDMMYYYY(partido.fechaHora).includes(this.filtro.trim().toLowerCase()))
+  }
+  
+  formatDDMMYYYY(fecha: Date) {
+    const split = fecha.toString().split('T')[0].split('-');
+    const dia = parseInt(split[2]) + 1;
+    return ((dia < 10 ? ('0' + dia) : dia) + '/' + split[1] + '/' + split[0]);
   }
 
   verDatosPartido(id: any) {
