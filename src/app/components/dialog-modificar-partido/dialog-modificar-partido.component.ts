@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-dialog-modificar-partido',
   templateUrl: './dialog-modificar-partido.component.html',
-  styleUrls: ['./dialog-modificar-partido.component.css']
+  styleUrls: []
 })
 export class DialogModificarPartidoComponent {
 

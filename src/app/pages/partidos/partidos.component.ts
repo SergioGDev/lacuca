@@ -5,11 +5,11 @@ import { DatosPartido } from '../../interfaces/data.interface';
 import { DataService } from '../../services/data.service';
 
 @Component({
-  selector: 'app-videos',
-  templateUrl: './videos.component.html',
-  styleUrls: ['../pages.component.css', './videos.component.css']
+  selector: 'app-partidos',
+  templateUrl: './partidos.component.html',
+  styleUrls: ['../pages.component.css', './partidos.component.css']
 })
-export class VideosComponent implements OnInit {
+export class PartidosComponent implements OnInit {
 
   cargandoListado: boolean = false;
   listadoPartidos: DatosPartido[] = [];
@@ -32,13 +32,12 @@ export class VideosComponent implements OnInit {
       .subscribe( resp => {
         this.cargandoListado = false;
         this.listadoPartidos = resp;
-        console.log(this.listadoPartidos);
       })
     
   }
 
   registrarPartido(): void {
-    this.router.navigateByUrl('/dashboard/videos/registrar-nuevo-partido');
+    this.router.navigateByUrl('/dashboard/partidos/registrar-nuevo-partido');
   }
 
   eliminarPartido(idPartido: string): void {

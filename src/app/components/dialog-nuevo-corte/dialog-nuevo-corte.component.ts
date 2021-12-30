@@ -1,22 +1,25 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-nuevo-partido',
-  templateUrl: './dialog-nuevo-partido.component.html'
+  selector: 'app-dialog-nuevo-corte',
+  templateUrl: './dialog-nuevo-corte.component.html',
+  styles: [
+  ]
 })
-export class DialogNuevoPartidoComponent {
+export class DialogNuevoCorteComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  nuevoPartido(): void {
+  nuevoCorte(): void {
     this.data.guardado = true;
   }
 
   clickVolver(): void {
     this.data.guardado = false;
   }
+
 
 }

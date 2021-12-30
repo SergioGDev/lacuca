@@ -57,6 +57,15 @@
     width: 100%;
 }
 
+.error-show {
+    font-size: 10pt;
+    padding: 0px 20px;
+}
+
+.margin-bot-pequenno {
+    margin-bottom: 10px;
+}
+
 @media screen and (max-width: 599px) {
     .titulo {
         margin: 30px 10px;

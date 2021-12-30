@@ -29,54 +29,6 @@
     margin: 12px;
 }
 
-/* Botones */
-#eliminar-partido, #eliminar-corte {
-    background-color: var(--color-eliminar);
-    color: var(--color-texto-blanco)
-}
-
-#modificar-partido, #modificar-corte {
-    background-color: var(--color-modificar);
-    color: var(--color-texto-blanco);
-}
-
-#ver-video-partido {
-    background-color: var(--color-ver-video);
-    color: var(--color-texto-blanco);
-}
-
-#cortes-partido {
-    background-color: white;
-    color: var(--color-texto-negro);
-}
-
-.acciones {
-    margin-bottom: 30px;
-}
-
-/* Listado de cortes */
-.subtitulo-valorada {
-    color: var(--color-texto-negro);
-}
-
-.fila-corte {
-    margin: 5px 0px
-}
-
-.label-corte {
-    font-weight: 500;
-    margin: 0px 10px;
-}
-
-.dato-corte {
-    margin: 0px 10px;
-}
-
-.acciones-corte {
-    text-align: center;
-    margin: 10px;
-}
-
 @media screen and (max-width: 599px) {
     .titulo {
         margin: 30px 10px;

@@ -11,6 +11,7 @@ import { OperationsService } from '../../services/operations.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogNuevoPartidoComponent } from '../../components/dialog-nuevo-partido/dialog-nuevo-partido.component';
 import { DialogModificarPartidoComponent } from '../../components/dialog-modificar-partido/dialog-modificar-partido.component';
+import { InterdataService } from '../../services/interdata.service';
 
 @Component({
   selector: 'app-registrar-nuevo-partido',
@@ -40,9 +41,9 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private dataService: DataService,
     private operationsService: OperationsService,
+    private interdataService: InterdataService,
     private dialog: MatDialog
   ) { }
 
@@ -51,33 +52,39 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
       return;
     }
 
-    this.activatedRoute.params
-      .pipe(
-        switchMap(({ id }) => this.dataService.obtenerDatosPartido(id))
-      ).subscribe(({ partido }) => {
-        this.datosPartido = partido;
+    const idPartido = this.interdataService.getIdPartidoFromCache();
+    if (idPartido) {
+      this.dataService.obtenerDatosPartido(idPartido)
+        .subscribe(({ partido }) => {
+          this.datosPartido = partido;
 
-        // https://www.youtube.com/watch?v=gQMnS1SofWM&list=RDgQMnS1SofWM&start_radio=1
+          this.formNuevoVideo.reset({
+            equipoLocal: this.datosPartido!.equipoLocal,
+            equipoVisitante: this.datosPartido!.equipoVisitante,
+            fecha: this.datosPartido!.fechaHora,
+            localidad: this.datosPartido!.localidad,
+            url: `https://www.youtube.com/watch?v=${this.datosPartido!.url}`,
+            fase: this.datosPartido!.fase,
+            jornada: this.datosPartido!.jornada,
+            comentario: this.datosPartido!.comentario
+          })
+        });
+    } else {
+      this.router.navigateByUrl('dashboard');
+    }
+  }
 
-        this.formNuevoVideo.reset({
-          equipoLocal: this.datosPartido!.equipoLocal,
-          equipoVisitante: this.datosPartido!.equipoVisitante,
-          fecha: this.datosPartido!.fechaHora,
-          localidad: this.datosPartido!.localidad,
-          url: `https://www.youtube.com/watch?v=${this.datosPartido!.url}`,
-          fase: this.datosPartido!.fase,
-          jornada: this.datosPartido!.jornada,
-          comentario: this.datosPartido!.comentario
-        })
-      });
+  ngOnDestroy(): void {
+    this.interdataService.removeIdPartidoFromCache();
   }
 
   /***********      VOLVER      ***********/
   volver(): void {
     if (this.router.url.includes('modificar-partido')) {
-      this.router.navigateByUrl(`/dashboard/videos/partido/${this.datosPartido!._id}`);
+      this.interdataService.setIdPartidoToCache(this.datosPartido?._id!);
+      this.router.navigateByUrl(`/dashboard/partidos/partido`);
     } else if (this.router.url.includes('registrar-nuevo-partido')) {
-      this.router.navigateByUrl('/dashboard/videos');
+      this.router.navigateByUrl('/dashboard/partidos');
     }
   }
 
@@ -94,17 +101,16 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
 
   /***********      SUBMIT      ***********/
   submit() {
-    (this.datosPartido) ? this.pulsarModificarDatosPartido() : this.pulsarRegistrarNuevoPartido();
-  }
-
-  pulsarModificarDatosPartido() {
     if (this.formNuevoVideo.invalid) {
       this.formNuevoVideo.markAllAsTouched();
       return;
     }
 
-    const dialogRef = this.dialog.open(DialogModificarPartidoComponent,
-      { restoreFocus: false, data: { modificado: false } });
+    const dialogRef = this.datosPartido ?
+      this.dialog.open(DialogModificarPartidoComponent,
+        { restoreFocus: false, data: { modificado: false } }) :
+      this.dialog.open(DialogNuevoPartidoComponent,
+        { restoreFocus: false, data: { guardado: false } });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -123,24 +129,25 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
     }
 
     const datosPartido: DatosPartido = {
-      _id:              this.datosPartido?._id,
-      equipoLocal:      this.formNuevoVideo.value['equipoLocal'],
-      equipoVisitante:  this.formNuevoVideo.value['equipoVisitante'],
-      fechaHora:        this.formNuevoVideo.value['fecha'],
-      localidad:        this.formNuevoVideo.value['localidad'],
-      url:              youtubeID,
-      fase:             this.formNuevoVideo.value['fase'],
-      jornada:          this.formNuevoVideo.value['jornada'],
-      comentario:       this.formNuevoVideo.value['comentario'],
-      status:           true
+      _id: this.datosPartido?._id,
+      equipoLocal: this.formNuevoVideo.value['equipoLocal'],
+      equipoVisitante: this.formNuevoVideo.value['equipoVisitante'],
+      fechaHora: this.formNuevoVideo.value['fecha'],
+      localidad: this.formNuevoVideo.value['localidad'],
+      url: youtubeID,
+      fase: this.formNuevoVideo.value['fase'],
+      jornada: this.formNuevoVideo.value['jornada'],
+      comentario: this.formNuevoVideo.value['comentario'],
+      status: true
     }
 
     datosPartido.equipoLocal = datosPartido.equipoLocal.toUpperCase();
     datosPartido.equipoVisitante = datosPartido.equipoVisitante.toUpperCase();
 
     this.dataService.modificarDatosPartido(datosPartido)
-      .subscribe( ({partido}) => {
-        this.router.navigateByUrl(`/dashboard/videos/partido/${partido._id}`);
+      .subscribe(({ partido }) => {
+        this.interdataService.setIdPartidoToCache(partido._id);
+        this.router.navigateByUrl(`/dashboard/partidos/partido`);
 
         Swal.fire({
           icon: 'success',
@@ -159,23 +166,6 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
   }
 
   /***********      REGISTRAR      ***********/
-  pulsarRegistrarNuevoPartido() {
-    if (this.formNuevoVideo.invalid) {
-      this.formNuevoVideo.markAllAsTouched();
-      return;
-    }
-
-    const dialogRef = this.dialog.open(DialogNuevoPartidoComponent,
-      { restoreFocus: false, data: { guardado: false } });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.registrarNuevoPartido();
-      }
-    });
-
-  }
-
   registrarNuevoPartido() {
 
     const youtubeID = this.operationsService.getYouTubeID(this.formNuevoVideo.value['url']);
@@ -201,8 +191,9 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
     datosPartido.equipoVisitante = datosPartido.equipoVisitante.toUpperCase();
 
     this.dataService.guardarPartido(datosPartido)
-      .subscribe( ({partido}) => {
-        this.router.navigateByUrl(`/dashboard/videos/partido/${partido._id}`);
+      .subscribe(({ partido }) => {
+        this.interdataService.setIdPartidoToCache(partido._id);
+        this.router.navigateByUrl(`/dashboard/partidos/partido`);
 
         Swal.fire({
           icon: 'success',

@@ -34,16 +34,32 @@ export interface DatosCorte {
     _id?:           string,
     __v?:           number,
     idPartido:      string,
-    segInicio:      number,
+    segundoInicio:      number,
     duracion:       number,
     comentario?:    string,
     valoracion?:    string,
     situacion?:     string,
     tipo?:          string,
-    posicion?:      string
+    posicion?:      string,
+    arbitro?:       string,
 }
 
 export interface OptionItem {
     value: string,
     texto: string
+}
+
+export interface TempoCorte {
+    hIni:       number,
+    mIni:       number,
+    sIni:       number,
+    hFin:       number,
+    mFin:       number,
+    sFin:       number,
+}
+
+export interface HorMinSeg {
+    horas:      number,
+    minutos:    number,
+    segundos:   number
 }

@@ -15,6 +15,11 @@ import { DialogEliminarVideoComponent } from './dialog-eliminar-video/dialog-eli
 import { ListadoVideosComponent } from './listado-videos/listado-videos.component';
 import { DialogNuevoPartidoComponent } from './dialog-nuevo-partido/dialog-nuevo-partido.component';
 import { DialogModificarPartidoComponent } from './dialog-modificar-partido/dialog-modificar-partido.component';
+import { CuadroDatosPartidoComponent } from './cuadro-datos-partido/cuadro-datos-partido.component';
+import { ListadoCortesComponent } from './listado-cortes/listado-cortes.component';
+import { DialogEliminarCorteComponent } from './dialog-eliminar-corte/dialog-eliminar-corte.component';
+import { DialogModificarCorteComponent } from './dialog-modificar-corte/dialog-modificar-corte.component';
+import { DialogNuevoCorteComponent } from './dialog-nuevo-corte/dialog-nuevo-corte.component';
 
 
 
@@ -31,7 +36,12 @@ import { DialogModificarPartidoComponent } from './dialog-modificar-partido/dial
     DialogEliminarVideoComponent,
     ListadoVideosComponent,
     DialogNuevoPartidoComponent,
-    DialogModificarPartidoComponent
+    DialogModificarPartidoComponent,
+    CuadroDatosPartidoComponent,
+    ListadoCortesComponent,
+    DialogEliminarCorteComponent,
+    DialogModificarCorteComponent,
+    DialogNuevoCorteComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +58,8 @@ import { DialogModificarPartidoComponent } from './dialog-modificar-partido/dial
     LoadCsvComponent,
     UsersFromCsvComponent,
     ModalVideoComponent,
-    VideoCardComponent
+    VideoCardComponent,
+    CuadroDatosPartidoComponent
   ]
 })
 export class ComponentsModule { }

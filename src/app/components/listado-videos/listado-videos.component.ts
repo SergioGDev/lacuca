@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DatosPartido } from '../../interfaces/data.interface';
 import { Router } from '@angular/router';
+import { InterdataService } from '../../services/interdata.service';
 
 @Component({
   selector: 'app-listado-videos',
@@ -15,7 +16,8 @@ export class ListadoVideosComponent implements OnInit {
   filtro: string = '';
 
   constructor(
-    private router: Router
+    private router: Router,
+    private interdataService: InterdataService
   ) { }
 
   ngOnInit(): void {}
@@ -38,7 +40,7 @@ export class ListadoVideosComponent implements OnInit {
   }
 
   verDatosPartido(id: any) {
-    console.log("Ver datos partido:", id);
-    this.router.navigateByUrl(`/dashboard/videos/partido/${id}`);
+    this.interdataService.setIdPartidoToCache(id);
+    this.router.navigateByUrl(`/dashboard/partidos/partido`);
   }
 }

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { ComponentsModule } from '../components/components.module';
 
@@ -19,7 +20,7 @@ import { PagesComponent } from './pages.component';
 import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/registrar-nuevo-partido.component';
 import { SharedModule } from '../shared/shared.module';
 import { SolucionTestComponent } from './solucion-test/solucion-test.component';
-import { VideosComponent } from './videos/videos.component';
+import { PartidosComponent } from './partidos/partidos.component';
 import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 import { NuevoCorteComponent } from './nuevo-corte/nuevo-corte.component';
 
@@ -35,7 +36,7 @@ import { NuevoCorteComponent } from './nuevo-corte/nuevo-corte.component';
     RegistrarNuevoPartidoComponent,
     RolPipe,
     SolucionTestComponent,
-    VideosComponent,
+    PartidosComponent,
     ZonaTestsComponent,
     NuevoCorteComponent,
   ],
@@ -50,6 +51,8 @@ import { NuevoCorteComponent } from './nuevo-corte/nuevo-corte.component';
     HttpClientModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+
+    YouTubePlayerModule,
     
     AngularMaterialModule,
     ComponentsModule,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { LacucaRespuesta, ItemPregunta, DatosPartido, OptionItem } from '../interfaces/data.interface';
+import { LacucaRespuesta, ItemPregunta, DatosPartido, OptionItem, DatosCorte } from '../interfaces/data.interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../interfaces/user.interface';
 import { environment } from 'src/environments/environment';
@@ -84,6 +84,24 @@ export class DataService {
   /* ****************************************** */
   /* ***********     CORTES        ************ */
   /* ****************************************** */
+  guardarCorte(datosCorte: DatosCorte): Observable<any> {
+    console.log("GUARDAR CORTE SERVICE\n", datosCorte)
+    console.log(`${environment.herokuUrl}/corte/`);
+    return this.http.post(`${environment.herokuUrl}/corte/`, datosCorte);
+  }
+
+  eliminarCorte(idCorte: string): Observable<any> {
+    return this.http.delete(`${environment.herokuUrl}/corte/${idCorte}`);
+  }
+
+  modificarDatosCorte(datosCorte: DatosCorte): Observable<any> {
+    return this.http.put(`${environment.herokuUrl}/corte/${datosCorte._id}/`, datosCorte);
+  }
+
+  obtenerDatosCorte(idCorte: string) {
+    return this.http.get(`${environment.herokuUrl}/corte/${idCorte}`);
+  }
+
   obtenerCortesDelPartido(idPartido: string): Observable<any> {
     return this.http.get(`${environment.herokuUrl}/corte?_partidoId=${idPartido}`);
   }
@@ -91,70 +109,25 @@ export class DataService {
   /* ****************************************** */
   /* ***********     SELECTS       ************ */
   /* ****************************************** */
-  obtenerVValoracion(): OptionItem[] {
-    return [
-      {value: 'correcta', texto: 'Correcta'}, 
-      {value: 'inorrecta', texto: 'Incorrecta'}
-    ]
+  obtenerVValoracion(): string[] {
+    return ['Correcta', 'Incorrecta']
   }
 
-  obtenerVSituacion(): OptionItem[] {
-    return [
-      { value: 'falta', texto: 'Falta' },
-      { value: 'violacion', texto: 'Violación' },
-      { value: 'no-call', texto: 'No call' },
-      { value: 'falta-no-pitada', texto: 'Falta no pitada' },
-      { value: 'violacion-no-pitada', texto: 'Violación no pitada' },
-      { value: 'mecanica', texto: 'Mecánica'}
-    ];
+  obtenerVSituacion(): string[] {
+    return [ 'Falta', 'Violación', 'No call', 'Falta no pitada', 'Violación no pitada', 'Mecánica' ];
   }
 
-  obtenerVTipo(): OptionItem[] {
-    return [ 
-      { value: 'accion-continua', texto:'Acción Continua' }, 
-      { value: 'accion-tiro', texto:'Acción tiro' }, 
-      { value: 'agarra', texto:'Agarra' }, 
-      { value: 'antideportiva', texto:'Antideportiva' }, 
-      { value: 'ataque', texto:'Ataque' }, 
-      { value: 'bloqueo', texto:'Bloqueo' }, 
-      { value: 'campo-atras', texto:'Campo atrás' }, 
-      { value: 'carga', texto:'Carga' }, 
-      { value: 'descalificante', texto:'Descalificante' }, 
-      { value: 'doble-regate', texto:'Doble regate' }, 
-      { value: 'empujar', texto:'Empujar' }, 
-      { value: 'falta-doble', texto:'Falta doble' }, 
-      { value: 'fuera-banda', texto:'Fuera de banda' }, 
-      { value: 'intereferencia', texto:'Interferencia' }, 
-      { value: 'interposicion', texto:'Interposición' }, 
-      { value: 'intuye', texto:'Intuye' }, 
-      { value: 'manos', texto:'Manos' }, 
-      { value: 'pasos', texto:'Pasos' }, 
-      { value: 'pie', texto:'Pie' }, 
-      { value: 'pos-defensa', texto:'Pos. defensa' }, 
-      { value: 'rebote', texto:'Rebote' }, 
-      { value: 'simula', texto:'Simula' }, 
-      { value: 'tecnica', texto:'Técnica' }, 
-      { value: 'temporal', texto:'Temporal' }, 
-      { value: 'vertical', texto:'Vertical' }, 
-      { value: 'otras', texto:'Otras' }
-    ]
-
+  obtenerVTipo(): string[] {
+    return [ 'Acción Continua', 'Acción tiro','Agarra','Antideportiva','Ataque','Bloqueo','Campo atrás','Carga',
+      'Descalificante','Doble regate','Empujar','Falta doble','Fuera de banda','Interferencia','Interposición',
+      'Intuye','Manos','Pasos','Pie','Pos. defensa','Rebote','Simula','Técnica','Temporal','Vertical','Otras']
   }
 
-  obtenerVPosicion(): OptionItem[] {
-    return [
-      { value: 'cabeza', texto: 'Cabeza'},
-      { value: 'cola', texto: 'Cola'},
-      { value: 'cabeza-cola', texto: 'Cabeza - Cola'},
-      { value: 'cola-cabeza', texto: 'Cola - Cabeza'}
-    ]
+  obtenerVPosicion(): string[] {
+    return [ 'Cabeza', 'Cola', 'Cabeza - Cola', 'Cola - Cabeza']
   }
 
-  obtenerVArbitro(): OptionItem[] {
-    return [
-      { value: 'principal', texto: 'Principal' },
-      { value: 'auxiliar', texto: 'Auxiliar' },
-      { value: 'ambos', texto: 'Ambos' }
-    ];
+  obtenerVArbitro(): string[] {
+    return [ 'Principal', 'Auxiliar', 'Ambos' ];
   }
 }

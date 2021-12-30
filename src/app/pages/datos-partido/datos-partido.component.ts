@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataService } from '../../services/data.service';
-import { switchMap, tap } from 'rxjs/operators';
-import { DatosPartido } from '../../interfaces/data.interface';
+import { switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogEliminarVideoComponent } from '../../components/dialog-eliminar-video/dialog-eliminar-video.component';
+import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
+
+import { DataService } from '../../services/data.service';
+import { DatosPartido, DatosCorte } from '../../interfaces/data.interface';
+import { DialogEliminarVideoComponent } from '../../components/dialog-eliminar-video/dialog-eliminar-video.component';
+import { DialogEliminarCorteComponent } from '../../components/dialog-eliminar-corte/dialog-eliminar-corte.component';
+import { InterdataService } from '../../services/interdata.service';
 
 @Component({
   selector: 'app-datos-partido',
@@ -15,27 +19,45 @@ import Swal from 'sweetalert2';
 export class DatosPartidoComponent implements OnInit {
 
   datosPartido!: DatosPartido;
+  listadoCortes: DatosCorte[] = [];
+
+  displayedColumns: string[] = ['valoracion', 'situacion', 'tipo', 'posicion', 'arbitro', 'comentario'];
   cargando: boolean = true;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private dataService: DataService
+    private dataService: DataService,
+    private interdataService: InterdataService
   ) { }
 
   ngOnInit(): void {
 
     this.cargando = true;
-    this.activatedRoute.params
-      .pipe(
-        switchMap(({ id }) => this.dataService.obtenerDatosPartido(id))
-      )
-      .subscribe(({ partido }) => {
-        this.datosPartido = partido;
-        this.cargando = false;
-      });
+    const idPartido = this.interdataService.getIdPartidoFromCache();
+    if (idPartido) {
 
+      this.dataService.obtenerDatosPartido(idPartido)
+        .pipe(
+          switchMap(({ partido }) => this.asignarPartidoYBuscarCortes(partido))
+        ).subscribe(listadoCortesResp => {
+          this.listadoCortes = listadoCortesResp;
+          this.cargando = false;
+        });
+
+    } else {
+      this.router.navigateByUrl('/dashboard');
+    }
+
+  }
+
+  // ************************************************** //
+  // ********      MÉTODOS AUXILIARES           ******* //
+  // ************************************************** //
+  // Asigna los datos del partido a la variable y lanza la petición para obtener los cortes.
+  asignarPartidoYBuscarCortes(partido: any): Observable<any> {
+    this.datosPartido = partido;
+    return this.dataService.obtenerCortesDelPartido(this.datosPartido._id!);
   }
 
   urlVideoPartido(): string {
@@ -43,11 +65,16 @@ export class DatosPartidoComponent implements OnInit {
   }
 
   generarNuevoCorte() {
-    this.router.navigateByUrl(`/dashboard/videos/partido/${this.datosPartido._id}/nuevo-corte`);
+    this.interdataService.setIdCorteToCache(this.datosPartido._id!);
+    this.router.navigateByUrl(`/dashboard/partidos/partido/nuevo-corte`);
   }
 
+  // ************************************************** //
+  // ********      PARTIDOS                     ******* //
+  // ************************************************** //
   modificarPartido() {
-    this.router.navigateByUrl(`/dashboard/videos/modificar-partido/${this.datosPartido._id}`)
+    this.interdataService.setIdPartidoToCache(this.datosPartido._id!);
+    this.router.navigateByUrl(`/dashboard/partidos/modificar-partido`);
   }
 
   eliminarPartido() {
@@ -56,7 +83,6 @@ export class DatosPartidoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
         this.dataService.eliminarPartido(this.datosPartido._id!)
           .subscribe(() => {
 
@@ -89,4 +115,71 @@ export class DatosPartidoComponent implements OnInit {
     })
   }
 
+
+  // ************************************************** //
+  // ********      CORTES                       ******* //
+  // ************************************************** //
+  modificarCorte(idCorte: string) {
+    this.interdataService.setIdPartidoToCache(this.datosPartido._id!);
+    this.interdataService.setIdCorteToCache(idCorte);
+    this.router.navigateByUrl('/dashboard/partidos/partido/modificar-corte');
+  }
+
+  eliminarCorte(idCorte: string) {
+    const dialogRef = this.dialog.open(DialogEliminarCorteComponent,
+      { restoreFocus: false, data: { id: idCorte, borrado: null } });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataService.eliminarCorte(idCorte)
+          .subscribe(() => {
+
+            // Quitamos el corte de la lista
+            let enc = false;
+            let i = 0;
+            do {
+              if (this.listadoCortes[i]._id === idCorte) {
+                this.listadoCortes.splice(i, 1);
+                enc = true;
+              } else {
+                i++;
+              }
+            } while (!enc && i < this.listadoCortes.length);
+
+            Swal.fire({
+              title: 'Corte borrado',
+              text: 'Se ha borrado el corte correctamente.',
+              icon: 'success'
+            });
+
+          }, err => {
+            console.log(err);
+            Swal.fire({
+              title: 'Error',
+              text: 'Ha ocurrido un error al intentar eliminar el corte. Inténtelo de nuevo más tarde.',
+              icon: 'error'
+            })
+          });
+
+      }
+    }, err => {
+      console.log(err);
+      Swal.fire({
+        title: 'Error',
+        text: 'Ha ocurrido un error al intentar corte el partido. Inténtelo de nuevo más tarde.',
+        icon: 'error'
+      })
+    })
+  }
+
+  // ************************************************** //
+  // ********      FUNCIONES DE TAMAÑO          ******* //
+  // ************************************************** //
+  getFxFlexVideo(corte: DatosCorte) {
+    return (corte.valoracion ? 60 : 100);
+  }
+
+  getYoutubePlayerWidth() {
+    return window.innerWidth > 500 ? 500 : window.innerWidth;
+  }
 }
