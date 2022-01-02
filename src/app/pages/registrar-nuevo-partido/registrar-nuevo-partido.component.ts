@@ -1,14 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { switchMap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import * as _moment from 'moment';
 
 import { DataService } from '../../services/data.service';
-import { DatosPartido } from '../../interfaces/data.interface';
+import { DatosPartido, DATE_FORMATS } from '../../interfaces/data.interface';
 import { OperationsService } from '../../services/operations.service';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogNuevoPartidoComponent } from '../../components/dialog-nuevo-partido/dialog-nuevo-partido.component';
 import { DialogModificarPartidoComponent } from '../../components/dialog-modificar-partido/dialog-modificar-partido.component';
 import { InterdataService } from '../../services/interdata.service';
@@ -16,10 +15,7 @@ import { InterdataService } from '../../services/interdata.service';
 @Component({
   selector: 'app-registrar-nuevo-partido',
   templateUrl: './registrar-nuevo-partido.component.html',
-  styleUrls: ['../pages.component.css', './registrar-nuevo-partido.component.css'],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
-  ]
+  styleUrls: ['../pages.component.css', './registrar-nuevo-partido.component.css']
 })
 export class RegistrarNuevoPartidoComponent implements OnInit {
 
@@ -72,10 +68,6 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
     } else {
       this.router.navigateByUrl('dashboard');
     }
-  }
-
-  ngOnDestroy(): void {
-    this.interdataService.removeIdPartidoFromCache();
   }
 
   /***********      VOLVER      ***********/

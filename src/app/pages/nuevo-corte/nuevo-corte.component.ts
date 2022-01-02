@@ -310,8 +310,7 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
     console.log("Corte a modificar:", corteModificado);
 
     this.dataService.modificarDatosCorte(corteModificado).subscribe(
-      resp => {
-        console.log(resp);
+      () => {
         this.interdataService.setIdPartidoToCache(this.datosPartido._id!);
         this.router.navigateByUrl(`/dashboard/partidos/partido`);
         Swal.fire({

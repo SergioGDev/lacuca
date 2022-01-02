@@ -60,11 +60,11 @@
                                Hora de inicio debe ser mayor que 0.
                             </mat-error>
                             <mat-error class="error-show" *ngIf="formNuevoCorte.get('minInicio')?.invalid &&
-                                formNuevoCorte.get('horaInicio')?.touched">
+                                formNuevoCorte.get('minInicio')?.touched">
                                 Minuto de inicio debe estar comprendido entre 0 y 59.
                             </mat-error>
                             <mat-error class="error-show" *ngIf="formNuevoCorte.get('segInicio')?.invalid &&
-                                formNuevoCorte.get('horaInicio')?.touched">
+                                formNuevoCorte.get('segInicio')?.touched">
                                 Segundo de inicio debe estar comprendido entre 0 y 59.
                             </mat-error>
 
