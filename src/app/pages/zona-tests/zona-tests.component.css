@@ -14,3 +14,22 @@
     border-radius: 3px;
     box-shadow: 1px 1px 3px var(--color-texto-negro-transparente);
 }
+
+.section {
+    /* border: 1px solid var(--color-texto-negro-transparente);
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px var(--color-texto-negro-transparente);
+    background-color: white;
+    padding: 20px 10px; */
+    margin: 10px;
+}
+
+mat-card-actions {
+    text-align: end;
+}
+
+mat-card-content {
+    min-height: 70px;
+    padding: 10px 5px;
+    font-size: 11pt;
+}

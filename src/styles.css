@@ -31,4 +31,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --color-modificar: #282800;
     --color-ver-video: #42a242;
     --color-cortes:  #efefef;
+
+    --color-error: #8d0000;
+    --color-acierto: #005000;
 }

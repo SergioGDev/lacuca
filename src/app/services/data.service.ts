@@ -57,6 +57,7 @@ export class DataService {
   /* ***********     PARTIDOS      ************ */
   /* ****************************************** */
   guardarPartido(datosPartido: DatosPartido): Observable<any> {
+    console.log("Datos partido:", datosPartido);
     return this.http.post(`${environment.herokuUrl}/partido/`, datosPartido);
   }
 

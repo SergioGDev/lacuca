@@ -2,3 +2,13 @@
     font-size: 20pt;
     padding-top: 20px;
 }
+
+#boton-volver {
+    background-color: white;
+    color: var(--color-texto-negro);
+}
+
+#boton-guardar {
+    background-color: var(--color-texto-negro);
+    color: var(--color-texto-blanco);
+}

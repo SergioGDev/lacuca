@@ -66,6 +66,24 @@
     margin-bottom: 10px;
 }
 
+#boton-volver {
+    background-color: white;
+    color: var(--color-texto-negro);
+}
+
+#boton-guardar {
+    background-color: var(--color-texto-negro);
+    color: var(--color-texto-blanco);
+}
+
+.fila-otro-corte {
+    padding: 0px 20px;
+}
+
+.check-otro-corte {
+    margin-top: 9px;
+}
+
 @media screen and (max-width: 599px) {
     .titulo {
         margin: 30px 10px;

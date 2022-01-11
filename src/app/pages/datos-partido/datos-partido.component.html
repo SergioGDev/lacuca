@@ -111,9 +111,13 @@
     </div>
 
     <!-- Listado con los cortes -->
-    <h3 class="subtitulo">Listado de cortes</h3>
+    <h3 class="subtitulo" *ngIf="!cargando">Listado de cortes</h3>
 
-    <mat-accordion *ngIf="listadoCortes.length > 0">
+    <div *ngIf="listadoCortes.length === 0 && !cargando" fxFlexAlign="center">
+        No hay cortes asociados a este partido.
+    </div>
+
+    <mat-accordion *ngIf="listadoCortes.length > 0  && !cargando">
 
         <mat-expansion-panel *ngFor="let corte of listadoCortes; let i = index">
           <mat-expansion-panel-header fxLayout="row">

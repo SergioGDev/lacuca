@@ -10,19 +10,29 @@
             
             <div fxLayout="row wrap">
                 
-                <div fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
-                    <mat-form-field class="w-100 p-2" appearance="fill">
+                <div fxFlex="49" fxFlex.sm="100" fxFlex.xs="100" class="p-2">
+                    <mat-form-field class="w-100" appearance="fill">
                         <mat-label>Equipo local</mat-label>
                         <input matInput formControlName="equipoLocal">
+                        <mat-error class="error" 
+                            *ngIf="formNuevoVideo.get('equipoLocal')?.invalid && 
+                                formNuevoVideo.get('equipoLocal')?.touched">
+                            El campo "Equipo local" es obligatorio
+                        </mat-error>
                     </mat-form-field>
                 </div>
                 
                 <div fxFlex="2" fxShow.sm="false" fxShow.xs="false" class="text-center guion"> - </div>
                 
-                <div fxFlex="49" fxFlex.sm="100" fxFlex.xs="100">
-                    <mat-form-field class="w-100 p-2" appearance="fill">
+                <div fxFlex="49" fxFlex.sm="100" fxFlex.xs="100" class="p-2">
+                    <mat-form-field class="w-100" appearance="fill">
                         <mat-label>Equipo visitante</mat-label>
                         <input matInput formControlName="equipoVisitante">
+                        <mat-error class="error" 
+                            *ngIf="formNuevoVideo.get('equipoVisitante')?.invalid && 
+                                formNuevoVideo.get('equipoVisitante')?.touched">
+                            El campo "Equipo visitante" es obligatorio
+                        </mat-error>
                     </mat-form-field>
                 </div>
                 
@@ -35,6 +45,11 @@
                     <mat-form-field class="w-100 p-2" appearance="fill">
                         <mat-label>Localidad</mat-label>
                         <input matInput formControlName="localidad">
+                        <mat-error class="error" 
+                            *ngIf="formNuevoVideo.get('localidad')?.invalid && 
+                            formNuevoVideo.get('localidad')?.touched">
+                            El campo "Localidad" es obligatorio
+                        </mat-error>
                     </mat-form-field>
                     
                 </div>
@@ -43,10 +58,15 @@
                     <mat-form-field class="w-100 p-2" appearance="fill">
                         <mat-label>Fecha</mat-label>
                         <!-- #docregion toggle -->
-                        <input matInput [matDatepicker]="picker" formControlName="fecha">
+                        <input matInput [matDatepicker]="picker" formControlName="fecha" readonly>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                         <!-- #enddocregion toggle -->
+                        <mat-error class="error" 
+                            *ngIf="formNuevoVideo.get('fecha')?.invalid && 
+                            formNuevoVideo.get('fecha')?.touched">
+                            El campo "Fecha" es obligatorio
+                        </mat-error>
                     </mat-form-field>
                 </div>
                 
@@ -55,6 +75,11 @@
                     <mat-form-field class="w-100 p-2" appearance="fill">
                         <mat-label>Fase</mat-label>
                         <input matInput formControlName="fase">
+                        <mat-error class="error" 
+                            *ngIf="formNuevoVideo.get('fase')?.invalid && 
+                            formNuevoVideo.get('fase')?.touched">
+                            El campo "Fase" es obligatorio
+                        </mat-error>
                     </mat-form-field>
                     
                 </div>
@@ -64,6 +89,11 @@
                     <mat-form-field class="w-100 p-2" appearance="fill">
                         <mat-label>Jornada</mat-label>
                         <input type="number" matInput formControlName="jornada">
+                        <mat-error class="error" 
+                            *ngIf="formNuevoVideo.get('jornada')?.invalid && 
+                            formNuevoVideo.get('jornada')?.touched">
+                            El campo "Jornada" es obligatorio
+                        </mat-error>
                     </mat-form-field>
                     
                 </div>
@@ -76,6 +106,11 @@
                 <mat-form-field class="w-100 p-2" appearance="fill">
                     <mat-label>Enlace del partido</mat-label>
                     <input matInput formControlName="url">
+                    <mat-error class="error" 
+                        *ngIf="formNuevoVideo.get('url')?.invalid && 
+                        formNuevoVideo.get('url')?.touched">
+                        El campo "URL" es obligatorio
+                    </mat-error>
                 </mat-form-field>
                 
             </div>
@@ -99,8 +134,8 @@
         
             
             <div class="text-end mt-3 pe-2">
-                <button mat-raised-button color="primary" class="m-1" (click)="volver()">Volver</button>
-                <button mat-raised-button type="submit" class="m-1"> {{ this.datosPartido ? 'Modificar partido' : 'Guardar partido'}} </button>
+                <button id="boton-volver" mat-raised-button class="m-1" (click)="volver()">Volver</button>
+                <button id="boton-guardar" mat-raised-button type="submit" class="m-1"> {{ this.datosPartido ? 'Modificar partido' : 'Guardar partido'}} </button>
             </div>
             
         </form>

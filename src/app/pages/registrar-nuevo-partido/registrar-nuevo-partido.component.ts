@@ -1,28 +1,52 @@
 import { Component, OnInit } from '@angular/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as _moment from 'moment';
+import Swal from 'sweetalert2';
 
 import { DataService } from '../../services/data.service';
-import { DatosPartido, DATE_FORMATS } from '../../interfaces/data.interface';
+import { DatosPartido } from '../../interfaces/data.interface';
 import { OperationsService } from '../../services/operations.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNuevoPartidoComponent } from '../../components/dialog-nuevo-partido/dialog-nuevo-partido.component';
 import { DialogModificarPartidoComponent } from '../../components/dialog-modificar-partido/dialog-modificar-partido.component';
 import { InterdataService } from '../../services/interdata.service';
 
+const moment = _moment;
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
+
 @Component({
   selector: 'app-registrar-nuevo-partido',
   templateUrl: './registrar-nuevo-partido.component.html',
-  styleUrls: ['../pages.component.css', './registrar-nuevo-partido.component.css']
+  styleUrls: ['../pages.component.css', './registrar-nuevo-partido.component.css'],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ]
 })
 export class RegistrarNuevoPartidoComponent implements OnInit {
 
   formNuevoVideo: FormGroup = this.fb.group({
     equipoLocal: ['', Validators.required],
     equipoVisitante: ['', Validators.required],
-    fecha: [, Validators.required],
+    fecha: ['', Validators.required],
     localidad: ['', Validators.required],
     url: ['', [Validators.required]],
     fase: ['', Validators.required],
@@ -44,6 +68,8 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.formNuevoVideo.get('fecha')?.addValidators(Validators.required);
+
     if (!this.router.url.includes('modificar-partido')) {
       return;
     }
@@ -106,7 +132,9 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.modificarDatosPartido();
+        this.datosPartido ? 
+          this.modificarDatosPartido() : 
+          this.registrarNuevoPartido();
       }
     });
   }

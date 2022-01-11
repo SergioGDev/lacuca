@@ -33,7 +33,7 @@
                                 <input type="number" matInput formControlName="minInicio" max="59">
                             </mat-form-field>
                         </div>
-        
+                        
                         <div class="centrado-total" fxFlex="2">:</div>
         
         
@@ -57,7 +57,7 @@
 
                             <mat-error class="error-show" *ngIf="formNuevoCorte.get('horaInicio')?.invalid &&
                                 formNuevoCorte.get('horaInicio')?.touched">
-                               Hora de inicio debe ser mayor que 0.
+                                Hora de inicio debe ser mayor que 0.
                             </mat-error>
                             <mat-error class="error-show" *ngIf="formNuevoCorte.get('minInicio')?.invalid &&
                                 formNuevoCorte.get('minInicio')?.touched">
@@ -167,8 +167,6 @@
                                 <select matNativeControl formControlName="situacion">
                                     <option *ngFor="let item of vSituacion" [value]="item">{{ item }}</option>
                                 </select>
-                                <!-- <mat-error *ngIf="nativeSelectFormControl.hasError('required')">You must make a
-                                    selection</mat-error> -->
                             </mat-form-field>
 
                         </div>
@@ -184,8 +182,6 @@
                                 <select matNativeControl formControlName="tipo">
                                     <option *ngFor="let item of vTipo" [value]="item">{{ item }}</option>
                                 </select>
-                                <!-- <mat-error *ngIf="nativeSelectFormControl.hasError('required')">You must make a
-                                    selection</mat-error> -->
                             </mat-form-field>
 
                         </div>
@@ -201,8 +197,6 @@
                                 <select matNativeControl formControlName="posicion">
                                     <option *ngFor="let item of vPosicion" [value]="item">{{ item }}</option>
                                 </select>
-                                <!-- <mat-error *ngIf="nativeSelectFormControl.hasError('required')">You must make a
-                                    selection</mat-error> -->
                             </mat-form-field>
 
                         </div>
@@ -218,8 +212,6 @@
                                 <select matNativeControl formControlName="arbitro">
                                     <option *ngFor="let item of vArbitro" [value]="item">{{ item }}</option>
                                 </select>
-                                <!-- <mat-error *ngIf="nativeSelectFormControl.hasError('required')">You must make a
-                                    selection</mat-error> -->
                             </mat-form-field>
 
                         </div>
@@ -239,8 +231,21 @@
 
                 </div>
 
-                <div fxLayout="row" fxLayoutAlign="end">
-                    <button mat-raised-button type="submit" class="m-1 mb-3"> Guardar corte </button>
+                <div fxLayout="row wrap" class="fila-otro-corte">
+
+                    <div fxFlex="5" *ngIf="datosCorte === undefined" fxShow.xs="false"></div>
+
+                    <div fxLayout="row" *ngIf="datosCorte === undefined" fxFlex="50" fxFlex.xs="100" fxLayoutAlign="start">
+                        <mat-checkbox color="primary" class="check-otro-corte" formControlName="checkOtroCorte">
+                            Registrar otro corte
+                        </mat-checkbox>
+                    </div>
+    
+                    <div fxLayout="row" fxFlex fxFlex.xs="100" fxLayoutAlign="end">
+                        <button id="boton-guardar" mat-raised-button type="submit" class="m-1 mb-3"> Guardar corte </button>
+                        <button id="boton-volver" mat-raised-button type="button" class="m-1 mb-3" (click)="clickVolver()"> Volver </button>
+                    </div>
+
                 </div>
 
             </form>

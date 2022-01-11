@@ -10,10 +10,10 @@ import { DesignacionesComponent } from './designaciones/designaciones.component'
 import { ListadoUsuariosComponent } from './listado-usuarios/listado-usuarios.component';
 import { NuevoTestComponent } from './nuevo-test/nuevo-test.component';
 import { SolucionTestComponent } from './solucion-test/solucion-test.component';
-import { PartidosComponent } from './partidos/partidos.component';
+import { ListadoPartidosComponent } from './listado-partidos/listado-partidos.component';
 import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/registrar-nuevo-partido.component';
 import { DatosPartidoComponent } from './datos-partido/datos-partido.component';
-import { NuevoCorteComponent } from './nuevo-corte/nuevo-corte.component';
+import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-nuevo-corte.component';
 
 const routes: Routes = [
   { 
@@ -24,12 +24,12 @@ const routes: Routes = [
       { path: 'inicio', component: DashboardComponent, data: { titulo: 'Dashboard' } },
       { path: 'zona-tests', component: ZonaTestsComponent, data: { titulo: 'Zona tests ' } },
       { path: 'designaciones', component: DesignacionesComponent, data: { titulo: 'Designaciones' } },
-      { path: 'partidos', component: PartidosComponent, data: { titulo: 'Partidos' } },
+      { path: 'partidos', component: ListadoPartidosComponent, data: { titulo: 'Partidos' } },
       { path: 'partidos/partido', component: DatosPartidoComponent, data: { titulo: 'Datos partido'} },
       { path: 'partidos/registrar-nuevo-partido', component: RegistrarNuevoPartidoComponent, data: { titulo: 'Nuevo partido' } },
       { path: 'partidos/modificar-partido', component: RegistrarNuevoPartidoComponent, data: { titulo: 'Modificar partido' } },
-      { path: 'partidos/partido/nuevo-corte', component: NuevoCorteComponent, data: { titulo: 'Nuevo corte' } },
-      { path: 'partidos/partido/modificar-corte', component: NuevoCorteComponent, data: { titulo: 'Modificar corte' } },
+      { path: 'partidos/partido/nuevo-corte', component: RegistrarNuevoCorteComponent, data: { titulo: 'Nuevo corte' } },
+      { path: 'partidos/partido/modificar-corte', component: RegistrarNuevoCorteComponent, data: { titulo: 'Modificar corte' } },
       { path: 'listado-usuarios', component: ListadoUsuariosComponent, data: { titulo: 'Listado de usuarios' } },
       { path: 'zona-tests/nuevo-test', component: NuevoTestComponent, data: { titulo: 'Nuevo test' } },
       { path: 'zona-tests/solucion-test', component: SolucionTestComponent, data: { titulo: 'Solución test' } },

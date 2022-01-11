@@ -64,9 +64,8 @@ export class NuevoTestComponent implements OnInit {
     }
 
     var vSoluciones: ItemPreguntaRespondida[] = [];
-    var vPReguntasFalladas: ItemPregunta[] = [];
-    var vMisRespuestas: string[] = [];
 
+    console.log(this.formTest);
     for (var i = 0; i < this.vPreguntas.length; i++) {
 
       if (this.vPreguntas[i].correcta !== this.formTest.value[`pregunta-${i + 1}`]) {
@@ -76,7 +75,9 @@ export class NuevoTestComponent implements OnInit {
         })
       }
 
+      console.log(vSoluciones);
       localStorage.setItem(lStorageVSoluciones, JSON.stringify(vSoluciones));
+      localStorage.setItem
 
       this.router.navigateByUrl('/dashboard/zona-tests/solucion-test');
     }

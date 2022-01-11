@@ -5,11 +5,11 @@ import { DatosPartido } from '../../interfaces/data.interface';
 import { DataService } from '../../services/data.service';
 
 @Component({
-  selector: 'app-partidos',
-  templateUrl: './partidos.component.html',
-  styleUrls: ['../pages.component.css', './partidos.component.css']
+  selector: 'app-listado-partidos',
+  templateUrl: './listado-partidos.component.html',
+  styleUrls: ['../pages.component.css', './listado-partidos.component.css']
 })
-export class PartidosComponent implements OnInit {
+export class ListadoPartidosComponent implements OnInit {
 
   cargandoListado: boolean = false;
   listadoPartidos: DatosPartido[] = [];

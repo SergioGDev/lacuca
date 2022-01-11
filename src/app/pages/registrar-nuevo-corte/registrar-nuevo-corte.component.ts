@@ -12,11 +12,11 @@ import { DialogNuevoCorteComponent } from '../../components/dialog-nuevo-corte/d
 import { DialogModificarCorteComponent } from '../../components/dialog-modificar-corte/dialog-modificar-corte.component';
 
 @Component({
-  selector: 'app-nuevo-corte',
-  templateUrl: './nuevo-corte.component.html',
-  styleUrls: ['./nuevo-corte.component.css']
+  selector: 'app-registrar-nuevo-corte',
+  templateUrl: './registrar-nuevo-corte.component.html',
+  styleUrls: ['./registrar-nuevo-corte.component.css']
 })
-export class NuevoCorteComponent implements OnInit, OnDestroy {
+export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
 
   datosPartido!: DatosPartido;
   datosCorte?: DatosCorte;
@@ -32,19 +32,20 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
 
 
   formNuevoCorte: FormGroup = this.fb.group({
-    horaInicio: [, [Validators.required, Validators.min(0)]],
-    minInicio: [, [Validators.required, Validators.min(0), Validators.max(60)]],
-    segInicio: [, [Validators.required, Validators.min(0), Validators.max(60)]],
-    horaFin: [, [Validators.required, Validators.min(0)]],
-    minFin: [, [Validators.required, Validators.min(0), Validators.max(60)]],
-    segFin: [, [Validators.required, Validators.min(0), Validators.max(60)]],
+    horaInicio: [ , [Validators.required, Validators.min(0)]],
+    minInicio: [ , [Validators.required, Validators.min(0), Validators.max(60)]],
+    segInicio: [ , [Validators.required, Validators.min(0), Validators.max(60)]],
+    horaFin: [ , [Validators.required, Validators.min(0)]],
+    minFin: [ , [Validators.required, Validators.min(0), Validators.max(60)]],
+    segFin: [ , [Validators.required, Validators.min(0), Validators.max(60)]],
     checkMasInfo: [],
     comentario: [],
     valoracion: [],
     situacion: [],
     tipo: [],
     posicion: [],
-    arbitro: []
+    arbitro: [],
+    checkOtroCorte: []
   }, {
     validators: [this.datosExtraValidator(), this.validarTiemposCorte()]
   })
@@ -79,25 +80,25 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
 
       if (idCorte) {
         this.dataService.obtenerDatosCorte(idCorte)
-          .subscribe( (datosCorteRest: any) => {
+          .subscribe((datosCorteRest: any) => {
             const {
               hIni, mIni, sIni, hFin, mFin, sFin
             } = this.obtenerTiempoInicioFin(datosCorteRest.segundoInicio, datosCorteRest.duracion);
-            
+
             this.formNuevoCorte.reset({
-              horaInicio:     hIni,
-              minInicio:      mIni,
-              segInicio:      sIni,
-              horaFin:        hFin,
-              minFin:         mFin,
-              segFin:         sFin,
-              checkMasInfo:   datosCorteRest.valoracion !== null,
-              comentario:     datosCorteRest.comentario,
-              valoracion:     datosCorteRest.valoracion,
-              situacion:      datosCorteRest.situacion,
-              tipo:           datosCorteRest.tipo,
-              posicion:       datosCorteRest.posicion,
-              arbitro:        datosCorteRest.arbitro
+              horaInicio: hIni,
+              minInicio: mIni,
+              segInicio: sIni,
+              horaFin: hFin,
+              minFin: mFin,
+              segFin: sFin,
+              checkMasInfo: datosCorteRest.valoracion !== null,
+              comentario: datosCorteRest.comentario,
+              valoracion: datosCorteRest.valoracion,
+              situacion: datosCorteRest.situacion,
+              tipo: datosCorteRest.tipo,
+              posicion: datosCorteRest.posicion,
+              arbitro: datosCorteRest.arbitro
             });
 
             this.datosCorte = {
@@ -132,13 +133,13 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.interdataService.removeIdCorteFromCache(); 
+    this.interdataService.removeIdCorteFromCache();
   }
 
   // Dado el segundo inicio y la duración, devuelve un objeto con el tiempo de inicio y fin
   obtenerTiempoInicioFin(segundoInicio: number, duracion: number): TempoCorte {
-    const { horas: hIni , minutos: mIni, segundos: sIni } = this.obtenerHorasMinutosSegundos(segundoInicio);
-    const { horas: hFin , minutos: mFin, segundos: sFin } = this.obtenerHorasMinutosSegundos(segundoInicio + duracion);
+    const { horas: hIni, minutos: mIni, segundos: sIni } = this.obtenerHorasMinutosSegundos(segundoInicio);
+    const { horas: hFin, minutos: mFin, segundos: sFin } = this.obtenerHorasMinutosSegundos(segundoInicio + duracion);
 
     return { hIni, mIni, sIni, hFin, mFin, sFin };
   }
@@ -148,7 +149,7 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
     const segundos = totalSegundos % 60;
     const horas = Math.trunc(totalMin / 60);
     const minutos = totalMin % 60;
-    return {horas, minutos, segundos};
+    return { horas, minutos, segundos };
   }
 
   // Muestra los inputs en caso de que se quiera incluir la valoración del corte
@@ -208,8 +209,8 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
         formGroup.get('segFin')?.setErrors({ horaFinMenorError: true });
       } else {
         formGroup.get('horaFin')?.setErrors(null);
-        formGroup.get('minFin')?.setErrors(formGroup.get('minFin')!.value > 59 ? {errorMax: true} : null);
-        formGroup.get('segFin')?.setErrors(formGroup.get('segFin')!.value > 59 ? {errorMax: true} : null);
+        formGroup.get('minFin')?.setErrors(formGroup.get('minFin')!.value > 59 ? { errorMax: true } : null);
+        formGroup.get('segFin')?.setErrors(formGroup.get('segFin')!.value > 59 ? { errorMax: true } : null);
       }
     }
   }
@@ -256,13 +257,25 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
 
     this.dataService.guardarCorte(nuevoCorte).subscribe(
       () => {
-        this.interdataService.setIdPartidoToCache(this.datosPartido._id!);
-        this.router.navigateByUrl(`/dashboard/partidos/partido`);
-        Swal.fire({
-          title: 'Corte registrado',
-          text: 'Se ha registrado el corte correctamente.',
-          icon: 'success'
-        })
+        if (this.formNuevoCorte.get('checkOtroCorte')?.value) {
+          this.formNuevoCorte.reset();
+          Object.keys(this.formNuevoCorte.controls).forEach(key => {
+            this.formNuevoCorte.get(key)?.setErrors(null);
+          });
+          Swal.fire({
+            title: 'Corte registrado',
+            text: 'Se ha registrado el corte correctamente.',
+            icon: 'success'
+          })
+        } else {
+          this.interdataService.setIdPartidoToCache(this.datosPartido._id!);
+          this.router.navigateByUrl(`/dashboard/partidos/partido`);
+          Swal.fire({
+            title: 'Corte registrado',
+            text: 'Se ha registrado el corte correctamente.',
+            icon: 'success'
+          })
+        }
       },
       err => {
         console.log(err);
@@ -274,6 +287,7 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
       }
     );
   }
+
 
   modificarDatosCorte() {
     const segInicio = this.obtenerSumaSegundos(
@@ -307,8 +321,6 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
       arbitro: hayValoracion ? this.formNuevoCorte.get('arbitro')?.value : null,
     }
 
-    console.log("Corte a modificar:", corteModificado);
-
     this.dataService.modificarDatosCorte(corteModificado).subscribe(
       () => {
         this.interdataService.setIdPartidoToCache(this.datosPartido._id!);
@@ -330,13 +342,17 @@ export class NuevoCorteComponent implements OnInit, OnDestroy {
     );
   }
 
+  clickVolver() {
+    this.router.navigateByUrl('/dashboard/partidos/partido');
+  }
+
   submit() {
     if (this.formNuevoCorte.invalid) {
       this.formNuevoCorte.markAllAsTouched();
       return;
     }
 
-    const dialogRef = this.datosCorte ? 
+    const dialogRef = this.datosCorte ?
       this.dialog.open(DialogModificarCorteComponent,
         { restoreFocus: false, data: { modificado: false } }) :
       this.dialog.open(DialogNuevoCorteComponent,

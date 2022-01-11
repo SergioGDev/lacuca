@@ -20,9 +20,9 @@ import { PagesComponent } from './pages.component';
 import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/registrar-nuevo-partido.component';
 import { SharedModule } from '../shared/shared.module';
 import { SolucionTestComponent } from './solucion-test/solucion-test.component';
-import { PartidosComponent } from './partidos/partidos.component';
+import { ListadoPartidosComponent } from './listado-partidos/listado-partidos.component';
 import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
-import { NuevoCorteComponent } from './nuevo-corte/nuevo-corte.component';
+import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-nuevo-corte.component';
 
 @NgModule({
   declarations: [
@@ -30,15 +30,15 @@ import { NuevoCorteComponent } from './nuevo-corte/nuevo-corte.component';
     
     DatosPartidoComponent,
     DesignacionesComponent,
+    ListadoPartidosComponent,
     ListadoUsuariosComponent,
     NuevoTestComponent,
     PagesComponent,
+    RegistrarNuevoCorteComponent,
     RegistrarNuevoPartidoComponent,
     RolPipe,
     SolucionTestComponent,
-    PartidosComponent,
     ZonaTestsComponent,
-    NuevoCorteComponent,
   ],
   exports: [
     DashboardComponent,

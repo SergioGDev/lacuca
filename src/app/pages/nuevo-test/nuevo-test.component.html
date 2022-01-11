@@ -1,6 +1,6 @@
-<div class="container-zona-tests m-3" fxLayout="column">
-    <span class="titulo mb-4">Nuevo test</span>
-  
+<div class="container-zona-tests m-3">
+    <div class="titulo"> {{ vPreguntas.length > 1 ? 'Test teórico' : 'Pregunta rápida' }} </div>
+
     <div class="seleccion-preguntas p-4">
 
         <div class="d-flex justify-content-center" *ngIf="obteniendoPreguntas">
@@ -9,95 +9,30 @@
             </div>
         </div>
 
-      <form [formGroup]="formTest" (submit)="enviarTest()" *ngIf="!obteniendoPreguntas">
+        <form [formGroup]="formTest" (submit)="enviarTest()" *ngIf="!obteniendoPreguntas">
 
-          <mat-radio-group *ngFor="let pregunta of vPreguntas; index as i"
-            [formControlName]="getFormControlName(i+1)"
-            class="mb-4 example-radio-group"
-            aria-label="Seleciona una opción" 
-            fxLayout="column">
-            <b>{{ (i+1) }}) {{ pregunta.texto }}</b>
-            
-            <mat-radio-button class="mt-3 example-radio-button" *ngFor="let respuesta of pregunta.respuestas; index as j"
-            [value]="pregunta" [id]="getIdRespuesta(i+1, j+1)">
-            {{ respuesta }}
-        </mat-radio-button>
-    </mat-radio-group>
-    
-    
-    <div class="botones text-center mt-4" *ngIf="!obteniendoPreguntas">
-      <button mat-raised-button color="basic" [disabled]="this.formTest.invalid" 
-        type="submit">Enviar test</button>
-    </div>
-        <!-- <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let pregunta of vPreguntas; index as i">
+            <mat-radio-group *ngFor="let pregunta of vPreguntas; index as i" [formControlName]="getFormControlName(i+1)"
+                class="mb-4 rg-pregunta" aria-label="Seleciona una opción" fxLayout="column">
+                <b>{{ (i+1) }}) {{ pregunta.texto }}</b>
 
-                <div class="mt-2">
-                    <b>{{ (i+1) }}) {{ pregunta.texto }}</b>
-
-                    <div class="m-2">
-
-                        <div class="form-check" *ngFor="let respuesta of pregunta.respuestas; index as j">
-                            <input class="form-check-input" type="radio" [id]="getIdRespuesta(i+1, j+1)"
-                                [value]="respuesta" [formControlName]="getFormControlName(i+1)">
-                            <label class="form-check-label" for=`respuesta${j}`>
-                                {{ respuesta }}
-                            </label>
-                        </div>
-
-                    </div>
-
-                </div>
-            </li>
-        </ul> -->
-  
-  
-        
-      </form>
-      
-    </div>
-  
-  </div>
-  
-  
+                <mat-radio-button class="mt-3 rb-respuesta" style="white-space: normal !important"
+                    *ngFor="let respuesta of pregunta.respuestas; index as j" [value]="respuesta"
+                    [id]="getIdRespuesta(i+1, j+1)">
+                    <span class="label-respuesta">{{ respuesta }}</span>
+                </mat-radio-button>
+            </mat-radio-group>
 
 
-
-
-
-
-
-<!-- <div class="card">
-    <div class="card-header">
-        <h1 class="p-2 text-center">Test</h1>
-    </div>
-    <div class="card-body">
-        
-        <div class="d-flex justify-content-center" *ngIf="obteniendoPreguntas">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
+            <div class="botones text-center mt-4" *ngIf="!obteniendoPreguntas">
+                <button mat-raised-button color="basic" 
+                    [disabled]="this.formTest.invalid" 
+                    type="submit">
+                    Enviar test
+                </button>
             </div>
-        </div>
-
-        <div *ngIf="!obteniendoPreguntas">
-
-            <form [formGroup]="formTest" (ngSubmit)="enviarTest()">
-
-                
-
-                <div class="p-2 text-center">
-                    <button class="btn btn-primary" 
-                        [disabled]="this.formTest.invalid" 
-                        type="submit">
-                        Enviar test
-                    </button>
-                </div>
-
-            </form>
-
-        </div>
-
-
+            
+        </form>
 
     </div>
-</div> -->
+
+</div>
