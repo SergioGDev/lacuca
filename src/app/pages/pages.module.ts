@@ -23,6 +23,7 @@ import { SolucionTestComponent } from './solucion-test/solucion-test.component';
 import { ListadoPartidosComponent } from './listado-partidos/listado-partidos.component';
 import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-nuevo-corte.component';
+import { PanelAdministracionVideotestComponent } from './panel-administracion-videotest/panel-administracion-videotest.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-
     RolPipe,
     SolucionTestComponent,
     ZonaTestsComponent,
+    PanelAdministracionVideotestComponent,
   ],
   exports: [
     DashboardComponent,

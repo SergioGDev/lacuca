@@ -107,6 +107,11 @@ export class DataService {
     return this.http.get(`${environment.herokuUrl}/corte?_partidoId=${idPartido}`);
   }
 
+  obtenerListadoCompletoCortes(): Observable<any> {
+    return this.http.get(`${environment.herokuUrl}/corte`);
+  }
+  
+
   /* ****************************************** */
   /* ***********     SELECTS       ************ */
   /* ****************************************** */

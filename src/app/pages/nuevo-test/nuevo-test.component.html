@@ -3,11 +3,7 @@
 
     <div class="seleccion-preguntas p-4">
 
-        <div class="d-flex justify-content-center" *ngIf="obteniendoPreguntas">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
+        <app-spinner-cargando *ngIf="obteniendoPreguntas"></app-spinner-cargando>
 
         <form [formGroup]="formTest" (submit)="enviarTest()" *ngIf="!obteniendoPreguntas">
 

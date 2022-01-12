@@ -11,7 +11,6 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 export class ZonaTestsComponent implements OnInit {
 
   constructor(
-    private fb: FormBuilder,
     private router: Router
   ) { }
 
@@ -19,9 +18,12 @@ export class ZonaTestsComponent implements OnInit {
   }
 
   generarTest(numPreguntas: number) {
-
     localStorage.setItem(lStorageNumeroPreguntas, `${numPreguntas}`);
     this.router.navigateByUrl(`dashboard/zona-tests/nuevo-test`);
+  }
+
+  irPanelAdministracionVideotest() {
+    this.router.navigateByUrl('dashboard/zona-tests/admin-videotest');
   }
 
 }

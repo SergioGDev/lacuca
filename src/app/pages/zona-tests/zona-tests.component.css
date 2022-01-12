@@ -16,11 +16,7 @@
 }
 
 .section {
-    /* border: 1px solid var(--color-texto-negro-transparente);
-    border-radius: 3px;
-    box-shadow: 1px 1px 5px var(--color-texto-negro-transparente);
-    background-color: white;
-    padding: 20px 10px; */
+    max-width: 650px !important;
     margin: 10px;
 }
 

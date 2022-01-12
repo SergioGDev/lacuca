@@ -34,7 +34,7 @@ export interface DatosCorte {
     _id?:           string,
     __v?:           number,
     idPartido:      string,
-    segundoInicio:      number,
+    segundoInicio:  number,
     duracion:       number,
     comentario?:    string,
     valoracion?:    string,
@@ -42,6 +42,7 @@ export interface DatosCorte {
     tipo?:          string,
     posicion?:      string,
     arbitro?:       string,
+    datosPartido?:  DatosPartido,
 }
 
 export interface OptionItem {

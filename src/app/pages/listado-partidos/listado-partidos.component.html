@@ -13,11 +13,7 @@
 
     </div>
 
-    <div class="d-flex justify-content-center" *ngIf="cargandoListado">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
+    <app-spinner-cargando *ngIf="cargandoListado"></app-spinner-cargando>
 
     <div class="no-hay-videos text-center m-2" *ngIf="!cargandoListado && listadoPartidos.length === 0">
         No hay videos registrados
