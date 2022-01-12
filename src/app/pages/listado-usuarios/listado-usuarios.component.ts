@@ -15,6 +15,8 @@ export class ListadoUsuariosComponent implements OnInit {
 
   cargandoUsuarios: boolean = true;
   listadoUsuarios: Usuario[] = [];
+  editMode = false;
+  usuarioEdit: Usuario | undefined;
 
   constructor(
     private authService: AuthService,
@@ -26,6 +28,7 @@ export class ListadoUsuariosComponent implements OnInit {
     this.authService.herokuGetUserList().subscribe(
       data => {
         this.listadoUsuarios = data.users;
+        console.log(data.users);
         this.cargandoUsuarios = false;
       },
       error => {
@@ -51,6 +54,23 @@ export class ListadoUsuariosComponent implements OnInit {
       return 'Sí';
     }
     return 'No';
+  }
+
+  editar(user: Usuario){
+    this.editMode = true;
+    this.usuarioEdit = user;
+  }
+
+  onUsuarioGuardado(usuario: Usuario){
+    console.log(usuario);
+    this.editMode = false;
+    this.authService.herokuGetUserList().subscribe(
+      data => {
+        this.listadoUsuarios = data.users;
+        console.log(data.users);
+        this.cargandoUsuarios = false;
+      }
+    );
   }
 
 }

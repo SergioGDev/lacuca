@@ -22,6 +22,8 @@ export class ChangePasswordComponent implements OnInit {
 
   formSubmitted: boolean = false;
   registrando: boolean = false;
+
+  user!: User;
   
   constructor(
     private fb: FormBuilder,
@@ -30,7 +32,14 @@ export class ChangePasswordComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+    this.authService.herokuRenew().subscribe(
+      res => {
+        this.user = res.user;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   // Para comprobar que las contraseñas sean iguales
@@ -90,7 +99,7 @@ export class ChangePasswordComponent implements OnInit {
         const changePass = {
           oldPassword: this.registerForm.get('oldPassword')!.value,
           newPassword: this.registerForm.get('newPassword')!.value,
-          nif: '44410688Z'
+          nif: this.user.nif!
         }
         this.authService.herokuChangePassword(changePass.nif, changePass.oldPassword, changePass.newPassword).subscribe(
           res => {
@@ -99,7 +108,7 @@ export class ChangePasswordComponent implements OnInit {
               'La contraseña se ha cambiado correctamente',
               'success'
             )
-            //this.router.navigate(['/users']);
+            this.router.navigate(['/users']);
           
           },
           err => {

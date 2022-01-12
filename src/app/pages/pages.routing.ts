@@ -15,6 +15,9 @@ import { SolucionTestComponent } from './solucion-test/solucion-test.component';
 import { PanelAdministracionVideotestComponent } from './panel-administracion-videotest/panel-administracion-videotest.component';
 import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-nuevo-corte.component';
 import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/registrar-nuevo-partido.component';
+import { ChangePasswordComponent } from '../components/change-password/change-password.component';
+import { CreateUserComponent } from '../components/create-user/create-user.component';
+import { IsAdminGuard } from '../guards/is-admin.guard';
 import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 
 const routes: Routes = [
@@ -35,7 +38,9 @@ const routes: Routes = [
       { path: 'partidos/modificar-partido', component: RegistrarNuevoPartidoComponent, data: { titulo: 'Modificar partido' } },
       { path: 'partidos/partido/nuevo-corte', component: RegistrarNuevoCorteComponent, data: { titulo: 'Nuevo corte' } },
       { path: 'partidos/partido/modificar-corte', component: RegistrarNuevoCorteComponent, data: { titulo: 'Modificar corte' } },
-      { path: 'listado-usuarios', component: ListadoUsuariosComponent, data: { titulo: 'Listado de usuarios' } },
+      { path: 'listado-usuarios', component: ListadoUsuariosComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Listado de usuarios' } },
+      { path: 'change-password', component: ChangePasswordComponent },
+      { path: 'editar-mis-datos', component: CreateUserComponent },
       { path: '**', redirectTo: 'inicio' },
     ]
 

@@ -1,38 +1,39 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, CanLoad, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import Swal from "sweetalert2";
 import { AuthService } from '../services/auth.service';
+import { tap } from 'rxjs/operators';
+import { Observable, of, pipe } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanLoad {
 
     constructor( 
         private router: Router,
         private authService: AuthService ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        
-        return this.authService.validarToken()
-            .then( () => {
-                const token = localStorage.getItem('tokenId') || '';
-                if (token === '') {
-                    this.router.navigateByUrl('/login');
-                }
-                return true;
-            })
-            .catch( () => {
-                this.router.navigateByUrl('/login');
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error en el servidor',
-                    text: 'Ha ocurrido un error al autenticar al usuario.'
-                })
-                return false;
-            })
-        
-        return true;
-    }
+        canActivate(): Observable<boolean> |  boolean {
+            return this.authService.herokuValidarToken()
+                    .pipe(
+                      tap(valid => {
+                        if(!valid){
+                          this.router.navigate(['/login']);
+                        }
+                      })
+                    );
+          }
+
+          canLoad(): Observable<boolean> | boolean {
+            return this.authService.herokuValidarToken()
+                    .pipe(
+                      tap(valid => {
+                        if(!valid){
+                          this.router.navigate(['/login']);
+                        }
+                      })
+                    );
+          }
 
 }
