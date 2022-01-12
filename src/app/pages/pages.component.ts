@@ -3,6 +3,8 @@ import { DataService } from '../services/data.service';
 import { SidebarService } from '../services/sidebar.service';
 import { ItemSidebar } from '../interfaces/sidebar.interface';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pages',
@@ -20,7 +22,8 @@ export class PagesComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private sidebarService: SidebarService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void { 
@@ -44,6 +47,7 @@ export class PagesComponent implements OnInit {
 
   logOut() {
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
 }

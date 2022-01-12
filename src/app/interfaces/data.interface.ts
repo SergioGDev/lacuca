@@ -25,5 +25,7 @@ export interface DatosPartido {
     localidad:          string;
     url:                string;
     status:             boolean;
-
+    fase:               string;
+    jornada:            number;
+    comentario:         string;
 }

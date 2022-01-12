@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="!editMode">
 
     <div class="card-header">
         <h1 class="p-2 text-center">Listado de usuarios</h1>
@@ -23,6 +23,7 @@
                     <th>Informador</th>
                     <th>Administrador</th>
                     <th>Correo electrónico</th>
+                    <th>Editar</th>
                 </tr>
             </thead>
         
@@ -36,9 +37,11 @@
                     <td> {{ esInformador(usuario) }} </td>
                     <td> {{ esAdmin(usuario) }} </td>
                     <td> {{ usuario.email }} </td>
+                    <td> <button (click)="editar(usuario)">Editar</button> </td>
                 </tr>
             </tbody>
         </table>
 
     </div>
 </div>
+<create-user-comp *ngIf="editMode" [user]="usuarioEdit!" (userSaved)="onUsuarioGuardado($event)"></create-user-comp>

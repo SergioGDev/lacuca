@@ -12,6 +12,9 @@ import { NuevoTestComponent } from './nuevo-test/nuevo-test.component';
 import { SolucionTestComponent } from './solucion-test/solucion-test.component';
 import { VideosComponent } from './videos/videos.component';
 import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/registrar-nuevo-partido.component';
+import { ChangePasswordComponent } from '../components/change-password/change-password.component';
+import { CreateUserComponent } from '../components/create-user/create-user.component';
+import { IsAdminGuard } from '../guards/is-admin.guard';
 
 const routes: Routes = [
   { 
@@ -24,9 +27,11 @@ const routes: Routes = [
       { path: 'designaciones', component: DesignacionesComponent, data: { titulo: 'Designaciones' } },
       { path: 'videos', component: VideosComponent, data: { titulo: 'Videos' } },
       { path: 'videos/registrar-nuevo-partido', component: RegistrarNuevoPartidoComponent, data: { titulo: 'Nuevo partido' } },
-      { path: 'listado-usuarios', component: ListadoUsuariosComponent, data: { titulo: 'Listado de usuarios' } },
+      { path: 'listado-usuarios', component: ListadoUsuariosComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Listado de usuarios' } },
       { path: 'zona-tests/nuevo-test', component: NuevoTestComponent, data: { titulo: 'Nuevo test' } },
       { path: 'zona-tests/solucion-test', component: SolucionTestComponent, data: { titulo: 'Solución test' } },
+      { path: 'change-password', component: ChangePasswordComponent },
+      { path: 'editar-mis-datos', component: CreateUserComponent },
       { path: '**', redirectTo: 'inicio' },
     ]
 

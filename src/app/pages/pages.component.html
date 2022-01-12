@@ -20,9 +20,11 @@
             
             <button mat-button class="m-3" [matMenuTriggerFor]="menu">Opciones usuario</button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item class="bsidenav">Mis datos</button>
+                <button mat-menu-item class="bsidenav" routerLink="change-password">Cambiar contraseña</button>
+                <button mat-menu-item class="bsidenav" routerLink="editar-mis-datos">Editar mis datos</button>
                 <button mat-menu-item class="bsidenav" (click)="logOut()">Cerrar sesión</button>
             </mat-menu>
+            
         </div>
         
     </mat-sidenav>

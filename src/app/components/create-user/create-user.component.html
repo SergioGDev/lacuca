@@ -7,9 +7,9 @@
             <div class="card text-center p-3">
 
                 <div class="card-body">
-                    <h2 class="card-title mt-2">{{ editMode ? 'Modificar usuario' : 'Registrar usuario' }}</h2>
+                    <h2 class="card-title mt-2">{{ editMode ? (editAdmin ? 'Modificar usuario' : 'Modificar mis datos') : 'Registrar usuario' }}</h2>
 
-                    <h6 class="card-subtitle mt-4 text-muted">Introduce los siguientes datos:</h6>
+                    <h6 *ngIf="!editMode" class="card-subtitle mt-4 mb-4 text-muted">Introduce los siguientes datos:</h6>
 
                     <!-- Formulario -->
                     <form autocomplete="off" [formGroup]="registerForm" (submit)="onSubmit()">
@@ -60,7 +60,7 @@
                         </div> -->
 
                         <!-- Roles -->
-                        <div class="form-floating mb-3">
+                        <div *ngIf="editMode && editAdmin" class="form-floating mb-3">
                             <div *ngFor="let role of roles; let i = index" formArrayName="role">
                                 <label>
                                 <input type="checkbox" [formControlName]="i">
@@ -70,7 +70,7 @@
                         </div>
 
                         <!-- Contraseña -->
-                        <div *ngIf="editMode" class="form-floating mb-3">
+                        <div *ngIf="editMode && editAdmin" class="form-floating mb-3">
                             <button id="registrar-usuario" type="button" class="btn btn-secondary" [disabled]="registrando" (click)=resetPassword()>
                                 <span class="spinner-border spinner-border-sm" *ngIf="registrando" role="status" aria-hidden="true"></span>
                                 Resetear contraseña

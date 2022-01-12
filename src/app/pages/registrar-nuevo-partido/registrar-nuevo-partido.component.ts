@@ -45,7 +45,10 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
       fechaHora:        this.formNuevoVideo.value['fecha'],
       localidad:        this.formNuevoVideo.value['localidad'],
       url:              this.formNuevoVideo.value['url'],
-      status:           true
+      status:           true,
+      fase:             '',
+      jornada:          0,
+      comentario:       ''
     }
 
     this.dataService.guardarPartido(datosPartido)
