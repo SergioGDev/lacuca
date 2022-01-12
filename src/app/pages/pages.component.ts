@@ -3,6 +3,7 @@ import { DataService } from '../services/data.service';
 import { SidebarService } from '../services/sidebar.service';
 import { ItemSidebar } from '../interfaces/sidebar.interface';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
@@ -25,6 +26,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private sidebarService: SidebarService,
     private authService: AuthService,
+    private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
     private media: MediaMatcher
   ) { 
@@ -58,6 +60,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   logOut() {
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
 }

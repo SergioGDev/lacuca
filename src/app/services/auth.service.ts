@@ -117,12 +117,7 @@ export class AuthService {
 
   // Deslogea a un usuario en la plataforma
   logout() {
-    localStorage.removeItem('tokenId');
-
-    this.authFire.signOut()
-      .then(resp => {
-        this.router.navigateByUrl('/login');
-      });
+    localStorage.removeItem('token');
   }
 
   // Hace el login con Google
@@ -166,6 +161,33 @@ export class AuthService {
     );  
   }
 
+  herokuNewUser(user: User): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/auth/new`, user);
+  }
+
+  herokuUpdateUser(user: User): Observable<any> { 
+    const token = localStorage.getItem('token') || '';
+    return this.http.put(`${this.BASE_URL}/auth/update/${user._id}`, user, {headers: {'token': token}});
+  }
+
+  herokuRenew(): Observable<any> {
+    if(!localStorage.getItem('token')){
+      return of(false);
+    }
+
+    const token = localStorage.getItem('token') || '';
+    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}});
+  }
+
+  herokuChangePassword(nif: string, oldPassword: string, newPassword: string): Observable<any> {
+    const token = localStorage.getItem('token') || '';
+    return this.http.post(`${this.BASE_URL}/auth/change-password`, {
+      nif,
+      oldPassword,
+      newPassword
+    }, {headers: {'token': token}});
+  }
+
   herokuValidarToken(): Observable<boolean>{
     const token = localStorage.getItem('token') || '';
     return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}})
@@ -177,29 +199,36 @@ export class AuthService {
       catchError(err => of(false))
       
     );
-  } 
-
-  herokuNewUser(user: User): Observable<any> { 
-    console.log(`${this.BASE_URL}/auth/new`);
-    console.log({user});
-    return this.http.post(`${this.BASE_URL}/auth/new`, user);
   }
 
-  herokuUpdateUser(user: User): Observable<any> { 
-    return this.http.put(`${this.BASE_URL}/auth/update/${user.id}`, user);
-  }
-
-  herokuRenew(): Observable<any> {
+  herokuValidarIsAdmin(): Observable<boolean>{
     const token = localStorage.getItem('token') || '';
-    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}});
+    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}})
+    .pipe(
+      tap((resp: any) => {
+        localStorage.setItem('token', resp.token);
+      }),
+      map(resp => {        
+        return resp.user.role.includes('ROLE_ADMIN');
+      }),
+      catchError(err => of(false))
+      
+    );
   }
 
-  herokuChangePassword(nif: string, oldPassword: string, newPassword: string): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/auth/change-password`, {
-      nif,
-      oldPassword,
-      newPassword
-    });
+  herokuValidarIsInformador(): Observable<boolean>{
+    const token = localStorage.getItem('token') || '';
+    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}})
+    .pipe(
+      tap((resp: any) => {
+        localStorage.setItem('token', resp.token);
+      }),
+      map(resp => {        
+        return resp.user.role.includes('ROLE_INFORMADOR');
+      }),
+      catchError(err => of(false))
+      
+    );
   }
 
   herokuGetUserList(): Observable<any> {

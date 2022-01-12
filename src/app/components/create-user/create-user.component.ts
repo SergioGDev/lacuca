@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../interfaces/usuario.interface';
@@ -13,21 +13,17 @@ import { Usuario } from '../../interfaces/usuario.interface';
 export class CreateUserComponent implements OnInit {
   
   
-  @Input() user: Usuario = {
-    nombre: '',
-    apellidos: '',
-    email: '',
-    nif: '',
-    password: '',
-    role: [],
-  };
+  @Input() user!: Usuario;
 
-  editMode: boolean = this.user.id ? true : false;
+  editMode: boolean = false;
+  editAdmin: boolean = false;
 
   formSubmitted: boolean = false;
   registrando: boolean = false;
 
   delegaciones: string[] = ['', 'Norte', 'Cáceres', 'La Serena', 'Mérida', 'Badajoz', 'Sur', 'Almendralejo'];
+
+  @Output() userSaved = new EventEmitter<Usuario>();
   
   roles = [
     {description: 'Administrador', value: 'ROLE_ADMIN'},
@@ -47,11 +43,44 @@ export class CreateUserComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    
+    console.log(this.user)
+    if(this.user) {
+      this.editMode = true;
+      this.editAdmin = true;
+      this.registerForm.patchValue({
+        nombre: this.user.nombre,
+        apellidos: this.user.apellidos,
+        email: this.user.email,
+        nif: this.user.nif,
+        delegacion: this.user.delegacion,
+        role: this.user.role
+      });
+    }
+    if (this.router.url.endsWith('/editar-mis-datos')) {
+      this.editMode = true;
+      this.editAdmin = false;
+      this.authService.herokuRenew().subscribe(
+        res => {
+          this.user = res.user;
+          this.registerForm.patchValue({
+            nombre: this.user.nombre,
+            apellidos: this.user.apellidos,
+            email: this.user.email,
+            nif: this.user.nif,
+            delegacion: this.user.delegacion,
+            role: this.user.role
+          });
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } 
   }
 
   // Comprueba que el campo sea o no válido
@@ -121,7 +150,7 @@ export class CreateUserComponent implements OnInit {
   editUser() {
     const updateUser: Usuario = Object.assign({}, this.getFormValue(), {
       password: this.user.nif!.substring(0, 8),
-      id: this.user.id
+      _id: this.user._id
     });
     Swal.fire({
       title: 'Editar usuario',
@@ -141,7 +170,9 @@ export class CreateUserComponent implements OnInit {
               'El usuario ha sido actualizado correctamente',
               'success'
             )
-            //this.router.navigate(['/users']);
+            if (this.editAdmin) {
+              this.userSaved.emit(updateUser);
+            }
           
           },
           err => {

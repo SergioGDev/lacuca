@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 
@@ -14,7 +15,6 @@ export class LoginComponent implements OnInit {
   formInvalid: boolean = false;
 
   loging: boolean = false;
-  gLoging: boolean = false;
 
   loginForm = this.fb.group({
     nif: [ "" , [ Validators.required ] ],
@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -49,21 +50,15 @@ export class LoginComponent implements OnInit {
       this.loginForm.value['password']
     ).subscribe(      data => {
       this.loging = false;
-      Swal.fire({
-        title: 'Login',
-        text: 'Login correcto',
-        icon: 'success',
-        confirmButtonText: 'Ok'
-      });
-        // this.router.navigate(['/']);
+      this.router.navigate(['/']);
       },
       error => {
-        this.gLoging = false;
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'Usuario o contraseña incorrectos'
         });
+        this.loging = false;
       }
     );    
   }

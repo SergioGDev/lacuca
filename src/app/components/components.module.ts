@@ -21,6 +21,7 @@ import { ListadoCortesComponent } from './listado-cortes/listado-cortes.componen
 import { ListadoVideosComponent } from './listado-videos/listado-videos.component';
 import { LoadCsvComponent } from './load-csv/load-csv.component';
 import { ModalVideoComponent } from './modal-video/modal-video.component';
+import { PartidosFromCsvComponent } from './partidos-from-csv/partidos-from-csv.component';
 import { SpinnerCargandoComponent } from './spinner-cargando/spinner-cargando.component';
 import { UsersFromCsvComponent } from './users-from-csv/users-from-csv.component';
 import { VideoCardComponent } from './video-card/video-card.component';
@@ -44,6 +45,7 @@ import { VisualizadorDatosCorteComponent } from './visualizador-datos-corte/visu
     ListadoVideosComponent,
     LoadCsvComponent,
     ModalVideoComponent,
+    PartidosFromCsvComponent,
     SpinnerCargandoComponent,
     VideoCardComponent,
     VisualizadorDatosCorteComponent,
@@ -65,6 +67,7 @@ import { VisualizadorDatosCorteComponent } from './visualizador-datos-corte/visu
     ListadoVideosComponent, 
     ListadoCortesComponent,
     LoadCsvComponent,
+    PartidosFromCsvComponent,
     ModalVideoComponent,
     UsersFromCsvComponent,
     VideoCardComponent,
