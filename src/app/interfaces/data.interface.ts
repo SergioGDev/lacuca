@@ -25,5 +25,54 @@ export interface DatosPartido {
     localidad:          string;
     url:                string;
     status:             boolean;
-
+    fase:               string;
+    jornada:            number;
+    comentario:         string;
 }
+
+export interface DatosCorte {
+    _id?:           string,
+    __v?:           number,
+    idPartido:      string,
+    segundoInicio:  number,
+    duracion:       number,
+    comentario?:    string,
+    valoracion?:    string,
+    situacion?:     string,
+    tipo?:          string,
+    posicion?:      string,
+    arbitro?:       string,
+    datosPartido?:  DatosPartido,
+}
+
+export interface OptionItem {
+    value: string,
+    texto: string
+}
+
+export interface TempoCorte {
+    hIni:       number,
+    mIni:       number,
+    sIni:       number,
+    hFin:       number,
+    mFin:       number,
+    sFin:       number,
+}
+
+export interface HorMinSeg {
+    horas:      number,
+    minutos:    number,
+    segundos:   number
+}
+
+export const DATE_FORMATS = {
+    parse: {
+      dateInput: 'LL',
+    },
+    display: {
+      dateInput: 'YYYY-MM-DD',
+      monthYearLabel: 'YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'YYYY',
+    },
+  };

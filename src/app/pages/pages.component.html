@@ -2,15 +2,18 @@
     <button mat-icon-button (click)="sidenav.toggle()" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
-    Header
+    Lacuca
 </mat-toolbar>
 
-<mat-sidenav-container>
-    <mat-sidenav #sidenav mode="side" opened class="my-sidebar" fixedInViewport="false">
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav class="my-sidebar" 
+        [mode]="mobileQuery.matches ? 'over' : 'side'"
+        [opened]="!mobileQuery.matches"
+        [fixedInViewport]="mobileQuery.matches">
 
         <li *ngFor="let itemSidebar of vItemsSidebar" class="sidenav-item nav-item">
             <span class="nav-link item-sidebar p-3" [routerLink]="itemSidebar.path" *ngIf="mostrarOpcion(itemSidebar)"
-                routerLinkActive="item-sidebar-selected">
+                routerLinkActive="item-sidebar-selected" (click)="mobileQuery.matches ? sidenav.toggle() : null">
                 <i class="font-awesome-icon" [ngClass]="getClass(itemSidebar)"></i>
                 <span class="nombre-item-sidebar">{{ itemSidebar.nombre }}</span>
             </span>
@@ -29,7 +32,7 @@
 
     <mat-sidenav-content>
 
-        <div class="content-dashboard p-3">
+        <div class="content-dashboard">
             <router-outlet></router-outlet>
         </div>
 

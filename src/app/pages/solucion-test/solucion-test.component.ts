@@ -13,6 +13,9 @@ export class SolucionTestComponent implements OnInit, OnDestroy {
   vMisRespuestas: ItemPreguntaRespondida[] = [];
   mensajeNumeroAciertos: string = "";
 
+  numeroPreguntas: number = 0;
+  preguntasAcertadas: number = 0;
+
   constructor(
     private router: Router
   ) { }
@@ -20,14 +23,17 @@ export class SolucionTestComponent implements OnInit, OnDestroy {
   // ng onInit
   ngOnInit(): void {
     const itemRespuestas = localStorage.getItem(lStorageVSoluciones);
-    
+
     if (itemRespuestas) {
       this.vMisRespuestas = JSON.parse(itemRespuestas!);
-      const numeroPreguntas: number = parseInt(localStorage.getItem(lStorageNumeroPreguntas)!);
-      const preguntasAcertadas: number = numeroPreguntas - this.vMisRespuestas.length;
+      console.log(this.vMisRespuestas);
+      this.numeroPreguntas = parseInt(localStorage.getItem(lStorageNumeroPreguntas)!);
+      this.preguntasAcertadas = this.numeroPreguntas - this.vMisRespuestas.length;
 
-      this.mensajeNumeroAciertos = `Has acertado ${preguntasAcertadas} 
-        de ${numeroPreguntas} ${numeroPreguntas === 1 ? 'pregunta' : 'preguntas'}`;
+      this.mensajeNumeroAciertos = (this.numeroPreguntas === 1) ?
+        (this.preguntasAcertadas === 1 ? '¡Respuesta correcta!' : 'Respuesta incorrecta') :
+        `Has acertado ${this.preguntasAcertadas} de ${this.numeroPreguntas} 
+        ${this.numeroPreguntas === 1 ? 'pregunta' : 'preguntas'}`;
 
     } else {
       this.router.navigateByUrl('/dashboard/inicio')
@@ -44,7 +50,7 @@ export class SolucionTestComponent implements OnInit, OnDestroy {
   }
 
   verMisResultados(): void {
-    console.log("NO IMPLEMENTADO");
+    // NO IMPLEMENTADO
   }
 
   realizarOtroTest(): void {

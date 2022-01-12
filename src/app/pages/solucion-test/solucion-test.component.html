@@ -1,3 +1,38 @@
+<div class="solucion-container m-3">
+
+    <div class="titulo"> Solución del test </div>
+
+    <div class="solucion-respuestas p-4">
+
+        <!-- Mensaje con el número de preguntas acertadas -->
+        <div class="mensaje-acertadas m-4 text-center"
+            [ngClass]="(numeroPreguntas === 1 && preguntasAcertadas === 0) ? 'mensaje-acertadas-color-ko' : 'mensaje-acertadas-color-ok'">
+            {{ mensajeNumeroAciertos }}
+        </div>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let item of vMisRespuestas; index as i">
+                <app-item-pregunta-con-solucion 
+                    [item]="item" 
+                    [numeroPregunta]="i+1">
+                </app-item-pregunta-con-solucion>
+            </li>
+        </ul>
+
+        <div class="botones text-center mt-4">
+            <button mat-raised-button color="basic" (click)='terminarTest()'>Terminar test</button>
+            <button mat-raised-button color="basic" (click)='verMisResultados()' disabled>Ver mis resultados</button>
+            <button mat-raised-button color="basic" (click)='realizarOtroTest()'>Realizar otro test</button>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- 
 <div class="card">
     <div class="card-header">
         <h1 class="p-2 text-center">Test</h1>
@@ -23,4 +58,4 @@
         </div>
 
     </div>
-</div>
+</div> -->

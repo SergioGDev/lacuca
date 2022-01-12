@@ -1,0 +1,7 @@
+mat-card {
+    margin: 20px;
+}
+
+mat-card-actions {
+    text-align: end;
+}
