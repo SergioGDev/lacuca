@@ -1,4 +1,11 @@
-.mi-respuesta b,
-.respuesta-correcta b {
-    color: #8a0000
+.mi-respuesta span {
+    /* color: var(--color-error);
+    font-weight: 500; */
+    text-decoration: underline;
+}
+
+.respuesta-correcta span {
+    /* color: var(--color-acierto);
+    font-weight: 500; */
+    text-decoration: underline;
 }

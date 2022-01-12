@@ -1,0 +1,12 @@
+<div>
+
+    <mat-dialog-content>
+        <div>¿Desea registrar los datos del corte?</div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close (click)="clickVolver()">Volver</button>
+        <button mat-button color="warn" (click)="nuevoCorte()" [mat-dialog-close]="true">Registrar</button>
+    </mat-dialog-actions>
+
+</div>

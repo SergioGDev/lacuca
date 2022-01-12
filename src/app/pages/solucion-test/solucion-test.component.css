@@ -1,5 +1,32 @@
 .mensaje-acertadas {
     font-size: 18pt;
-    color: #005000;
     text-shadow: 1px 1px 1px #00500050;
+}
+
+.mensaje-acertadas-color-ok {
+    color: var(--color-acierto);
+}
+
+.mensaje-acertadas-color-ko {
+    color: var(--color-error);
+}
+
+
+.titulo {
+    font-size: 30pt;
+    color: var(--color-texto-negro);
+    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
+    margin: 20px
+}
+
+.solucion-respuestas {
+    border: 1px solid var(--color-texto-negro-transparente);
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px var(--color-texto-negro-transparente);
+    background-color: white;
+    padding: 20px 0px 20px 0px;
+}
+
+.botones button {
+    margin: 0px 10px;
 }

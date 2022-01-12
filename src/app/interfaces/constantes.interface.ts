@@ -9,3 +9,6 @@ export const lStorageVSoluciones = 'vSoluciones';
 export const lStorageNumeroPreguntas = 'numeroPreguntas';
 
 export const lStorageTestAleatorio = 'testAleatorio';
+
+export const lStorageIdPartido = 'idPartidoCache';
+export const lStorageIdCorte = 'idCorteCache';

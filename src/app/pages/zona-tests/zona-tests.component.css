@@ -14,3 +14,18 @@
     border-radius: 3px;
     box-shadow: 1px 1px 3px var(--color-texto-negro-transparente);
 }
+
+.section {
+    max-width: 650px !important;
+    margin: 10px;
+}
+
+mat-card-actions {
+    text-align: end;
+}
+
+mat-card-content {
+    min-height: 70px;
+    padding: 10px 5px;
+    font-size: 11pt;
+}

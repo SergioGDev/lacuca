@@ -10,29 +10,20 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 })
 export class ZonaTestsComponent implements OnInit {
 
-  numeroPreguntasForm: FormGroup = this.fb.group({
-    rbNumeroPreguntas: [ , Validators.required ]
-  });
-
   constructor(
-    private fb: FormBuilder,
     private router: Router
   ) { }
 
   ngOnInit(): void {
   }
 
-  generarTest() {
-    if (this.numeroPreguntasForm.invalid) {
-      console.log('Form invalid', this.numeroPreguntasForm);
-      console.log(this.numeroPreguntasForm.value);
-      return;
-    }
-
-    const numeroPreguntas = this.numeroPreguntasForm.value['rbNumeroPreguntas'];
-    console.log("Nº preguntas:", numeroPreguntas);
-    localStorage.setItem(lStorageNumeroPreguntas, `${numeroPreguntas}`);
+  generarTest(numPreguntas: number) {
+    localStorage.setItem(lStorageNumeroPreguntas, `${numPreguntas}`);
     this.router.navigateByUrl(`dashboard/zona-tests/nuevo-test`);
+  }
+
+  irPanelAdministracionVideotest() {
+    this.router.navigateByUrl('dashboard/zona-tests/admin-videotest');
   }
 
 }

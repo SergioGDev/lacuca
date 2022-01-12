@@ -1,0 +1,259 @@
+<div class="nuevo-corte-container">
+
+    <h1 class="titulo" *ngIf="!cargando">{{ datosCorte !== undefined ? 'Modificar' : 'Registrar nuevo' }} corte</h1>
+
+    <div fxLayout="row" fxLayout.md="column" fxLayout.sm="column" fxLayout.xs="column">
+
+        <div fxFlex="40" class="iframe-video-content">
+            <iframe *ngIf="datosPartido" class="iframe-video" [src]="urlIframe" frameBorder="0" 
+                webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+
+        <div fxFlex="60" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="formulario">
+            <form [formGroup]="formNuevoCorte" (submit)="submit()">
+
+                <div class="formulario-parte-uno" fxLayout="column">
+                    <!-- Hora:Min:Seg inicio -->
+                    <div class="fila" fxLayout="row">
+
+                        <div fxFlex="6" fxShow.xs="false" fxShow.sm="false"></div>
+        
+                        <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Hora de inicio</mat-label>
+                                <input type="number" matInput formControlName="horaInicio">
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="centrado-total" fxFlex="2">:</div>
+
+                        <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Minuto de inicio</mat-label>
+                                <input type="number" matInput formControlName="minInicio" max="59">
+                            </mat-form-field>
+                        </div>
+                        
+                        <div class="centrado-total" fxFlex="2">:</div>
+        
+        
+                        <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Segundo de inicio</mat-label>
+                                <input type="number" matInput formControlName="segInicio" max="59">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3" fxLayout="row"
+                        *ngIf="(formNuevoCorte.get('horaInicio')?.invalid || formNuevoCorte.get('minInicio')?.invalid || 
+                        formNuevoCorte.get('segInicio')?.invalid) && (formNuevoCorte.get('horaInicio')?.touched || 
+                        formNuevoCorte.get('minInicio')?.touched || formNuevoCorte.get('segInicio')?.touched)">
+
+                        <div fxFlex="6" fxShow.xs="false" fxShow.sm="false"></div>
+                        
+                        <div fxLayout="column" fxFlex="94">
+
+                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('horaInicio')?.invalid &&
+                                formNuevoCorte.get('horaInicio')?.touched">
+                                Hora de inicio debe ser mayor que 0.
+                            </mat-error>
+                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('minInicio')?.invalid &&
+                                formNuevoCorte.get('minInicio')?.touched">
+                                Minuto de inicio debe estar comprendido entre 0 y 59.
+                            </mat-error>
+                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('segInicio')?.invalid &&
+                                formNuevoCorte.get('segInicio')?.touched">
+                                Segundo de inicio debe estar comprendido entre 0 y 59.
+                            </mat-error>
+
+                        </div>
+
+
+                    </div>
+                    
+                    
+
+                    <!-- Hora:Min:Seg fin -->
+                    <div class="fila" fxLayout="row">
+
+                        <div fxFlex="6" fxShow.xs="false" fxShow.sm="false"></div>
+        
+                        <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Hora de fin</mat-label>
+                                <input type="number" matInput formControlName="horaFin">
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="centrado-total" fxFlex="2">:</div>
+
+                        <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Minuto de fin</mat-label>
+                                <input type="number" matInput formControlName="minFin" max="59">
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="centrado-total" fxFlex="2">:</div>
+        
+        
+                        <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Segundo de fin</mat-label>
+                                <input type="number" matInput formControlName="segFin" max="59">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3" fxLayout="row"
+                        *ngIf="(formNuevoCorte.get('horaFin')?.invalid || formNuevoCorte.get('minFin')?.invalid || 
+                        formNuevoCorte.get('segFin')?.invalid) && (formNuevoCorte.get('horaFin')?.touched || 
+                        formNuevoCorte.get('minFin')?.touched || formNuevoCorte.get('segFin')?.touched)">
+
+                        <div fxFlex="6" fxShow.xs="false" fxShow.sm="false"></div>
+
+                        <mat-error fxFlex="94" class="error-show">
+                            <div>
+                                <sup>*</sup> Hora de fin debe ser mayor que 0, minuto y segundo de fin deben estar comprendidos entre 0 y 59.
+                            </div>
+                            <div>
+                                &nbsp;&nbsp;El tiempo final del corte no debe de ser posterior al del inicio.
+                            </div>
+                        </mat-error>
+                    </div>
+
+                    <div class="fila" fxLayout="row">
+                        <div fxFlex="5"></div>
+
+                        <mat-checkbox color="primary" class="check-mas-info" formControlName="checkMasInfo">
+                            Incluir valoración del corte
+                        </mat-checkbox>
+                    </div>
+                </div>
+
+               
+    
+                <div class="formulario-parte-dos" fxFlexLayout="column" *ngIf="mostrarValoracionCorte()">
+
+                    <h3 class="sub-titulo">Valoración de la jugada</h3>
+    
+                    <!-- Valoración -->
+                    <div class="fila" fxLayout="row wrap">
+
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Valoración</mat-label>
+                                <select matNativeControl formControlName="valoracion">
+                                    <option *ngFor="let item of vValoracion" [value]="item">{{ item }}</option>   
+                                </select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+    
+                    <!-- Situación -->
+                    <div class="fila" fxLayout="row wrap">
+
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Situación</mat-label>
+                                <select matNativeControl formControlName="situacion">
+                                    <option *ngFor="let item of vSituacion" [value]="item">{{ item }}</option>
+                                </select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+    
+                    <!-- Tipo -->
+                    <div class="fila" fxLayout="row wrap">
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Tipo</mat-label>
+                                <select matNativeControl formControlName="tipo">
+                                    <option *ngFor="let item of vTipo" [value]="item">{{ item }}</option>
+                                </select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+    
+                    <!-- Posición -->
+                    <div class="fila" fxLayout="row wrap">
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Posición</mat-label>
+                                <select matNativeControl formControlName="posicion">
+                                    <option *ngFor="let item of vPosicion" [value]="item">{{ item }}</option>
+                                </select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                    <!-- Arbitro -->
+                    <div class="fila" fxLayout="row wrap">
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="60" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="input-select" appearance="fill">
+                                <mat-label>Árbitro</mat-label>
+                                <select matNativeControl formControlName="arbitro">
+                                    <option *ngFor="let item of vArbitro" [value]="item">{{ item }}</option>
+                                </select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                    <!-- Comentario -->
+                    <div class="fila mb-4" fxLayout="row wrap">
+                        <div fxFlex="5" fxShow.sm="false" fxShow.xs="false"></div>
+
+                        <div fxFlex="95" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Breve comentario sobre el corte:</mat-label>
+                                <textarea matInput formControlName="comentario" rows="4"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div fxLayout="row wrap" class="fila-otro-corte">
+
+                    <div fxFlex="5" *ngIf="datosCorte === undefined" fxShow.xs="false"></div>
+
+                    <div fxLayout="row" *ngIf="datosCorte === undefined" fxFlex="50" fxFlex.xs="100" fxLayoutAlign="start">
+                        <mat-checkbox color="primary" class="check-otro-corte" formControlName="checkOtroCorte">
+                            Registrar otro corte
+                        </mat-checkbox>
+                    </div>
+    
+                    <div fxLayout="row" fxFlex fxFlex.xs="100" fxLayoutAlign="end">
+                        <button id="boton-guardar" mat-raised-button type="submit" class="m-1 mb-3"> Guardar corte </button>
+                        <button id="boton-volver" mat-raised-button type="button" class="m-1 mb-3" (click)="clickVolver()"> Volver </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+</div>

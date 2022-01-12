@@ -1,0 +1,27 @@
+<div>
+
+    <div class="header m-2" fxLayout="row" fxLayout.xs="column">
+        <span class="titulo">Listado de partidos</span>
+
+        <span fxShow.xs="false" class="spacer"></span>
+
+        <div class="m-2" fxLayoutAlign.xs="end">
+            <button mat-raised-button color="basic" (click)="registrarPartido()">
+                Registrar nuevo partido
+            </button>
+        </div>
+
+    </div>
+
+    <app-spinner-cargando *ngIf="cargandoListado"></app-spinner-cargando>
+
+    <div class="no-hay-videos text-center m-2" *ngIf="!cargandoListado && listadoPartidos.length === 0">
+        No hay videos registrados
+    </div>
+
+    <div class="w-100" *ngIf="!cargandoListado && listadoPartidos.length !== 0">
+        <app-listado-videos class="w-100" [listadoPartidos]="listadoPartidos"></app-listado-videos>
+    </div>
+    
+
+</div>

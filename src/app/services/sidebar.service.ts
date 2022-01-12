@@ -9,7 +9,7 @@ export class SidebarService {
   vItemsSidebar: ItemSidebar[] = [
     { nombre: 'Inicio', path: '/dashboard/inicio', iconPath: 'fa-home' },
     { nombre: 'Zona test', path: '/dashboard/zona-tests', iconPath: 'fa-pen-alt' },
-    { nombre: 'Videos', path: '/dashboard/videos', iconPath: 'fa-video' },
+    { nombre: 'Partidos', path: '/dashboard/partidos', iconPath: 'fa-video' },
     { nombre: 'Designaciones', path: '/dashboard/designaciones', iconPath: 'fa-basketball-ball' },
     { nombre: 'Usuarios', path: '/dashboard/listado-usuarios', iconPath: 'fa-user', adminOption: true },
   ]

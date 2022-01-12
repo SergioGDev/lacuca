@@ -1,0 +1,98 @@
+.etiqueta {
+    font-weight: 500;
+    text-align: end;
+}
+
+.titulo {
+    font-size: 30pt;
+}
+
+.subtitulo {
+    font-size: 22pt;
+}
+
+.titulo, .subtitulo {
+    text-shadow: 1px 1px 2px var(--color-texto-negro-transparente);
+    margin: 30px;
+}
+
+.info-content {
+    border: 1px solid var(--color-texto-negro-transparente);
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px var(--color-texto-negro-transparente);
+    background-color: white;
+    padding: 20px 0px 20px 0px;
+}
+
+.etiqueta,
+.info-partido {
+    margin: 12px;
+}
+
+/* Botones */
+#eliminar-partido, #eliminar-corte {
+    background-color: var(--color-eliminar);
+    color: var(--color-texto-blanco)
+}
+
+#modificar-partido, #modificar-corte {
+    background-color: var(--color-modificar);
+    color: var(--color-texto-blanco);
+}
+
+#ver-video-partido {
+    background-color: var(--color-ver-video);
+    color: var(--color-texto-blanco);
+}
+
+#cortes-partido {
+    background-color: white;
+    color: var(--color-texto-negro);
+}
+
+.acciones {
+    margin-bottom: 30px;
+}
+
+/* Listado de cortes */
+.subtitulo-valorada {
+    color: var(--color-texto-negro);
+}
+
+.fila-corte {
+    margin: 5px 0px
+}
+
+.label-corte {
+    font-weight: 500;
+    margin: 0px 10px;
+}
+
+.dato-corte {
+    margin: 0px 10px;
+}
+
+.acciones-corte {
+    text-align: center;
+    margin: 10px;
+}
+
+@media screen and (max-width: 599px) {
+    .titulo {
+        margin: 30px 10px;
+        font-size: 25pt;
+    }
+    
+    .etiqueta {
+        margin: 30px 0px 0px 20px;
+    }
+
+    .info-partido {
+        margin-left: 10px;
+        margin: 10px 0px 0px 30px;
+    }
+
+    .info-content {
+        padding: 0px 0px 30px 0px;
+    }
+}

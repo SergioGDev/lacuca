@@ -1,0 +1,13 @@
+<div>
+
+    <mat-dialog-content>
+        <div>¿Desea eliminar los datos del corte?</div>
+        <div>Nota: Una vez eliminado, no se podrá recuperar.</div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close (click)="clickVolver()">Volver</button>
+        <button mat-button color="warn" (click)="eliminarCorte()" [mat-dialog-close]="true">Eliminar</button>
+    </mat-dialog-actions>
+
+</div>

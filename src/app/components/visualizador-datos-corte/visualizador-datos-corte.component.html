@@ -1,0 +1,59 @@
+<div fxLayout="row" fxLayout.md="column" fxLayout.sm="column" fxLayout.xs="column">
+
+    <div [fxFlex]="getFxFlexVideo(corte)" fxLayoutAlign="center" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
+        <youtube-player class="youtube-player" [videoId]="corte.datosPartido?.url"
+            suggestedQuality="highres"
+            [height]="getYoutubePlayerWidth() / 2"
+            [width]="getYoutubePlayerWidth()"
+            [startSeconds]="corte.segundoInicio"
+            [endSeconds]="corte.segundoInicio + corte.duracion"
+            [showBeforeIframeApiLoads]="true">
+        </youtube-player>
+    </div>
+
+    <div fxFlex="40" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" *ngIf="corte.valoracion">
+        <!-- Valoración -->
+        <div class="fila-corte" fxLayout="row">
+            <div class="label-corte" fxFlex="30" fxLayoutAlign="end">Valoración: </div>
+            <div class="dato-corte" fxFlex="65" fxLayoutAlign="start"> {{ corte.valoracion }} </div>
+        </div>
+
+        <!-- Situación -->
+        <div class="fila-corte" fxLayout="row">
+            <div class="label-corte" fxFlex="30" fxLayoutAlign="end">Situación: </div>
+            <div class="dato-corte" fxFlex="65" fxLayoutAlign="start"> {{ corte.situacion }} </div>
+        </div>
+
+        <!-- Tipo -->
+        <div class="fila-corte" fxLayout="row">
+            <div class="label-corte" fxFlex="30" fxLayoutAlign="end">Tipo: </div>
+            <div class="dato-corte" fxFlex="65" fxLayoutAlign="start"> {{ corte.tipo }} </div>
+        </div>
+
+        <!-- Posición -->
+        <div class="fila-corte" fxLayout="row">
+            <div class="label-corte" fxFlex="30" fxLayoutAlign="end">Posición: </div>
+            <div class="dato-corte" fxFlex="65" fxLayoutAlign="start"> {{ corte.posicion }} </div>
+        </div>
+
+        <!-- Responsabilidad -->
+        <div class="fila-corte" fxLayout="row">
+            <div class="label-corte" fxFlex="30" fxLayoutAlign="end">Responsabilidad: </div>
+            <div class="dato-corte" fxFlex="65" fxLayoutAlign="start"> {{ corte.arbitro }} </div>
+        </div>
+
+        <!-- Duración del corte -->
+        <div class="fila-corte" fxLayout="row">
+            <div class="label-corte" fxFlex="30" fxLayoutAlign="end">Duración: </div>
+            <div class="dato-corte" fxFlex="65" fxLayoutAlign="start"> {{ corte.duracion }} segundos </div>
+        </div>
+
+        <!-- Comentario -->
+        <div class="fila-corte" fxLayout="row" *ngIf="corte.comentario">
+            <div class="label-corte" fxFlex="30" fxLayoutAlign="end">Comentario: </div>
+            <div class="dato-corte" fxFlex="100" fxLayoutAlign="start"> {{ corte.comentario }} </div>
+        </div>
+
+    </div>
+
+  </div>

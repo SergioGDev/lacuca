@@ -1,0 +1,13 @@
+.input-busqueda {
+    width: calc(100% - 32px);
+}
+
+.negrita {
+    font-weight: 500;
+}
+
+@media screen and (max-width: 595px) {
+    .input-busqueda {
+        width: calc(100% - 32px);
+    }
+}

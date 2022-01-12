@@ -1,0 +1,31 @@
+<mat-accordion>
+
+    <mat-expansion-panel *ngFor="let corte of listadoCortes; let i = index">
+      <mat-expansion-panel-header fxLayout="row">
+
+        <!-- Cabecera -->
+        <mat-panel-title fxFlex="25">
+          Corte {{(i+1)}}
+        </mat-panel-title>
+        <mat-panel-description fxFlex="60">
+          <div class="subtitulo-valorada" *ngIf="corte.situacion">
+              {{ corte.situacion }} - {{ corte.tipo }}
+            </div>
+            <div class="subtitulo-no-valorada" *ngIf="!corte.situacion">
+              Jugada no valorada
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <!-- Cuerpo corte -->
+      <app-visualizador-datos-corte [corte]="corte"></app-visualizador-datos-corte>
+
+      <div class="acciones-corte" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center">
+        <button id="eliminar-corte" (click)="eliminarCorte(corte)"
+            fxFlex.xs="100" mat-raised-button class="m-1">Eliminar corte</button>
+        <button id="modificar-corte" (click)="modificarCorte(corte)"
+            fxFlex.xs="100" mat-raised-button class="m-1">Modificar corte</button>
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
