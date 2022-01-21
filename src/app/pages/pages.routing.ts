@@ -10,7 +10,9 @@ import { DatosPartidoComponent } from './datos-partido/datos-partido.component';
 import { DesignacionesComponent } from './designaciones/designaciones.component';
 import { ListadoPartidosComponent } from './listado-partidos/listado-partidos.component';
 import { ListadoUsuariosComponent } from './listado-usuarios/listado-usuarios.component';
+import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 import { NuevoTestComponent } from './nuevo-test/nuevo-test.component';
+import { RegistrarNuevoVideotestComponent } from './registrar-nuevo-videotest/registrar-nuevo-videotest.component';
 import { SolucionTestComponent } from './solucion-test/solucion-test.component';
 import { PanelAdministracionVideotestComponent } from './panel-administracion-videotest/panel-administracion-videotest.component';
 import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-nuevo-corte.component';
@@ -18,7 +20,6 @@ import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/regist
 import { ChangePasswordComponent } from '../components/change-password/change-password.component';
 import { CreateUserComponent } from '../components/create-user/create-user.component';
 import { IsAdminGuard } from '../guards/is-admin.guard';
-import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 
 const routes: Routes = [
   { 
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'zona-tests/nuevo-test', component: NuevoTestComponent, data: { titulo: 'Nuevo test' } },
       { path: 'zona-tests/solucion-test', component: SolucionTestComponent, data: { titulo: 'Solución test' } },
       { path: 'zona-tests/admin-videotest', component: PanelAdministracionVideotestComponent, data: { titulo: 'Panel Administración Videotest' } },
+      { path: 'zona-tests/admin-videotest/registrar-nuevo-videotest', component: RegistrarNuevoVideotestComponent, data: { titulo: 'Registrar Nuevo Videotest' } },
       { path: 'designaciones', component: DesignacionesComponent, data: { titulo: 'Designaciones' } },
       { path: 'partidos', component: ListadoPartidosComponent, data: { titulo: 'Partidos' } },
       { path: 'partidos/partido', component: DatosPartidoComponent, data: { titulo: 'Datos partido'} },

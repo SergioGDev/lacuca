@@ -51,11 +51,6 @@
     height: 100%;
 }
 
-.titulo {
-    font-size: 30pt;
-    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
-}
-
 .my-user-name {
     position: fixed;
     bottom: 15px;

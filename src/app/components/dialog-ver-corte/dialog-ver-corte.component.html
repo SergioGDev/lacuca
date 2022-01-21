@@ -1,0 +1,18 @@
+<div fxFlexLayout="column">
+    <div>
+        <youtube-player class="youtube-player" [videoId]="corte.datosPartido?.url"
+            suggestedQuality="highres"
+            [height]="300"
+            [width]="600"
+            [startSeconds]="corte.segundoInicio"
+            [endSeconds]="corte.segundoInicio + corte.duracion"
+            [showBeforeIframeApiLoads]="true">
+        </youtube-player>
+    </div>
+
+    <mat-divider class="m-3" inset></mat-divider>
+
+    <div fxLayoutAlign="end">
+        <button mat-button mat-dialog-close>Cerrar</button>
+    </div>
+</div>

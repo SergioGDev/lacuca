@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { LacucaRespuesta, ItemPregunta, DatosPartido, OptionItem, DatosCorte } from '../interfaces/data.interface';
+import { LacucaRespuesta, ItemPregunta, DatosPartido, OptionItem, DatosCorte, DatosFiltroVideotest } from '../interfaces/data.interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../interfaces/user.interface';
 import { environment } from 'src/environments/environment';
@@ -110,7 +110,6 @@ export class DataService {
   obtenerListadoCompletoCortes(): Observable<any> {
     return this.http.get(`${environment.herokuUrl}/corte`);
   }
-  
 
   /* ****************************************** */
   /* ***********     SELECTS       ************ */

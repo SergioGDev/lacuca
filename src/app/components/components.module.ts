@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 
+import { BuscadorCortesComponent } from './buscador-cortes/buscador-cortes.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { CuadroDatosPartidoComponent } from './cuadro-datos-partido/cuadro-datos-partido.component';
@@ -26,10 +27,12 @@ import { SpinnerCargandoComponent } from './spinner-cargando/spinner-cargando.co
 import { UsersFromCsvComponent } from './users-from-csv/users-from-csv.component';
 import { VideoCardComponent } from './video-card/video-card.component';
 import { VisualizadorDatosCorteComponent } from './visualizador-datos-corte/visualizador-datos-corte.component';
+import { DialogVerCorteComponent } from './dialog-ver-corte/dialog-ver-corte.component';
 
 
 @NgModule({
   declarations: [
+    BuscadorCortesComponent,
     ChangePasswordComponent,
     CreateUserComponent,
     CuadroDatosPartidoComponent,
@@ -50,15 +53,18 @@ import { VisualizadorDatosCorteComponent } from './visualizador-datos-corte/visu
     VideoCardComponent,
     VisualizadorDatosCorteComponent,
     UsersFromCsvComponent,
+    DialogVerCorteComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     AngularMaterialModule,
     FlexLayoutModule,
+    FormsModule,
     YouTubePlayerModule
   ],
   exports: [
+    BuscadorCortesComponent,
     ChangePasswordComponent,
     CreateUserComponent,
     CuadroDatosPartidoComponent,

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { ComponentsModule } from '../components/components.module';
@@ -24,6 +24,7 @@ import { ListadoPartidosComponent } from './listado-partidos/listado-partidos.co
 import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-nuevo-corte.component';
 import { PanelAdministracionVideotestComponent } from './panel-administracion-videotest/panel-administracion-videotest.component';
+import { RegistrarNuevoVideotestComponent } from './registrar-nuevo-videotest/registrar-nuevo-videotest.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PanelAdministracionVideotestComponent } from './panel-administracion-vi
     SolucionTestComponent,
     ZonaTestsComponent,
     PanelAdministracionVideotestComponent,
+    RegistrarNuevoVideotestComponent,
   ],
   exports: [
     DashboardComponent,
@@ -53,6 +55,7 @@ import { PanelAdministracionVideotestComponent } from './panel-administracion-vi
     HttpClientModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    FormsModule,
 
     YouTubePlayerModule,
     

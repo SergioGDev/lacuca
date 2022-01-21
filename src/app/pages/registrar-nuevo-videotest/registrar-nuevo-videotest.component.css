@@ -1,0 +1,113 @@
+.check-valoracion-realizada {
+    margin: 20px;
+}
+
+mat-option.mat-selected {
+    color: var(--color-text-negro) !important;
+}
+
+.mat-pseudo-checkbox {
+    background: red !important;
+}
+
+.botonera-step {
+    margin: 10px 0px;
+    padding: 10px;
+    border: 1px solid var(--color-gris-transparente);
+    border-radius: 3px;
+    box-shadow: 1px 1px 4px 1px var(--color-gris-transparente);
+}
+
+.no-info-selected {
+    text-align: center;
+    padding: 15px 5px;
+    font-size: 12pt;
+    font-style: italic;
+}
+
+.formulario-container,
+.contenido-pregunta-container {
+    padding: 0px 15px 0px 50px;
+}
+
+.mw-550 {
+    max-width: 550px;
+}
+
+.sin-respuestas-anadidas {
+    font-style: italic;
+    font-size: 11pt;
+    padding: 16px 4px;
+    border-radius: 2px;
+    background-color: var(--color-gris-claro-transparente);
+    box-shadow: 1px 1px 3px 1px var(--color-gris-transparente);
+}
+
+.respuestas-anadidas {
+    font-size: 12pt;
+}
+
+.respuestas-anadidas ol {
+    padding: 0 !important;
+}
+
+.item-respuesta {
+    box-shadow:  1px 1px 4px 1px var(--color-gris-transparente);
+    margin-bottom: 10px;
+    border-radius: 2px;
+}
+
+.item-respuesta span {
+    padding-top: 9px;
+}
+
+.error-maximo-respuestas {
+    font-size: 11pt;
+    color: var(--color-error);
+    margin: 0px 0px 10px 5px;
+}
+
+/* Steep 3 */
+.contenido-pregunta-resumen {
+    padding: 30px;
+}
+
+.nombre-videotest-resumen {
+    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
+    font-size: 20pt;
+    margin: 10px 30px;
+}
+
+.descripcion-videotest-resumen {
+    font-size: 13pt;
+    margin: 15px 50px;
+    font-style: italic;
+    color: var(--color-texto-negro);
+    text-shadow: 1px 1px 1px var(--color-gris-claro-transparente);
+}
+
+.texto-pregunta-resumen {
+    margin: 10px;
+    font-weight: 500;
+    font-size: 12pt;
+    text-shadow: 1px 1px 1px var(--color-gris-transparente);
+}
+
+.texto-respuesta-resumen {
+    margin: 6px 0px;
+    color: var(--color-texto-negro);
+    font-size: 12pt;
+}
+
+.texto-solucion-resumen {
+    margin: 10px;
+    font-size: 12pt;
+}
+
+.texto-solucion-resumen .label {
+    font-weight: 500;
+}
+
+.texto-solucion-resumen .solucion {
+    font-style: italic;
+}

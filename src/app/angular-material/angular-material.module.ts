@@ -12,13 +12,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSortModule } from '@angular/material/sort';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -37,8 +42,13 @@ import { MatTreeModule } from '@angular/material/tree';
     MatIconModule,
     MatMenuModule,
     MatNativeDateModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
     MatRadioModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatSortModule,
+    MatStepperModule,
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
@@ -55,9 +65,14 @@ import { MatTreeModule } from '@angular/material/tree';
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
     MatRadioModule,
+    MatSelectModule,
     MatSidenavModule,
+    MatSlideToggleModule,
+    MatSortModule,
+    MatStepperModule,
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,

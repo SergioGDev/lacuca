@@ -14,8 +14,6 @@ export class VisualizadorDatosCorteComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-
   
   // ************************************************** //
   // ********      FUNCIONES DE TAMAÑO          ******* //
