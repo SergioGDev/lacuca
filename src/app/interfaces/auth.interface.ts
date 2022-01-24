@@ -41,3 +41,7 @@ export interface StsTokenManager {
     accessToken:    string;
     expirationTime: number;
 }
+
+export const ROLE_ADMIN = 'ROLE_ADMIN';
+export const ROLE_ARBITRO = 'ROLE_ARBITRO';
+export const ROLE_INFORMADOR = 'ROLE_INFORMADOR';

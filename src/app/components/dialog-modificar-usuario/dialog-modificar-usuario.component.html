@@ -1,0 +1,12 @@
+<div>
+
+    <mat-dialog-content>
+        <div>¿Desea modificar los datos del usuario?</div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button color="basic" mat-dialog-close (click)="clickVolver()">Volver</button>
+        <button mat-button (click)="modificarUsuario()" [mat-dialog-close]="true">Modificar</button>
+    </mat-dialog-actions>
+
+</div>

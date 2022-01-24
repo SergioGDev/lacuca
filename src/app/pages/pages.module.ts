@@ -25,6 +25,7 @@ import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-nuevo-corte.component';
 import { PanelAdministracionVideotestComponent } from './panel-administracion-videotest/panel-administracion-videotest.component';
 import { RegistrarNuevoVideotestComponent } from './registrar-nuevo-videotest/registrar-nuevo-videotest.component';
+import { RegistrarNuevoUsuarioComponent } from './registrar-nuevo-usuario/registrar-nuevo-usuario.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { RegistrarNuevoVideotestComponent } from './registrar-nuevo-videotest/re
     ZonaTestsComponent,
     PanelAdministracionVideotestComponent,
     RegistrarNuevoVideotestComponent,
+    RegistrarNuevoUsuarioComponent,
   ],
   exports: [
     DashboardComponent,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { LacucaRespuesta, ItemPregunta, DatosPartido, OptionItem, DatosCorte, DatosFiltroVideotest } from '../interfaces/data.interface';
+import { LacucaRespuesta, ItemPregunta, DatosPartido, OptionItem, DatosCorte, DatosFiltroVideotest, DatosRol } from '../interfaces/data.interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../interfaces/user.interface';
 import { environment } from 'src/environments/environment';
@@ -29,11 +29,7 @@ export class DataService {
 
   almacenarPreguntasEnVPreguntas(): void {
     this.http.get<LacucaRespuesta>(this.urlPreguntas)
-      .subscribe(lacucaRespuesta => {
-        console.log(lacucaRespuesta);
-        this.vPreguntas = lacucaRespuesta.preguntas;
-        console.log(this.vPreguntas);
-      });
+      .subscribe(lacucaRespuesta => this.vPreguntas = lacucaRespuesta.preguntas);
   }
 
   getVPreguntas(): ItemPregunta[] {
@@ -57,7 +53,6 @@ export class DataService {
   /* ***********     PARTIDOS      ************ */
   /* ****************************************** */
   guardarPartido(datosPartido: DatosPartido): Observable<any> {
-    console.log("Datos partido:", datosPartido);
     return this.http.post(`${environment.herokuUrl}/partido/`, datosPartido);
   }
 
@@ -66,8 +61,8 @@ export class DataService {
     return `https://www.youtube.com/watch?v=${idVideo}`;
   }
 
-  obtenerListadoPartidos(): Observable<any> {
-    return this.http.get(`${environment.herokuUrl}/partido/`);
+  obtenerListadoPartidos(listadoIds: string[] = []): Observable<any> {
+    return this.http.get(`${environment.herokuUrl}/partido/`, {headers: {listadoIds}});
   }
 
   eliminarPartido(idPartido: string): Observable<any> {
@@ -86,8 +81,6 @@ export class DataService {
   /* ***********     CORTES        ************ */
   /* ****************************************** */
   guardarCorte(datosCorte: DatosCorte): Observable<any> {
-    console.log("GUARDAR CORTE SERVICE\n", datosCorte)
-    console.log(`${environment.herokuUrl}/corte/`);
     return this.http.post(`${environment.herokuUrl}/corte/`, datosCorte);
   }
 
@@ -134,5 +127,20 @@ export class DataService {
 
   obtenerVArbitro(): string[] {
     return [ 'Principal', 'Auxiliar', 'Ambos' ];
+  }
+
+  /* ****************************************** */
+  /* ***********     OTROS         ************ */
+  /* ****************************************** */
+  obtenerVRoles(): DatosRol[] {
+    return [
+      { description: 'Administrador', value: 'ROLE_ADMIN' },
+      { description: 'Informador', value: 'ROLE_INFORMADOR' },
+      { description: 'Árbitro', value: 'ROLE_ARBITRO' },
+    ] 
+  }
+
+  obtenerVDelegaciones(): string[] {
+    return ['Norte', 'Cáceres', 'La Serena', 'Mérida', 'Badajoz', 'Sur', 'Almendralejo'];
   }
 }

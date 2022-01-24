@@ -2,8 +2,6 @@
 // ***************     PREGUNTAS     **************** //
 // ************************************************** //
 
-import { StringMap } from "@angular/compiler/src/compiler_facade_interface";
-
 export interface ItemPregunta {
     _id:            string;
     texto:          string;
@@ -104,4 +102,12 @@ export interface DatosFiltroVideotest {
     tipo:                   string[],
     valoracion:             string[],
     checkValoracion:        boolean,
+}
+
+// ************************************************** //
+// ***************     USUARIOS      **************** //
+// ************************************************** //
+export interface DatosRol {
+    description:    string;
+    value:          string;
 }

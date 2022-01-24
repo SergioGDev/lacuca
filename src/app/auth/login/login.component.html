@@ -1,6 +1,61 @@
-<div class="container-fluid">
+<div class="contenedor-login" fxFlexLayout="row">
+
+    <div class="mitad-izquierda" fxFlex="60" fxFlex.md="50" fxFlex.sm="3" fxFlex.xs="3"></div>
+
+    <div class="borde-medio-izquierda" fxFlex="1"></div>
+    
+    <div class="mitad-derecha" fxFlex="35" fxFlex.md="45" fxFlex.sm="92" fxFlex.xs="92">
+        
+        <div class="cortinilla p-5" fxFlexLayout="column">
+            
+            <div class="titulo">Iniciar sesión</div>
+            
+            <form autocomplete="off" [formGroup]="loginForm" (submit)="login()">
+                
+                <div>
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label>NIF</mat-label>
+                        <input type="text" id="nif" matInput formControlName="nif">
+                        <mat-error class="error" 
+                            *ngIf="loginForm.get('nif')?.invalid && loginForm.get('nif')?.touched">
+                            El NIF es obligatorio
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div>
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label>Contraseña</mat-label>
+                        <input type="password" matInput formControlName="password">
+                        <mat-error class="error" 
+                            *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                            La contraseña es obligatoria, con un mínimo de 8 caracteres
+                        </mat-error>                        
+                    </mat-form-field>
+                </div>
+
+                <div class="pt-4" fxLayoutAlign="center">
+                    <button mat-raised-button type="submit" *ngIf="!loging">Acceder</button>
+                </div>
+
+                <div class="pt-3" fxLayoutAlign="center" *ngIf="loging">
+                    <app-spinner-cargando></app-spinner-cargando>
+                </div>
+            </form>
+            
+        </div>
+        
+    </div>
+    
+    <div class="borde-medio-derecha" fxFlex="1"></div>
+
+    <div class="margen-derecho" fxFlex="3"></div>
+</div>
+
+
+<!-- <div class="container-fluid">
     <div class="row mt-4">
-        <!-- Espacio lateral -->
+        
         <div class="col"></div>
 
         <div class="col-sm-8 col-md-6 col-lg-4 col-12">
@@ -11,7 +66,7 @@
 
                     <h6 class="card-subtitle mt-4 text-muted">Por favor, introduce tu nif y contraseña</h6>
 
-                    <!-- Formulario -->
+                    
                     <form autocomplete="off" [formGroup]="loginForm">
                         <div class="form-floating mt-5 mb-3">
                             <input type="text" class="form-control" id="nif" formControlName="nif"
@@ -48,9 +103,8 @@
             </div>
         </div>
 
-        <!-- Espacio lateral -->
         <div class="col"></div>
 
 
     </div>
-</div>
+</div> -->

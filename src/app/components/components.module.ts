@@ -28,6 +28,10 @@ import { UsersFromCsvComponent } from './users-from-csv/users-from-csv.component
 import { VideoCardComponent } from './video-card/video-card.component';
 import { VisualizadorDatosCorteComponent } from './visualizador-datos-corte/visualizador-datos-corte.component';
 import { DialogVerCorteComponent } from './dialog-ver-corte/dialog-ver-corte.component';
+import { DialogModificarUsuarioComponent } from './dialog-modificar-usuario/dialog-modificar-usuario.component';
+import { CustomToastComponent } from './custom-toast/custom-toast.component';
+import { DialogConfirmarUsuarioModificadoComponent } from './dialog-confirmar-usuario-modificado/dialog-confirmar-usuario-modificado.component';
+import { DialogConfirmarErrorComponent } from './dialog-confirmar-error/dialog-confirmar-error.component';
 
 
 @NgModule({
@@ -54,6 +58,10 @@ import { DialogVerCorteComponent } from './dialog-ver-corte/dialog-ver-corte.com
     VisualizadorDatosCorteComponent,
     UsersFromCsvComponent,
     DialogVerCorteComponent,
+    DialogModificarUsuarioComponent,
+    CustomToastComponent,
+    DialogConfirmarUsuarioModificadoComponent,
+    DialogConfirmarErrorComponent,
   ],
   imports: [
     CommonModule,

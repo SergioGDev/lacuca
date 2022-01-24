@@ -85,7 +85,7 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
               hIni, mIni, sIni, hFin, mFin, sFin
             } = this.obtenerTiempoInicioFin(datosCorteRest.segundoInicio, datosCorteRest.duracion);
 
-            this.formNuevoCorte.reset({
+            this.formNuevoCorte.setValue({
               horaInicio: hIni,
               minInicio: mIni,
               segInicio: sIni,

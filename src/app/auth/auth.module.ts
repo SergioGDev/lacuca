@@ -5,6 +5,9 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { AngularMaterialModule } from '../angular-material/angular-material.module';
+import { ComponentsModule } from '../components/components.module';
 
 
 @NgModule({
@@ -18,9 +21,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    RouterModule,
+    AngularMaterialModule,
+    ComponentsModule,
+    FlexLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule,
   ]
 })
 export class AuthModule { }

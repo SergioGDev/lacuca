@@ -20,6 +20,7 @@ import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/regist
 import { ChangePasswordComponent } from '../components/change-password/change-password.component';
 import { CreateUserComponent } from '../components/create-user/create-user.component';
 import { IsAdminGuard } from '../guards/is-admin.guard';
+import { RegistrarNuevoUsuarioComponent } from './registrar-nuevo-usuario/registrar-nuevo-usuario.component';
 
 const routes: Routes = [
   { 
@@ -41,6 +42,7 @@ const routes: Routes = [
       { path: 'partidos/partido/nuevo-corte', component: RegistrarNuevoCorteComponent, data: { titulo: 'Nuevo corte' } },
       { path: 'partidos/partido/modificar-corte', component: RegistrarNuevoCorteComponent, data: { titulo: 'Modificar corte' } },
       { path: 'listado-usuarios', component: ListadoUsuariosComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Listado de usuarios' } },
+      { path: 'listado-usuarios/editar-usuario', component: RegistrarNuevoUsuarioComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Editar datos del usuario'} },
       { path: 'change-password', component: ChangePasswordComponent },
       { path: 'editar-mis-datos', component: CreateUserComponent },
       { path: '**', redirectTo: 'inicio' },

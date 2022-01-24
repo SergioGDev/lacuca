@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { lStorageTestAleatorio, lStorageIdPartido, lStorageIdCorte } from '../interfaces/constantes.interface';
+import { lStorageIdPartido, lStorageIdCorte, lStorageUser } from '../interfaces/constantes.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -33,4 +33,19 @@ export class InterdataService {
   removeIdCorteFromCache() {
     localStorage.removeItem(lStorageIdCorte);
   }
+
+  // USUARIO
+  setUserToCache(user: any) {
+    localStorage.setItem(lStorageUser, JSON.stringify(user));
+  }
+
+  getUserFromCache() {
+    const JsonUser = localStorage.getItem(lStorageUser);
+    return JsonUser ? JSON.parse(JsonUser) : undefined;
+  }
+
+  removeUserFromCache() {
+    localStorage.removeItem(lStorageUser);
+  }
+  
 }

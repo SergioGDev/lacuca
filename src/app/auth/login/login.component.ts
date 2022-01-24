@@ -48,11 +48,11 @@ export class LoginComponent implements OnInit {
     const v = this.authService.herokuLogin(
       this.loginForm.value['nif'], 
       this.loginForm.value['password']
-    ).subscribe(      data => {
+    ).subscribe( () => {
       this.loging = false;
       this.router.navigate(['/']);
       },
-      error => {
+      () => {
         Swal.fire({
           icon: 'error',
           title: 'Error',

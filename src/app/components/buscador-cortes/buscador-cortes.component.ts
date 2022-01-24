@@ -10,13 +10,12 @@ import { DatosCorte } from '../../interfaces/data.interface';
 import { Observable, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogVerCorteComponent } from '../dialog-ver-corte/dialog-ver-corte.component';
-import { MatSort, Sort } from '@angular/material/sort';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatSort } from '@angular/material/sort';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-buscador-cortes',
-  templateUrl: './buscador-cortes.component.html',
-  styleUrls: ['./buscador-cortes.component.css']
+  templateUrl: './buscador-cortes.component.html'
 })
 export class BuscadorCortesComponent implements OnInit {
 
@@ -67,7 +66,6 @@ export class BuscadorCortesComponent implements OnInit {
     private dataService: DataService,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private _liveAnnouncer: LiveAnnouncer,
   ) {
     this.dataSource = new MatTableDataSource<DatosCorte>(this.listadoCortes);
   }
@@ -90,6 +88,10 @@ export class BuscadorCortesComponent implements OnInit {
         this.listadoCompletoCortes = listadoCortesResp;
 
         var datosPartidosObtenido: number = 0;
+        
+        const idPartidoList = [... new Set(this.listadoCompletoCortes.map((corte) => corte.idPartido))]
+
+        // this.dataService.obtenerListadoPartidos(idPartidoList);
 
         this.listadoCortes.forEach(corte => {
           this.dataService.obtenerDatosPartido(corte.idPartido)
@@ -145,13 +147,14 @@ export class BuscadorCortesComponent implements OnInit {
       }
     });
 
+    this.listadoOrdenado.forEach(corte => {
+      console.log(corte.datosPartido?.equipoLocal)
+    })
     this.asignarDataSource();
   }
 
   compare(a: string, b: string, isAsc: boolean) {
-    return (a && b) ? (a.toLowerCase() < b.toLowerCase() ? -1 : 1) * (isAsc ? 1 : -1) : 
-      (a ? -1 : 1);
-    // return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    return (a && b) ? (a.toLowerCase() < b.toLowerCase() ? -1 : 1) * (isAsc ? 1 : -1) : (a ? -1 : 1);
   }
 
   submitAplicarFiltros() {

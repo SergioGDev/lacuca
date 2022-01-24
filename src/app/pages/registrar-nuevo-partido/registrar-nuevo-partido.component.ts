@@ -80,7 +80,7 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
         .subscribe(({ partido }) => {
           this.datosPartido = partido;
 
-          this.formNuevoVideo.reset({
+          this.formNuevoVideo.setValue({
             equipoLocal: this.datosPartido!.equipoLocal,
             equipoVisitante: this.datosPartido!.equipoVisitante,
             fecha: this.datosPartido!.fechaHora,
