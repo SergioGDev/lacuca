@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { Router } from '@angular/router';
@@ -6,7 +6,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import * as _moment from 'moment';
 
-import { DataService } from '../../services/data.service';
 import { DatosPartido } from '../../interfaces/data.interface';
 import { OperationsService } from '../../services/operations.service';
 import { InterdataService } from '../../services/interdata.service';

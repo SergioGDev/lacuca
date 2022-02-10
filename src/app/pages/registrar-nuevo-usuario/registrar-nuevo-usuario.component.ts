@@ -15,7 +15,7 @@ import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dial
   selector: 'app-registrar-nuevo-usuario',
   templateUrl: './registrar-nuevo-usuario.component.html'
 })
-export class RegistrarNuevoUsuarioComponent implements OnInit, OnDestroy {
+export class RegistrarNuevoUsuarioComponent implements OnInit {
 
   vRoles: DatosRol[] = this.dataService.obtenerVRoles();
   vDelegaciones: string[] = this.dataService.obtenerVDelegaciones();
@@ -58,10 +58,6 @@ export class RegistrarNuevoUsuarioComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/dashboard/listado-usuarios');
       }
     }
-  }
-
-  ngOnDestroy(): void {
-    this.interdataService.removeUserFromCache();
   }
 
   submit() {

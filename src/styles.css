@@ -24,7 +24,7 @@ body {
     flex: 1 1 auto;
 }
 
-.titulo, .subtitulo {
+.titulo, .subtitulo, .segundo-subtitulo {
     margin: 30px;
     text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
 }
@@ -35,11 +35,15 @@ body {
     font-weight: bold;
     font-size: 30pt;
     color: var(--color-texto-negro);
-    text-shadow: 0px 3px 3px var(--color-texto-negro-transparente);
+    text-shadow: 0px 3px 2px var(--color-texto-negro-transparente);
 }
 
 .subtitulo {
     font-size: 25pt;
+}
+
+.segundo-subtitulo {
+    font-size: 18pt;
 }
 
 ol {

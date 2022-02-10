@@ -291,7 +291,7 @@ export class RegistrarNuevoInformeComponent implements OnInit {
               })
             
             if (result === true) {
-              this.interdataService.setIdInformeFromCache(informeResp._id);
+              this.interdataService.setIdInformeToCache(informeResp._id);
             }
 
             this.router.navigateByUrl( result === true ? '/dashboard/informes/realizar-informe' : 

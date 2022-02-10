@@ -9,7 +9,7 @@ import { lStorageVSoluciones, lStorageNumeroPreguntas } from '../../interfaces/c
   templateUrl: './solucion-test.component.html',
   styleUrls: ['./solucion-test.component.css']
 })
-export class SolucionTestComponent implements OnInit, OnDestroy {
+export class SolucionTestComponent implements OnInit {
 
   vMisRespuestas: ItemPreguntaRespondida[] = [];
   mensajeNumeroAciertos: string = "";
@@ -38,11 +38,6 @@ export class SolucionTestComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigateByUrl('/dashboard/inicio')
     } 
-  }
-
-  // ng onDestroy
-  ngOnDestroy(): void {
-    localStorage.removeItem(lStorageVSoluciones);
   }
 
   terminarTest(): void {

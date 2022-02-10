@@ -55,13 +55,13 @@ export class ListadoInformesComponent implements OnInit {
   // ACCIONES SOBRE LOS INFORMES
   // Accede a la ventana de realización de un informe
   realizarInforme(idInforme: string) {
-    this.interdataService.setIdInformeFromCache(idInforme);
+    this.interdataService.setIdInformeToCache(idInforme);
     this.router.navigateByUrl('/dashboard/informes/realizar-informe');
   }
 
   // Accede a la ventana para modificar el registro de un informe
   modificarRegistroDeInforme(idInforme: string) {
-    this.interdataService.setIdInformeFromCache(idInforme);
+    this.interdataService.setIdInformeToCache(idInforme);
     this.router.navigateByUrl('/dashboard/informes/modificar-informe');
   }
 
@@ -111,9 +111,23 @@ export class ListadoInformesComponent implements OnInit {
       })
   }
 
-  continuarBorrador(idInforme: string) {
-    this.interdataService.setIdInformeFromCache(idInforme);
+  modificarInforme(idInforme: string) {
+    this.interdataService.setIdInformeToCache(idInforme);
     this.router.navigateByUrl('/dashboard/informes/realizar-informe');
+  }
+
+  verDatosInforme(idInforme: string) {
+    this.interdataService.setIdInformeToCache(idInforme);
+    this.router.navigateByUrl('/dashboard/informes/ver-informe');
+  }
+
+  descargarInformeEnPDF() {
+    // TODO: Implementar la lógica para descargar el informe en formato PDF
+    this.dialog.open( DialogConfirmarComponent,
+      {
+        restoreFocus: false,
+        data: 'Esta función todavía no está disponible.'
+      })
   }
 
   // Obtiene el nombre completo del usuario

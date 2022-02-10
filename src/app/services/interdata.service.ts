@@ -36,7 +36,7 @@ export class InterdataService {
   }
 
   // ID INFOMRE
-  setIdInformeFromCache(idInforme: string) {
+  setIdInformeToCache(idInforme: string) {
     localStorage.setItem(lStorageIdInforme, idInforme);
   }
 

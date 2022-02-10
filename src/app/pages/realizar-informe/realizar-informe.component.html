@@ -8,7 +8,7 @@
 
 
     <div class="m-2" *ngIf="!cargandoCortes" class="content-botones" fxLayoutAlign="end">
-        <button mat-button (click)="guardarBorrador()"> Guardar borrador </button>
+        <button mat-button (click)="pulsarBotonGuardarBorrador()"> Guardar borrador </button>
     </div>
 
 
@@ -72,6 +72,14 @@
                             <mat-label>Comentarios sobre el árbitro auxiliar:</mat-label>
                             <textarea matInput formControlName="comentarioArbitroAuxiliar" rows="4"></textarea>
                             <mat-error>El comentario sobre el árbitro auxiliar es obligatorio</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="textarea-container">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Comentarios general:</mat-label>
+                            <textarea matInput formControlName="comentarioGeneral" rows="4"></textarea>
+                            <mat-error>El comentario general es obligatorio</mat-error>
                         </mat-form-field>
                     </div>
                 </div>

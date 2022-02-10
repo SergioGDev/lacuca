@@ -42,18 +42,18 @@ export interface DatosPartido {
 // ************    DATOS CORTE       **************** //
 // ************************************************** //
 export interface DatosCorte {
-    _id?:           string,
-    __v?:           number,
-    idPartido:      string,
-    segundoInicio:  number,
-    duracion:       number,
-    comentario?:    string,
-    valoracion?:    string,
-    situacion?:     string,
-    tipo?:          string,
-    posicion?:      string,
-    arbitro?:       string,
-    datosPartido?:  DatosPartido,
+    _id?:               string,
+    __v?:               number,
+    idPartido:          string,
+    segundoInicio:      number,
+    duracion:           number,
+    comentario?:        string,
+    valoracion?:        string,
+    situacion?:         string,
+    tipo?:              string,
+    posicion?:          string,
+    arbitro?:           string,
+    datosPartido?:      DatosPartido,
 
     // Para la generación del videotest
     checked?:       boolean,
@@ -121,6 +121,7 @@ export interface DatosInforme {
     informador?:                    string,
     datosInformador?:               Usuario,
     cortesIds?:                     string[],
+    listadoCortes?:                 DatosCorte[],
     comentarioGeneral?:             string,
     comentarioArbitroPrincipal?:    string,
     comentarioArbitroAuxiliar?:     string,

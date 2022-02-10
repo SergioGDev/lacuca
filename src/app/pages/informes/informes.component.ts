@@ -49,7 +49,7 @@ export class InformesComponent implements OnInit {
   }
 
   realizarInforme(idInforme: string) {
-    this.interdataService.setIdInformeFromCache(idInforme);
+    this.interdataService.setIdInformeToCache(idInforme);
     this.router.navigateByUrl('/dashboard/informes/realizar-informe');
   }
 

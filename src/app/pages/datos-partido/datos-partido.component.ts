@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import { CortesService } from '../../services/cortes.service';
   templateUrl: './datos-partido.component.html',
   styleUrls: ['./datos-partido.component.css']
 })
-export class DatosPartidoComponent implements OnInit {
+export class DatosPartidoComponent implements OnInit  {
 
   datosPartido!: DatosPartido;
   listadoCortes: DatosCorte[] = [];

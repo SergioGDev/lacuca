@@ -15,8 +15,6 @@ import { User } from '../interfaces/user.interface';
 export class AuthService {
 
   constructor(
-    private db: AngularFirestore,
-    private router: Router,
     private http: HttpClient
   ) { }
 

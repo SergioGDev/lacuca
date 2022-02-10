@@ -6,6 +6,7 @@ import { zip } from "rxjs";
 import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
 import { DatosPartido } from '../../interfaces/data.interface';
 import { PartidosService } from '../../services/partidos.service';
+import { OperationsService } from '../../services/operations.service';
 
 @Component({
   selector: 'app-registrar-partidos-csv',
@@ -17,6 +18,7 @@ export class RegistrarPartidosCsvComponent {
 
   constructor(
     private partidosService: PartidosService,
+    private operationsService: OperationsService,
     private dialog: MatDialog,
     private router: Router,
   ) { }
@@ -57,10 +59,10 @@ export class RegistrarPartidosCsvComponent {
 
   parsePartido(csv: any) : DatosPartido | null{
     const { equipoLocal, equipoVisitante, fechaHora, localidad, url, fase, jornada, comentario } = csv;
-    if(!equipoLocal || !equipoVisitante || !fechaHora || !localidad || !fase || !jornada){      
+    if(!equipoLocal || !equipoVisitante || !fechaHora || !localidad || !fase || !jornada || !url || this.operationsService.checkYouTubeURL(url)){      
       return null;
     }
-    // TODO: Revisar esta asignación
+
     const dia = fechaHora.split('/')[0].length === 1 ? ('0').concat(fechaHora.split('/')[0]) : fechaHora.split('/')[0];
     const mes = fechaHora.split('/')[1].length === 1 ? ('0').concat(fechaHora.split('/')[1]) : fechaHora.split('/')[1];
     const anno = fechaHora.split('/')[2].length === 2 ? ('20').concat(fechaHora.split('/')[2]) : fechaHora.split('/')[2];
@@ -71,7 +73,7 @@ export class RegistrarPartidosCsvComponent {
       equipoVisitante,
       fechaHora: fechaHoraDate,
       localidad,
-      url,
+      url: this.operationsService.getYouTubeID(url),
       fase,
       jornada,
       comentario,

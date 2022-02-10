@@ -78,7 +78,7 @@
                       <!-- Acciones para informe en estado BORRADOR -->
                       <div *ngIf="esBorrador(fila)">
 
-                        <button mat-menu-item (click)="continuarBorrador(fila._id)">
+                        <button mat-menu-item (click)="modificarInforme(fila._id)">
                             <mat-icon>edit</mat-icon>
                             <span> Continuar borrador </span>
                         </button>
@@ -93,17 +93,17 @@
                       <!-- Acciones para informe en estado TERMINADO -->
                       <div *ngIf="esTerminado(fila)">
 
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="verDatosInforme(fila._id)">
                             <mat-icon>remove_red_eye</mat-icon>
                             <span> Ver informe </span>
                         </button>
 
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="descargarInformeEnPDF()">
                             <mat-icon>picture_as_pdf</mat-icon>
                             <span> Descargar informe en PDF </span>
                         </button>
 
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="modificarInforme(fila._id)">
                             <mat-icon>edit</mat-icon>
                             <span> Modificar informe </span>
                         </button>
