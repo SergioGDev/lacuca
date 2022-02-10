@@ -103,6 +103,11 @@ export class DataService {
     return this.http.get(`${environment.herokuUrl}/corte/${idCorte}`);
   }
 
+  obtenerDatosCortes(idCorteList: string[]): Observable<DatosCorte[]> {
+    const idsString = idCorteList.join(',');
+    return this.http.get<DatosCorte[]>(`${environment.herokuUrl}/corte/`, {headers: {'idlist': idsString}});
+  }
+
   obtenerCortesDelPartido(idPartido: string): Observable<any> {
     return this.http.get(`${environment.herokuUrl}/corte?_partidoId=${idPartido}`);
   }
