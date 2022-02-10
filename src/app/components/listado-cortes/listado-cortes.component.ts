@@ -4,10 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { DatosCorte } from '../../interfaces/data.interface';
 import { InterdataService } from '../../services/interdata.service';
-import { DataService } from '../../services/data.service';
-import { DialogEliminarCorteComponent } from '../dialog-eliminar-corte/dialog-eliminar-corte.component';
-
-import Swal from 'sweetalert2';
+import { DialogConfirmarComponent } from '../dialog-confirmar/dialog-confirmar.component';
+import { DialogEliminarComponent } from '../dialog-eliminar/dialog-eliminar.component';
+import { PartidosService } from '../../services/partidos.service';
+import { CortesService } from '../../services/cortes.service';
 
 @Component({
   selector: 'app-listado-cortes',
@@ -21,14 +21,14 @@ export class ListadoCortesComponent implements OnInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private dataService: DataService,
+    private partidosService: PartidosService,
+    private cortesService: CortesService,
     private interdataService: InterdataService
   ) { }
 
   ngOnInit(): void {
-    console.log("LISTADO CORTES COMPONENT:", this.listadoCortes);
     this.listadoCortes.forEach(datosCorte => {
-      this.dataService.obtenerDatosPartido(datosCorte.idPartido)
+      this.partidosService.obtenerDatosPartido(datosCorte.idPartido)
         .subscribe( ({partido}) => datosCorte.datosPartido = partido )
     })
   }
@@ -40,12 +40,15 @@ export class ListadoCortesComponent implements OnInit {
   }
 
   eliminarCorte(corte: DatosCorte) {
-    const dialogRef = this.dialog.open(DialogEliminarCorteComponent,
-      { restoreFocus: false, data: { id: corte._id, borrado: null } });
+    const dialogRef = this.dialog.open( DialogEliminarComponent,
+      { 
+        restoreFocus: false, 
+        data: { eliminado: null, mensajeDialog: '¿Desea eliminar los datos del corte?' } 
+      });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataService.eliminarCorte(corte._id!)
+        this.cortesService.eliminarCorte(corte._id!)
           .subscribe(() => {
 
             // Quitamos el corte de la lista
@@ -60,29 +63,29 @@ export class ListadoCortesComponent implements OnInit {
               }
             } while (!enc && i < this.listadoCortes.length);
 
-            Swal.fire({
-              title: 'Corte borrado',
-              text: 'Se ha borrado el corte correctamente.',
-              icon: 'success'
-            });
+            this.dialog.open( DialogConfirmarComponent, 
+              {
+                restoreFocus: false,
+                data: 'Los datos del corte se han borrado correctamente.'
+              });
 
           }, err => {
             console.log(err);
-            Swal.fire({
-              title: 'Error',
-              text: 'Ha ocurrido un error al intentar eliminar el corte. Inténtelo de nuevo más tarde.',
-              icon: 'error'
-            })
+            this.dialog.open( DialogConfirmarComponent, 
+              {
+                restoreFocus: false,
+                data: 'Ha ocurrido un error al intentar corte el partido. Inténtelo de nuevo más tarde. Contacte con el administrador para más información.'
+              });
           });
 
       }
     }, err => {
       console.log(err);
-      Swal.fire({
-        title: 'Error',
-        text: 'Ha ocurrido un error al intentar corte el partido. Inténtelo de nuevo más tarde.',
-        icon: 'error'
-      })
+      this.dialog.open( DialogConfirmarComponent, 
+        {
+          restoreFocus: false,
+          data: 'Ha ocurrido un error al intentar corte el partido. Inténtelo de nuevo más tarde. Contacte con el administrador para más información.'
+        });
     })
   }
 

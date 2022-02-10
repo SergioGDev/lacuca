@@ -1,9 +1,6 @@
 <div class="container">
 
-    <div class="header mt-2 mb-5" fxLayout="row">
-        <span class="titulo">{{ this.datosPartido ? 'Modificar datos partido' : 'Registrar nuevo partido'}}</span>
-        
-    </div>
+    <div class="titulo">{{ this.datosPartido ? 'Modificar datos partido' : 'Registrar nuevo partido'}}</div>  
     
     <div class="caja-contenido pl-3 pr-3">
         <form [formGroup]="formNuevoVideo" (submit)="submit()">

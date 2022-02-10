@@ -1,0 +1,138 @@
+<div>
+
+    <div class="header" fxLayout="row" fxLayout.xs="column">
+        <div class="titulo">Registrar nuevo informe</div>
+    </div>
+
+    <app-spinner-cargando *ngIf="cargandoCortes"></app-spinner-cargando>
+
+
+    <div class="m-2" *ngIf="!cargandoCortes" class="content-botones" fxLayoutAlign="end">
+        <button mat-button (click)="guardarBorrador()"> Guardar borrador </button>
+    </div>
+
+
+    <mat-stepper *ngIf="!cargandoCortes" orientation="vertical" linear="true">
+
+        <!--------------------------------------------------->
+        <!-- Paso 1: Seleccionar los cortes del partido    -->
+        <!--------------------------------------------------->
+        <mat-step label="Selecciona los cortes del partido" [completed]="datosInforme.cortesIds!.length > 0">
+
+            <div>
+
+                <div class="m-2" class="content-info">
+                    <div class="descripcion-info">
+                        Para la realización del informe se utilizarán los <b>cortes valorados</b> asociados al partido. Desde aquí podremos acceder a la herramienta
+                        de creación de cortes para generar los que sean necesarios para nuestro informe.
+                    </div>
+                    <div class="descripcion-info" fxLayoutAlign="center">
+                        {{ mensajeCortesSeleccionados() }}
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="content-buttons" fxLayoutAlign="end">
+                        <button mat-button (click)="registrarNuevosCortes()"> Registrar nuevos cortes </button>
+                    </div>                    
+                </div>
+
+                <app-listado-seleccion-cortes-informes
+                    [listadoCortesPartido]="listadoCortesPartido"
+                    [eventActualizar]="eventsSubject.asObservable()"
+                    (corteEmitido)="escucharCorteEmitido($event)">
+                </app-listado-seleccion-cortes-informes>
+            </div>
+            
+            <div class="m-3" fxLayoutAlign="end">
+                <button class="m-2 boton-stepper" mat-raised-button matStepperNext
+                    [disabled]="datosInforme.cortesIds!.length === 0"> 
+                    Introducir comentarios 
+                </button>
+            </div>
+
+        </mat-step>
+
+        <!---------------------------------------------------------->
+        <!-- Paso 2: Introducir comentarios sobre los árbitros    -->
+        <!---------------------------------------------------------->
+        <mat-step label="Introducir comentarios sobre los árbitros" [completed]="formComentarios.valid">
+
+            <form [formGroup]="formComentarios">
+                <div fxLayout="column">
+
+                    <div class="textarea-container">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Comentarios sobre el árbitro principal:</mat-label>
+                            <textarea matInput formControlName="comentarioArbitroPrincipal" rows="4"></textarea>
+                            <mat-error>El comentario sobre el árbitro principal es obligatorio</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="textarea-container">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Comentarios sobre el árbitro auxiliar:</mat-label>
+                            <textarea matInput formControlName="comentarioArbitroAuxiliar" rows="4"></textarea>
+                            <mat-error>El comentario sobre el árbitro auxiliar es obligatorio</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+
+            <div class="m-3" fxLayoutAlign="end">
+                <button class="m-2 boton-stepper" 
+                    mat-raised-button matStepperPrevious> 
+                    Volver a seleccionar cortes
+                </button>
+                <button class="m-2 boton-stepper" 
+                    mat-raised-button matStepperNext
+                    [disabled]="formComentarios.invalid"> 
+                    Introducir notas 
+                </button>
+            </div>
+        </mat-step>
+
+        <!--------------------------------------------------->
+        <!-- Paso 3: Introducir notas de los árbitros      -->
+        <!--------------------------------------------------->
+        <mat-step label="Introducir comentarios sobre los árbitros" [completed]="formNotas.valid">
+
+            
+            <form [formGroup]="formNotas">
+                
+                <div fxLayout="row wrap" fxLayoutAlign="center">
+                    <div fxFlex="40" fxFlex.sm="80" fxFlex.xs="100" fxLayoutAlign="center">
+                        <mat-form-field class="input-select w-100" appearance="fill">
+                            <mat-label>Nota árbitro principal</mat-label>
+                            <select matNativeControl formControlName="notaArbitroPrincipal">
+                                <option *ngFor="let nota of vNotasPosibles" [value]="nota">{{ nota }}</option>
+                            </select>
+                        </mat-form-field>
+                    </div>
+    
+                    <div fxFlex="40" fxFlex.sm="80" fxFlex.xs="100" fxLayoutAlign="center">
+                        <mat-form-field class="input-select w-100" appearance="fill">
+                            <mat-label>Nota árbitro auxiliar</mat-label>
+                            <select matNativeControl formControlName="notaArbitroAuxiliar">
+                                <option *ngFor="let nota of vNotasPosibles" [value]="nota">{{ nota }}</option>
+                            </select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                    
+            </form>
+                
+
+            <div class="m-3" fxLayoutAlign="end">
+                <button class="m-2 boton-stepper" mat-raised-button matStepperPrevious> 
+                    Volver a introducir comentarios
+                </button>
+                <button class="m-2 boton-stepper" mat-raised-button matStepperNext
+                    [disabled]="formNotas.invalid" (click)="terminarInforme()"> 
+                    Terminar informe
+                </button>
+            </div>
+
+        </mat-step>
+
+    </mat-stepper>
+
+</div>

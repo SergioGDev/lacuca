@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { AuthService } from 'src/app/services/auth.service';
-import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -52,12 +55,13 @@ export class LoginComponent implements OnInit {
       this.loging = false;
       this.router.navigate(['/']);
       },
+
       () => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Usuario o contraseña incorrectos'
-        });
+        this.dialog.open( DialogConfirmarComponent, 
+          {
+            restoreFocus: false,
+            data: 'Usuario o contraseña incorrectos.'
+          })
         this.loging = false;
       }
     );    

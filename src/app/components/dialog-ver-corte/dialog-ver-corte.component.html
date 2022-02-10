@@ -1,13 +1,12 @@
 <div fxFlexLayout="column">
     <div>
-        <youtube-player class="youtube-player" [videoId]="corte.datosPartido?.url"
-            suggestedQuality="highres"
-            [height]="300"
+        <app-yt-player-corte class="youtube-player"
+            [videoId]="corte.datosPartido?.url"
+            [height]="337"
             [width]="600"
-            [startSeconds]="corte.segundoInicio"
-            [endSeconds]="corte.segundoInicio + corte.duracion"
-            [showBeforeIframeApiLoads]="true">
-        </youtube-player>
+            [startSecond]="corte.segundoInicio"
+            [endSecond]="corte.segundoInicio + corte.duracion">
+        </app-yt-player-corte> 
     </div>
 
     <mat-divider class="m-3" inset></mat-divider>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatosPartido } from 'src/app/interfaces/data.interface';
 import Swal from 'sweetalert2';
 import { zip } from "rxjs";
-import { DataService } from 'src/app/services/data.service';
+import { PartidosService } from '../../services/partidos.service';
 
 @Component({
   selector: 'app-partidos-from-csv',
@@ -11,7 +11,9 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class PartidosFromCsvComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(
+    private partidosService: PartidosService
+    ) { }
 
   ngOnInit() {
   }
@@ -25,7 +27,7 @@ export class PartidosFromCsvComponent implements OnInit {
         partidos.push(partido);
       }
     });
-    const arrObs = zip(...partidos.map(u => this.dataService.guardarPartido(u)));
+    const arrObs = zip(...partidos.map(u => this.partidosService.guardarPartido(u)));
     arrObs.subscribe(
       data => {
         Swal.fire({

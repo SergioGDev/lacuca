@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
-import { DatosCorte } from '../../interfaces/data.interface';
 import { Router } from '@angular/router';
+
+import { DatosCorte } from '../../interfaces/data.interface';
+import { CortesService } from '../../services/cortes.service';
 
 @Component({
   selector: 'app-panel-administracion-videotest',
@@ -16,7 +17,7 @@ export class PanelAdministracionVideotestComponent implements OnInit {
   cargandoCortes: boolean = false;
 
   constructor(
-    private dataService: DataService,
+    private cortesService: CortesService,
     private router: Router
   ) { }
 
@@ -25,7 +26,7 @@ export class PanelAdministracionVideotestComponent implements OnInit {
     this.cargandoCortes = true;
     this.cargandoVideotests = true;
 
-    this.dataService.obtenerListadoCompletoCortes()
+    this.cortesService.obtenerListadoCompletoCortes()
       .subscribe(listadoCortesResp => {
         this.listadoCortes = listadoCortesResp;
         this.cargandoCortes = false;

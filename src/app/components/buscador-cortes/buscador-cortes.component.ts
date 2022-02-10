@@ -1,17 +1,17 @@
 import { Component, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
 
+import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 import { DataService } from '../../services/data.service';
 import { OperationsService } from '../../services/operations.service';
 import { DatosCorte } from '../../interfaces/data.interface';
-import { Observable, Subscription } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
 import { DialogVerCorteComponent } from '../dialog-ver-corte/dialog-ver-corte.component';
-import { MatSort } from '@angular/material/sort';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { CortesService } from '../../services/cortes.service';
 
 @Component({
   selector: 'app-buscador-cortes',
@@ -63,6 +63,7 @@ export class BuscadorCortesComponent implements OnInit {
 
   constructor(
     private operationService: OperationsService,
+    private cortesService: CortesService,
     private dataService: DataService,
     private dialog: MatDialog,
     private fb: FormBuilder,
@@ -75,39 +76,19 @@ export class BuscadorCortesComponent implements OnInit {
     this.eventsSubscription = this.eventActualizar
       .subscribe( datosCorte => {
         const index = this.listadoCompletoCortes.indexOf(datosCorte);
-        this.listadoCompletoCortes[index].checkedVideotest = false;
+        this.listadoCompletoCortes[index].checked = false;
         this.renderCheckedList();
       });
   }
 
   mostrarListadoCompletoCortes() {
     this.cargandoCortes = true;
-    this.dataService.obtenerListadoCompletoCortes()
-      .subscribe(listadoCortesResp => {
-        this.listadoCortes = listadoCortesResp;
-        this.listadoCompletoCortes = listadoCortesResp;
-
-        var datosPartidosObtenido: number = 0;
-        
-        const idPartidoList = [... new Set(this.listadoCompletoCortes.map((corte) => corte.idPartido))]
-
-        // this.dataService.obtenerListadoPartidos(idPartidoList);
-
-        this.listadoCortes.forEach(corte => {
-          this.dataService.obtenerDatosPartido(corte.idPartido)
-            .subscribe(({ partido }) => {
-              corte.datosPartido = partido;
-
-              datosPartidosObtenido++;
-              // Cuando se han obtenido los datos de todos los partidos, se realiza un filtrado de la lista
-              if (datosPartidosObtenido === this.listadoCortes.length) {
-                this.asignarDataSource();
-                this.cargandoCortes = false;
-              } else {
-                this.resultsLength = this.listadoCortes.length;
-              }
-            });
-        })
+    this.cortesService.obtenerListadoCompletoCortesConDatosPartidos()
+      .then( listadoCompletoCortesResp => {
+        this.listadoCompletoCortes = listadoCompletoCortesResp;
+        this.listadoCortes = listadoCompletoCortesResp;
+        this.cargandoCortes = false;
+        this.asignarDataSource();
       })
   }
 
@@ -122,41 +103,96 @@ export class BuscadorCortesComponent implements OnInit {
   ordenarTablaBusqueda(sort: any) {
     const data = this.listadoCortes.slice();
     if (!sort.active || sort.direction === '') {
-      this.listadoOrdenado = data;
+      this.listadoCortes = data;
       return;
     }
 
-    console.log(sort);
-    this.listadoOrdenado = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'valoracion':
-          return this.compare(a.valoracion!, b.valoracion!, isAsc);
-        case 'situacion':
-          return this.compare(a.situacion!, b.situacion!, isAsc);
-        case 'tipo':
-          return this.compare(a.tipo!, b.tipo!, isAsc);
-        case 'posicion':
-          return this.compare(a.posicion!, b.posicion!, isAsc);
-        case 'equipoLocal':
-          return this.compare(a.datosPartido!.equipoLocal, b.datosPartido!.equipoLocal, isAsc);
-        case 'equipoVisitante':
-          return this.compare(a.datosPartido!.equipoVisitante, b.datosPartido!.equipoVisitante, isAsc);
-        default:
-          return 0;
-      }
-    });
+    
+    var aux;
+    for (var i = 1; i < data.length; i++) {
+      for (var j = 1; j < data.length; j++) {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
 
-    this.listadoOrdenado.forEach(corte => {
-      console.log(corte.datosPartido?.equipoLocal)
-    })
+          case 'situacion':
+            if ((data[j].situacion && data[j-1].situacion) &&
+              ((isAsc && data[j-1].situacion!.toLowerCase() > data[j].situacion!.toLowerCase()) || 
+              (!isAsc && data[j-1].situacion!.toLowerCase() < data[j].situacion!.toLowerCase()))) {
+              aux = data[j-1];
+              data[j-1] = data[j];
+              data[j] = aux;
+            }
+
+            break;
+
+          case 'tipo':
+
+            if ((data[j].tipo && data[j-1].tipo) &&
+              ((isAsc && data[j-1].tipo!.toLowerCase() > data[j].tipo!.toLowerCase()) || 
+              (!isAsc && data[j-1].tipo!.toLowerCase() < data[j].tipo!.toLowerCase()))) {
+              aux = data[j-1];
+              data[j-1] = data[j];
+              data[j] = aux;
+            }
+
+            break;
+
+          case 'posicion':
+
+            if ((data[j].posicion && data[j-1].posicion) &&
+              ((isAsc && data[j-1].posicion!.toLowerCase() > data[j].posicion!.toLowerCase()) || 
+              (!isAsc && data[j-1].posicion!.toLowerCase() < data[j].posicion!.toLowerCase()))) {
+              aux = data[j-1];
+              data[j-1] = data[j];
+              data[j] = aux;
+            }
+
+            break;
+
+          case 'valoracion':
+
+            if ((data[j].valoracion && data[j-1].valoracion) &&
+              ((isAsc && data[j-1].valoracion!.toLowerCase() > data[j].valoracion!.toLowerCase()) || 
+              (!isAsc && data[j-1].valoracion!.toLowerCase() < data[j].valoracion!.toLowerCase()))) {
+              aux = data[j-1];
+              data[j-1] = data[j];
+              data[j] = aux;
+            }
+
+            break;
+
+          case 'equipoLocal':
+
+            if ((data[j].datosPartido && data[j-1].datosPartido) &&
+              ((isAsc && data[j-1].datosPartido!.equipoLocal!.toLowerCase() > data[j].datosPartido!.equipoLocal!.toLowerCase()) || 
+              (!isAsc && data[j-1].datosPartido!.equipoLocal!.toLowerCase() < data[j].datosPartido!.equipoLocal!.toLowerCase()))) {
+              aux = data[j-1];
+              data[j-1] = data[j];
+              data[j] = aux;
+            }
+
+            break;
+
+          case 'equipoVisitante':
+
+            if ((data[j].datosPartido && data[j-1].datosPartido) &&
+              ((isAsc && data[j-1].datosPartido!.equipoVisitante!.toLowerCase() > data[j].datosPartido!.equipoVisitante!.toLowerCase()) || 
+              (!isAsc && data[j-1].datosPartido!.equipoVisitante!.toLowerCase() < data[j].datosPartido!.equipoVisitante!.toLowerCase()))) {
+              aux = data[j-1];
+              data[j-1] = data[j];
+              data[j] = aux;
+            }
+
+            break;
+
+        }
+      }
+    }
+      
+    this.listadoCortes = data;
     this.asignarDataSource();
   }
-
-  compare(a: string, b: string, isAsc: boolean) {
-    return (a && b) ? (a.toLowerCase() < b.toLowerCase() ? -1 : 1) * (isAsc ? 1 : -1) : (a ? -1 : 1);
-  }
-
+  
   submitAplicarFiltros() {
     this.listadoCortes = this.operationService.filtrarLista(this.listadoCompletoCortes, this.formFiltros.value);
     this.asignarDataSource();
@@ -167,7 +203,7 @@ export class BuscadorCortesComponent implements OnInit {
     this.listadoCortesSeleccionados = [];
 
     this.listadoCompletoCortes.forEach(corte => {
-      if (corte.checkedVideotest) {
+      if (corte.checked) {
         this.listadoCortesSeleccionados.push(corte);
       }
     });
@@ -179,6 +215,6 @@ export class BuscadorCortesComponent implements OnInit {
   }
 
   verCorte(datosCorte: DatosCorte) {
-    this.dialog.open(DialogVerCorteComponent, {data: {url: datosCorte}});
+    this.dialog.open(DialogVerCorteComponent, {data: {datosCorte: datosCorte}});
   }
 }

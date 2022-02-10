@@ -1,6 +1,6 @@
 <div class="nuevo-corte-container">
 
-    <h1 class="titulo" *ngIf="!cargando">{{ datosCorte !== undefined ? 'Modificar' : 'Registrar nuevo' }} corte</h1>
+    <div class="titulo" *ngIf="!cargando">{{ datosCorte !== undefined ? 'Modificar' : 'Registrar nuevo' }} corte</div>
 
     <div fxLayout="row" fxLayout.md="column" fxLayout.sm="column" fxLayout.xs="column">
 
@@ -21,7 +21,7 @@
                         <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
                             <mat-form-field class="w-100" appearance="fill">
                                 <mat-label>Hora de inicio</mat-label>
-                                <input type="number" matInput formControlName="horaInicio">
+                                <input type="number" matInput formControlName="horaInicio" autocomplete="false">
                             </mat-form-field>
                         </div>
         
@@ -30,7 +30,7 @@
                         <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
                             <mat-form-field class="w-100" appearance="fill">
                                 <mat-label>Minuto de inicio</mat-label>
-                                <input type="number" matInput formControlName="minInicio" max="59">
+                                <input type="number" matInput formControlName="minInicio" max="59" autocomplete="false">
                             </mat-form-field>
                         </div>
                         
@@ -40,36 +40,9 @@
                         <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
                             <mat-form-field class="w-100" appearance="fill">
                                 <mat-label>Segundo de inicio</mat-label>
-                                <input type="number" matInput formControlName="segInicio" max="59">
+                                <input type="number" matInput formControlName="segInicio" max="59" autocomplete="false">
                             </mat-form-field>
                         </div>
-
-                    </div>
-
-                    <div class="mb-3" fxLayout="row"
-                        *ngIf="(formNuevoCorte.get('horaInicio')?.invalid || formNuevoCorte.get('minInicio')?.invalid || 
-                        formNuevoCorte.get('segInicio')?.invalid) && (formNuevoCorte.get('horaInicio')?.touched || 
-                        formNuevoCorte.get('minInicio')?.touched || formNuevoCorte.get('segInicio')?.touched)">
-
-                        <div fxFlex="6" fxShow.xs="false" fxShow.sm="false"></div>
-                        
-                        <div fxLayout="column" fxFlex="94">
-
-                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('horaInicio')?.invalid &&
-                                formNuevoCorte.get('horaInicio')?.touched">
-                                Hora de inicio debe ser mayor que 0.
-                            </mat-error>
-                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('minInicio')?.invalid &&
-                                formNuevoCorte.get('minInicio')?.touched">
-                                Minuto de inicio debe estar comprendido entre 0 y 59.
-                            </mat-error>
-                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('segInicio')?.invalid &&
-                                formNuevoCorte.get('segInicio')?.touched">
-                                Segundo de inicio debe estar comprendido entre 0 y 59.
-                            </mat-error>
-
-                        </div>
-
 
                     </div>
                     
@@ -83,7 +56,7 @@
                         <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
                             <mat-form-field class="w-100" appearance="fill">
                                 <mat-label>Hora de fin</mat-label>
-                                <input type="number" matInput formControlName="horaFin">
+                                <input type="number" matInput formControlName="horaFin" autocomplete="false">
                             </mat-form-field>
                         </div>
         
@@ -92,7 +65,7 @@
                         <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
                             <mat-form-field class="w-100" appearance="fill">
                                 <mat-label>Minuto de fin</mat-label>
-                                <input type="number" matInput formControlName="minFin" max="59">
+                                <input type="number" matInput formControlName="minFin" max="59" autocomplete="false">
                             </mat-form-field>
                         </div>
         
@@ -102,30 +75,50 @@
                         <div fxFlex="30" fxFlex.sm="32" fxFlex.xs="32">
                             <mat-form-field class="w-100" appearance="fill">
                                 <mat-label>Segundo de fin</mat-label>
-                                <input type="number" matInput formControlName="segFin" max="59">
+                                <input type="number" matInput formControlName="segFin" max="59" autocomplete="false">
                             </mat-form-field>
                         </div>
 
                     </div>
 
-                    <div class="mb-3" fxLayout="row"
-                        *ngIf="(formNuevoCorte.get('horaFin')?.invalid || formNuevoCorte.get('minFin')?.invalid || 
-                        formNuevoCorte.get('segFin')?.invalid) && (formNuevoCorte.get('horaFin')?.touched || 
-                        formNuevoCorte.get('minFin')?.touched || formNuevoCorte.get('segFin')?.touched)">
+                    <div class="mb-3" fxLayout="row">
 
                         <div fxFlex="6" fxShow.xs="false" fxShow.sm="false"></div>
 
-                        <mat-error fxFlex="94" class="error-show">
-                            <div>
-                                <sup>*</sup> Hora de fin debe ser mayor que 0, minuto y segundo de fin deben estar comprendidos entre 0 y 59.
-                            </div>
-                            <div>
-                                &nbsp;&nbsp;El tiempo final del corte no debe de ser posterior al del inicio.
-                            </div>
-                        </mat-error>
+                        <div fxLayout="column" fxFlex="94">
+                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('horaInicio')?.invalid &&
+                                formNuevoCorte.get('horaInicio')?.touched">
+                                Hora de inicio debe ser mayor o igual que 0.
+                            </mat-error>
+                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('minInicio')?.invalid &&
+                                formNuevoCorte.get('minInicio')?.touched">
+                                Minuto de inicio debe estar comprendido entre 0 y 59.
+                            </mat-error>
+                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('segInicio')?.invalid &&
+                                formNuevoCorte.get('segInicio')?.touched">
+                                Segundo de inicio debe estar comprendido entre 0 y 59.
+                            </mat-error>
+                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('horaFin')?.invalid &&
+                                formNuevoCorte.get('horaFin')?.touched">
+                                Hora de fin debe ser mayor o igual que 0.
+                            </mat-error>
+                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('minFin')?.invalid &&
+                                formNuevoCorte.get('minFin')?.touched">
+                                Minuto de fin debe estar comprendido entre 0 y 59.
+                            </mat-error>
+                            <mat-error class="error-show" *ngIf="formNuevoCorte.get('segFin')?.invalid &&
+                                formNuevoCorte.get('segFin')?.touched">
+                                Segundo de fin debe estar comprendido entre 0 y 59.
+                            </mat-error>
+                            <mat-error class="error-show" *ngIf="mostrarErrorTiempoInicioFin()">
+                                El tiempo de inicio del corte no debe de ser posterior al del final.
+                            </mat-error>
+
+                        </div>
+
                     </div>
 
-                    <div class="fila" fxLayout="row">
+                    <div class="fila" fxLayout="row" *ngIf="!validacionesObligatorias">
                         <div fxFlex="5"></div>
 
                         <mat-checkbox color="primary" class="check-mas-info" formControlName="checkMasInfo">
@@ -213,7 +206,6 @@
                                     <option *ngFor="let item of vArbitro" [value]="item">{{ item }}</option>
                                 </select>
                             </mat-form-field>
-
                         </div>
                     </div>
 

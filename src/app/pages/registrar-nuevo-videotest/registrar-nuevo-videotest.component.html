@@ -130,15 +130,13 @@
                         
                         <div class="p-3" fxLayout="row wrap">
                             <div class="clip-container">
-                                <youtube-player class="youtube-player" 
+                                <app-yt-player-corte class="youtube-player"
                                     [videoId]="pregunta.corte.datosPartido?.url"
-                                    suggestedQuality="highres"
                                     [height]="getYoutubePlayerWidth() / 2"
                                     [width]="getYoutubePlayerWidth()"
-                                    [startSeconds]="pregunta.corte.segundoInicio"
-                                    [endSeconds]="pregunta.corte.segundoInicio + pregunta.corte.duracion"
-                                    [showBeforeIframeApiLoads]="true">
-                                </youtube-player>
+                                    [startSecond]="pregunta.corte.segundoInicio"
+                                    [endSecond]="pregunta.corte.segundoInicio + pregunta.corte.duracion">
+                                </app-yt-player-corte> 
                             </div>
 
                             <div class="formulario-container" fxFlex>
@@ -238,15 +236,13 @@
                     
                     <div class="p-3" fxLayout="row wrap">
                         <div class="clip-container">
-                            <youtube-player class="youtube-player" 
+                            <app-yt-player-corte class="youtube-player"
                                 [videoId]="pregunta.corte.datosPartido?.url"
-                                suggestedQuality="highres"
                                 [height]="getYoutubePlayerWidth() / 2"
                                 [width]="getYoutubePlayerWidth()"
-                                [startSeconds]="pregunta.corte.segundoInicio"
-                                [endSeconds]="pregunta.corte.segundoInicio + pregunta.corte.duracion"
-                                [showBeforeIframeApiLoads]="true">
-                            </youtube-player>
+                                [startSecond]="pregunta.corte.segundoInicio"
+                                [endSecond]="pregunta.corte.segundoInicio + pregunta.corte.duracion">
+                            </app-yt-player-corte> 
                         </div>
 
                         <div class="contenido-pregunta-resumen" fxFlex>

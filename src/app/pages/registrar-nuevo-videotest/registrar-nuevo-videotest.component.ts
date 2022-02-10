@@ -62,7 +62,7 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
   
   // Escucha el corte que se emite desde el buscador de cortes para insertarlo/eliminarlo en la lista
   escucharCorteEmitido(corte: DatosCorte) {
-    if (corte.checkedVideotest) {            
+    if (corte.checked) {            
       this.listadoCortesSeleccionados.push(corte);
       this.preguntasVideotest!.preguntas?.push({
         pregunta:   '',
@@ -159,7 +159,6 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
       this.preguntasVideotest.preguntas![i].solucion = this.formularioVideotest.get(this.getFormControlName(this.textoSolucion, i))?.value;
     }
 
-    console.log(this.preguntasVideotest);
   }
 
   // El paso dos estará completo cuando todas las preguntas tengan almenos dos respuestas asignadas y el formulario sea válido
@@ -179,6 +178,9 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
   /*************************************************/
   /***********     PASO 3                ***********/
   /*************************************************/
+  guardarVideotest() {
+    console.log(this.preguntasVideotest);
+  }
   
 
   // ************************************************** //

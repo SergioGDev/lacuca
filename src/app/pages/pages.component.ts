@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
-import { DataService } from '../services/data.service';
-import { SidebarService } from '../services/sidebar.service';
-import { ItemSidebar } from '../interfaces/sidebar.interface';
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
+
+import { SidebarService } from '../services/sidebar.service';
+import { AuthService } from '../services/auth.service';
+import { ItemSidebar } from '../interfaces/sidebar.interface';
 import { Usuario } from '../interfaces/usuario.interface';
 import { ROLE_ADMIN } from '../interfaces/auth.interface';
 
@@ -55,9 +55,6 @@ export class PagesComponent implements OnInit, OnDestroy {
     return (this.currentUser) ?
       (!item.adminOption) || (item.adminOption && this.currentUser.role?.includes(ROLE_ADMIN)) :
       false;
-    // return !item.adminOption || 
-    //   (item.adminOption && this.currentUserRol === 'tecnico') ||
-    //   (item.adminOption && this.currentUserRol === 'admin');
   }
 
   cerrarSidebar(drawer: any) {

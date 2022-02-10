@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DatosPartido } from '../../interfaces/data.interface';
-import { DataService } from '../../services/data.service';
+import { PartidosService } from '../../services/partidos.service';
 
 @Component({
   selector: 'app-listado-partidos',
   templateUrl: './listado-partidos.component.html',
-  styleUrls: ['../pages.component.css', './listado-partidos.component.css']
+  styleUrls: ['./listado-partidos.component.css']
 })
 export class ListadoPartidosComponent implements OnInit {
 
@@ -17,7 +17,7 @@ export class ListadoPartidosComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dataService: DataService
+    private partidosService: PartidosService
   ) { }
 
   ngOnInit(): void {
@@ -28,7 +28,7 @@ export class ListadoPartidosComponent implements OnInit {
     
     this.cargandoListado = true;
     
-    this.dataService.obtenerListadoPartidos()
+    this.partidosService.obtenerListadoPartidos()
       .subscribe( resp => {
         this.cargandoListado = false;
         this.listadoPartidos = resp;
@@ -36,13 +36,17 @@ export class ListadoPartidosComponent implements OnInit {
     
   }
 
+  irComponenteCSV(): void {
+    this.router.navigateByUrl('/dashboard/partidos/registrar-listado-partidos')
+  } 
+
   registrarPartido(): void {
     this.router.navigateByUrl('/dashboard/partidos/registrar-nuevo-partido');
   }
 
   eliminarPartido(idPartido: string): void {
     if (idPartido) {
-      this.dataService.eliminarPartido(idPartido)
+      this.partidosService.eliminarPartido(idPartido)
       .subscribe ( 
         () => this.cargarListadoPartidos(), 
         err => console.log(err));

@@ -2,80 +2,16 @@
 
     <app-spinner-cargando *ngIf="cargando"></app-spinner-cargando>
 
+    <div class="titulo" *ngIf="!cargando">
+        Datos del partido
+    </div>
+
     <!-- Cuadro con los datos del partido -->
     <mat-card *ngIf="!cargando">
 
-        <mat-card-title>Datos del partido</mat-card-title>
-
         <mat-card-content fxLayout="row wrap">
-            <!-- Equipo local -->
-            <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
-                Equipo local:
-            </div>
-
-            <div fxFlex="70" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
-                {{ datosPartido.equipoLocal | uppercase }}
-            </div>
-
-            <!-- Equipo visitante -->
-            <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
-                Equipo visitante:
-            </div>
-
-
-            <div fxFlex="70" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
-                {{ datosPartido.equipoVisitante | uppercase }}
-            </div>
-
-            <!-- Fecha -->
-            <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
-                Fecha:
-            </div>
-
-
-            <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
-                {{ datosPartido.fechaHora | date:'dd/MM/yyyy' }}
-            </div>
-
-            <!-- Localidad -->
-            <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="35" fxFlex.xs="100" fxFlex.sm="25" class="etiqueta">
-                Localidad:
-            </div>
-
-
-            <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
-                {{ datosPartido.localidad | uppercase }}
-            </div>
-
-            <!-- Fase -->
-            <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="35" fxFlex.xs="100" fxFlex.sm="25" class="etiqueta">
-                Fase:
-            </div>
-
-
-            <div fxFlex="20" fxFlex.sm="35" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
-                {{ datosPartido.fase }}
-            </div>
-
-            <!-- Jornada -->
-            <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
-                Jornada:
-            </div>
-
-
-            <div fxFlex="20" fxFlex.sm="65" fxFlex.xs="100" class="info-partido">
-                {{ datosPartido.jornada }}
-            </div>
-
-            <!-- Otros comentarios -->
-            <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta"
-                *ngIf="datosPartido.comentario !== ''">
-                Otros datos:
-            </div>
-
-            <div fxFlex="70" fxFlex.xs="100" fxFlex.sm="65" class="info-partido" *ngIf="datosPartido.comentario !== ''">
-                {{ datosPartido.comentario }}
-            </div>
+            
+            <app-data-partido [datosPartido]="datosPartido"></app-data-partido>
 
             <!-- Listado con los cortes -->
             <h3 class="subtitulo" *ngIf="!cargando">Listado de cortes</h3>

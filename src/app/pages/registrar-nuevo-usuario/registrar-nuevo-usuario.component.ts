@@ -7,10 +7,9 @@ import { DataService } from '../../services/data.service';
 import { DatosRol } from '../../interfaces/data.interface';
 import { InterdataService } from '../../services/interdata.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogModificarUsuarioComponent } from '../../components/dialog-modificar-usuario/dialog-modificar-usuario.component';
 import { Usuario } from '../../interfaces/usuario.interface';
-import { DialogConfirmarUsuarioModificadoComponent } from '../../components/dialog-confirmar-usuario-modificado/dialog-confirmar-usuario-modificado.component';
-import { DialogConfirmarErrorComponent } from '../../components/dialog-confirmar-error/dialog-confirmar-error.component';
+import { DialogModificarComponent } from '../../components/dialog-modificar/dialog-modificar.component';
+import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
 
 @Component({
   selector: 'app-registrar-nuevo-usuario',
@@ -72,14 +71,15 @@ export class RegistrarNuevoUsuarioComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const dialogRef = this.dialog.open(DialogModificarUsuarioComponent,
-      { restoreFocus: false, data: { modificado: false }});
-
-    // const dialogRef = this.user ?
-    //   this.dialog.open(DialogModificarUsuarioComponent,
-    //     { restoreFocus: false, data: { modificado: false } }) ?
-      // this.dialog.open(DialogNuevoPartidoComponent,
-      //   { restoreFocus: false, data: { guardado: false } });
+    // TODO: AÑADIR LA OPCIÓN PARA LA CREACIÓN DE UN NUEVO USUARIO
+    const dialogRef = this.dialog.open(DialogModificarComponent,
+      { 
+        restoreFocus: false, 
+        data: { 
+          modificado: false,
+          mensajeDialog: '¿Desea modificar los datos del usuario?',
+        }
+      });
 
     dialogRef.afterClosed().subscribe( result => {
       if (result) {
@@ -96,15 +96,22 @@ export class RegistrarNuevoUsuarioComponent implements OnInit, OnDestroy {
       password: this.user!.nif!.substring(0, 8),
       _id: this.user!._id
     })
-    console.log("Usuario a modificar:", updateUser)
     
-    this.authService.herokuUpdateUser(updateUser).subscribe( () => {
-      this.dialog.open(DialogConfirmarUsuarioModificadoComponent,
-        { restoreFocus: false });
+    this.authService.herokuUpdateUser(updateUser)
+      .subscribe( () => {
+      this.dialog.open(DialogConfirmarComponent,
+        { 
+          restoreFocus: false, 
+          data: 'Datos del usuario modificados correctamente.'
+        });
       this.router.navigateByUrl('/dashboard/listado-usuarios');
-    }, err => {
-      this.dialog.open(DialogConfirmarErrorComponent,
-        { restoreFocus: false });
+    }, (err) => {
+      console.log(err)
+      this.dialog.open(DialogConfirmarComponent,
+        { 
+          restoreFocus: false, 
+          data: 'Ha ocurrido un error inesperado al intentar modificar los datos. Inténtelo de nuevo más tarde y consulte con el administrador del sitio.' 
+        });
       this.router.navigateByUrl('/dashboard/listado-usuarios');
     });
 

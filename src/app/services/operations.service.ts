@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FlexAlignStyleBuilder } from '@angular/flex-layout';
 import { DatosFiltroVideotest, DatosCorte } from '../interfaces/data.interface';
+import { Usuario } from '../interfaces/usuario.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,12 @@ export class OperationsService {
     }
   }
 
+  /***************************************************/
+  /********     OPERACIONES USUARIOS           *******/
+  /***************************************************/
+  nombreCompletoUsuario(usuario: Usuario): string {
+    return `${usuario.nombre} ${usuario.apellidos}`;
+  }
 
   /***************************************************/
   /********     OPERACIONES FILTROS CORTES     *******/

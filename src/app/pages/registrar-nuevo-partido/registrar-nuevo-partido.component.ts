@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import * as _moment from 'moment';
-import Swal from 'sweetalert2';
 
 import { DataService } from '../../services/data.service';
 import { DatosPartido } from '../../interfaces/data.interface';
 import { OperationsService } from '../../services/operations.service';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogNuevoPartidoComponent } from '../../components/dialog-nuevo-partido/dialog-nuevo-partido.component';
-import { DialogModificarPartidoComponent } from '../../components/dialog-modificar-partido/dialog-modificar-partido.component';
 import { InterdataService } from '../../services/interdata.service';
+import { DialogModificarComponent } from '../../components/dialog-modificar/dialog-modificar.component';
+import { DialogRegistrarComponent } from '../../components/dialog-registrar/dialog-registrar.component';
+import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
+import { PartidosService } from '../../services/partidos.service';
 
-const moment = _moment;
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -61,7 +61,7 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private dataService: DataService,
+    private partidosService: PartidosService,
     private operationsService: OperationsService,
     private interdataService: InterdataService,
     private dialog: MatDialog
@@ -76,7 +76,7 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
 
     const idPartido = this.interdataService.getIdPartidoFromCache();
     if (idPartido) {
-      this.dataService.obtenerDatosPartido(idPartido)
+      this.partidosService.obtenerDatosPartido(idPartido)
         .subscribe(({ partido }) => {
           this.datosPartido = partido;
 
@@ -125,10 +125,16 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
     }
 
     const dialogRef = this.datosPartido ?
-      this.dialog.open(DialogModificarPartidoComponent,
-        { restoreFocus: false, data: { modificado: false } }) :
-      this.dialog.open(DialogNuevoPartidoComponent,
-        { restoreFocus: false, data: { guardado: false } });
+      this.dialog.open(DialogModificarComponent,
+        { 
+          restoreFocus: false, 
+          data: { modificado: false, mensajeDialog: '¿Desea modificar los datos del partido?' } 
+        }) :
+      this.dialog.open(DialogRegistrarComponent,
+        { 
+          restoreFocus: false, 
+          data: { registrado: false, mensajeDialog: '¿Desea registrar los datos del partido?' } 
+        });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -164,24 +170,24 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
     datosPartido.equipoLocal = datosPartido.equipoLocal.toUpperCase();
     datosPartido.equipoVisitante = datosPartido.equipoVisitante.toUpperCase();
 
-    this.dataService.modificarDatosPartido(datosPartido)
+    this.partidosService.modificarDatosPartido(datosPartido)
       .subscribe(({ partido }) => {
         this.interdataService.setIdPartidoToCache(partido._id);
         this.router.navigateByUrl(`/dashboard/partidos/partido`);
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Modificación completada',
-          text: `Los datos del partido ${datosPartido.equipoLocal} - ${datosPartido.equipoVisitante} han sido actualizados correctamente.`
-        });
+        this.dialog.open(DialogConfirmarComponent,
+          {
+            restoreFocus: false,
+            data: `Los datos del partido ${datosPartido.equipoLocal} - ${datosPartido.equipoVisitante} han sido actualizados correctamente.`
+          })
       }, err => {
         console.log(err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Ha ocurrido un problema',
-          text: 'Debido a un error inesperado no se ha podido modificar los datos del partido. Inténtelo de nuevo más tarde.'
-        })
-
+        this.dialog.open(DialogConfirmarComponent,
+          {
+            restoreFocus: false,
+            data: 'Debido a un error inesperado no se ha podido modificar los datos del partido. Inténtelo de nuevo más tarde. Contante con el administrador del sitio.'
+          })
+        
       });
   }
 
@@ -210,23 +216,25 @@ export class RegistrarNuevoPartidoComponent implements OnInit {
     datosPartido.equipoLocal = datosPartido.equipoLocal.toUpperCase();
     datosPartido.equipoVisitante = datosPartido.equipoVisitante.toUpperCase();
 
-    this.dataService.guardarPartido(datosPartido)
+    this.partidosService.guardarPartido(datosPartido)
       .subscribe(({ partido }) => {
         this.interdataService.setIdPartidoToCache(partido._id);
         this.router.navigateByUrl(`/dashboard/partidos/partido`);
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Registro completado',
-          text: 'El partido se ha registrado correctamente.'
-        });
-      }, () => {
+        this.dialog.open(DialogConfirmarComponent,
+          {
+            restoreFocus: false,
+            data: 'El partido se ha registrado correctamente.'
+          });
 
-        Swal.fire({
-          icon: 'error',
-          title: 'Ha ocurrido un problema',
-          text: 'Debido a un error inesperado no se ha podido registrar el partido. Inténtelo de nuevo más tarde.'
-        })
+      }, err => {
+        console.log(err);
+
+        this.dialog.open(DialogConfirmarComponent,
+          {
+            restoreFocus: false,
+            data: 'Debido a un error inesperado no se ha podido registrar el partido. Inténtelo de nuevo más tarde. Contacte con el administrador del sitio.'
+          });
 
       });
   }

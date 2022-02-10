@@ -1,2 +1,2 @@
 <input #csvInput hidden="true" class="form-control-file" type="file" onclick="this.value=null" (change)="csvInputChange($event)" accept=".csv"/>
-<button mat-flat-button color="primary" (click)="csvInput.click()">Cargar fichero csv</button>
+<button mat-button (click)="csvInput.click()"> {{ textoBoton }} </button>

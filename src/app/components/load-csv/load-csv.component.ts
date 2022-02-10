@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Usuario } from 'src/app/interfaces/usuario.interface';
-import Swal from 'sweetalert2';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { DialogConfirmarComponent } from '../dialog-confirmar/dialog-confirmar.component';
 
 @Component({
   selector: 'app-load-csv',
@@ -11,7 +12,11 @@ export class LoadCsvComponent implements OnInit {
 
   @Output() onLoadCsv = new EventEmitter<any[]>();
 
-  constructor() { }
+  @Input() textoBoton: string = 'Cargar fichero CSV';
+
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit() {
   }
@@ -19,7 +24,11 @@ export class LoadCsvComponent implements OnInit {
   csvInputChange($event: any){
     const file: File = $event.target.files[0];
     if(!file || !file.name.endsWith('.csv')){
-      Swal.fire('Error', 'El archivo debe ser un archivo CSV', 'error');
+      this.dialog.open( DialogConfirmarComponent, 
+        {
+          restoreFocus: false, 
+          data: '¡Error! El archivo debe de ser un archivo de tipo CSV.'
+        })
       return;
     }
     try{
@@ -32,24 +41,34 @@ export class LoadCsvComponent implements OnInit {
         this.onLoadCsv.emit(usuarios);
       }
     }catch(error){
-      Swal.fire('Error', 'Se ha producido un error en la carga del fichero', 'error');
+      this.dialog.open( DialogConfirmarComponent, 
+        {
+          restoreFocus: false, 
+          data: 'Se ha producido un error en la carga del fichero.'
+        })
     }
   }
 
   csvToArray(csv: string){
     const lines = csv.split('\n');
     const result = [];
-    const headers = lines[0].split(',');
+    const headers = lines[0].split(';');
+    
+    headers.forEach(header => {
+      header.replace('\r', '');
+    })
+
     for(let i = 1; i < lines.length; i++){
       if (lines[i]){
         const obj: any = {};
-        const currentline = lines[i].split(',');
+        const currentline = lines[i].split(';');
         for(let j = 0; j < headers.length; j++){
           obj[headers[j].trim()] = currentline[j].trim();
         }  
         result.push(obj);
       }
     }
+    console.log('csvToArray:', result);
     return result;
   }
 

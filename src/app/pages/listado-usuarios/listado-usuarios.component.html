@@ -8,6 +8,11 @@
         <app-spinner-cargando></app-spinner-cargando>
     </div>
 
+    <div class="m-2" class="content-botones" fxLayoutAlign="end">
+        <button mat-button (click)="registrarListadoUsuarios()"> Registrar usuarios mediante CSV </button>
+        <button mat-button disabled (click)="registrarUsuario()"> Registrar nuevo usuario </button>
+    </div>
+
     <div class="tabla-usuarios w-100 mat-elevation-z2" *ngIf="!cargandoUsuarios">
 
         <table class="w-100 mat-elevation-z2" mat-table [dataSource]="dataSource" matSort
@@ -79,6 +84,6 @@
 
     </div>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" [length]="resultLength">
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]" [length]="resultLength">
     </mat-paginator>
 </div>

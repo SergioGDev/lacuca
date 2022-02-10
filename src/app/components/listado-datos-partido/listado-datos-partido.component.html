@@ -1,0 +1,78 @@
+<div>
+
+  <mat-form-field class="m-3 input-busqueda" appearance="standard">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ej.: Equipo o fecha" #input>
+  </mat-form-field>
+
+  <!-- TABLA VISTA NORMAL -->
+  <div>
+    <table fxShow.xs="false" mat-table [dataSource]="dataSource" class="w-100"
+      (matSortChange)="ordenarTablaListadoPartidos($event)" matSort>
+
+      <ng-container matColumnDef="equipoLocal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipo local </th>
+        <td mat-cell *matCellDef="let element"> {{element.equipoLocal | uppercase}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="equipoVisitante">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipo vistante </th>
+        <td mat-cell *matCellDef="let element"> {{element.equipoVisitante | uppercase}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{element.fechaHora | date:'dd/MM/yyyy'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Partidos </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button color="basic" (click)="verDatosPartido(element._id)">Datos del partido</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No se han encontrado datos para "{{input.value}}"</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TABLA RESPONSIVE -->
+  <div>
+    <table fxShow="false" fxShow.xs="true" mat-table [dataSource]="dataSource" class="w-100"
+      (matSortChange)="ordenarTablaListadoPartidos($event)" matSort>
+
+      <ng-container matColumnDef="partido">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Listado partidos </th>
+        <td mat-cell *matCellDef="let element">
+          <div fxLayout="column">
+            <div fxFlexAlign="center" class="mt-2 negrita"> {{element.equipoLocal | uppercase}} </div>
+            <div fxFlexAlign="center"> - </div>
+            <div fxFlexAlign="center" class="mb-4 negrita"> {{element.equipoVisitante | uppercase}} </div>
+
+            <div fxFlexAlign="center"> {{ element.fechaHora | date:'dd/MM/yyyy' }} </div>
+
+            <div fxFlexAlign="center" class="mb-2 mt-2">
+              <button mat-raised-button color="basic" (click)="verDatosPartido(element._id)">Datos del partido</button>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumsXS"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumsXS;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No se han encontrado datos para "{{input.value}}"</td>
+      </tr>
+    </table>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 50]" [length]="resultsLength">
+  </mat-paginator>
+</div>

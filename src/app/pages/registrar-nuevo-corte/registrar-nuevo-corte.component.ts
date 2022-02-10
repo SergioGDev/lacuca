@@ -1,15 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
-
-import { DatosPartido, DatosCorte, OptionItem, HorMinSeg, TempoCorte } from '../../interfaces/data.interface';
-import { DataService } from '../../services/data.service';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { InterdataService } from '../../services/interdata.service';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogNuevoCorteComponent } from '../../components/dialog-nuevo-corte/dialog-nuevo-corte.component';
-import { DialogModificarCorteComponent } from '../../components/dialog-modificar-corte/dialog-modificar-corte.component';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+
+import { DatosPartido, DatosCorte, HorMinSeg, TempoCorte } from '../../interfaces/data.interface';
+import { DataService } from '../../services/data.service';
+import { InterdataService } from '../../services/interdata.service';
+import { DialogModificarComponent } from '../../components/dialog-modificar/dialog-modificar.component';
+import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
+import { DialogRegistrarComponent } from '../../components/dialog-registrar/dialog-registrar.component';
+import { PartidosService } from '../../services/partidos.service';
+import { CortesService } from '../../services/cortes.service';
 
 @Component({
   selector: 'app-registrar-nuevo-corte',
@@ -31,6 +33,9 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
   vArbitro: string[] = this.dataService.obtenerVArbitro();
 
 
+  // Para indicar que se viene de un informe
+  validacionesObligatorias: boolean = false;
+
   formNuevoCorte: FormGroup = this.fb.group({
     horaInicio: [ , [Validators.required, Validators.min(0)]],
     minInicio: [ , [Validators.required, Validators.min(0), Validators.max(60)]],
@@ -38,7 +43,7 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
     horaFin: [ , [Validators.required, Validators.min(0)]],
     minFin: [ , [Validators.required, Validators.min(0), Validators.max(60)]],
     segFin: [ , [Validators.required, Validators.min(0), Validators.max(60)]],
-    checkMasInfo: [],
+    checkMasInfo: [ ],
     comentario: [],
     valoracion: [],
     situacion: [],
@@ -50,12 +55,15 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
     validators: [this.datosExtraValidator(), this.validarTiemposCorte()]
   })
 
+
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private dataService: DataService,
+    private partidosService: PartidosService,
+    private cortesService: CortesService,
     private interdataService: InterdataService
   ) { }
 
@@ -64,22 +72,33 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
     // Obtenemos los datos del partido
     const idPartido = this.interdataService.getIdPartidoFromCache();
     const idCorte = this.interdataService.getIdCorteFromCache();
+
     if (idPartido) {
 
-      this.dataService.obtenerDatosPartido(idPartido)
+      this.partidosService.obtenerDatosPartido(idPartido)
         .subscribe(({ partido }) => {
           this.datosPartido = partido;
           this.urlIframe = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${this.datosPartido.url}`);
         });
 
       // Si se modifica un corte, asignamos los datos la formulario
-      if (!this.router.url.includes('modificar-corte')) {
+      if (!this.router.url.includes('modificar-corte') && !this.router.url.includes('informes/realizar-informe')) {
+        this.cargando = false;
+        return;
+      }
+
+      // Si se proviene de un informe, obligamos a que las validaciones haya que rellenarlas
+      if (this.router.url.includes('informes/realizar-informe')) {
+        this.validacionesObligatorias = true;
+        this.formNuevoCorte.reset({
+          checkMasInfo: true 
+        })
         this.cargando = false;
         return;
       }
 
       if (idCorte) {
-        this.dataService.obtenerDatosCorte(idCorte)
+        this.cortesService.obtenerDatosCorte(idCorte)
           .subscribe((datosCorteRest: any) => {
             const {
               hIni, mIni, sIni, hFin, mFin, sFin
@@ -98,7 +117,8 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
               situacion: datosCorteRest.situacion,
               tipo: datosCorteRest.tipo,
               posicion: datosCorteRest.posicion,
-              arbitro: datosCorteRest.arbitro
+              arbitro: datosCorteRest.arbitro,
+              checkOtroCorte: false,
             });
 
             this.datosCorte = {
@@ -157,19 +177,23 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
     return (this.formNuevoCorte.value['checkMasInfo']);
   }
 
+  // Indica si se muestra el mensaje de error indicando que el tiempo de fin tiene que ser mayor que el de inicio
+  mostrarErrorTiempoInicioFin(): boolean {
+    const segInicio = this.obtenerSumaSegundos(this.formNuevoCorte.get('horaInicio')!.value,
+      this.formNuevoCorte.get('minInicio')!.value, this.formNuevoCorte.get('segInicio')!.value);
+    const segFin = this.obtenerSumaSegundos(this.formNuevoCorte.get('horaFin')!.value,
+      this.formNuevoCorte.get('minFin')!.value, this.formNuevoCorte.get('segFin')!.value);
+
+    return this.formNuevoCorte.get('horaInicio')!.touched &&
+      this.formNuevoCorte.get('minInicio')!.touched &&
+      this.formNuevoCorte.get('segInicio')!.touched &&
+      this.formNuevoCorte.get('horaFin')!.touched &&
+      this.formNuevoCorte.get('minFin')!.touched &&
+      this.formNuevoCorte.get('segFin')!.touched &&
+      segInicio >= segFin;
+  }
+
   // ****** ERRORES ***** //
-  mostrarErrorHoraInicio() {
-    return (this.formNuevoCorte.get('horaInicio')?.invalid ||
-      this.formNuevoCorte.get('minInicio')?.invalid ||
-      this.formNuevoCorte.get('segInicio')?.invalid);
-  }
-
-  mostrarErrorHoraFin() {
-    return (this.formNuevoCorte.get('horaFin')?.invalid ||
-      this.formNuevoCorte.get('minFin')?.invalid ||
-      this.formNuevoCorte.get('segFin')?.invalid);
-  }
-
   // Si se indican valoraciones de la jugada, se les añade un requerido al formulario.
   datosExtraValidator() {
     return (formGroup: FormGroup) => {
@@ -203,15 +227,19 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
       const segFin = this.obtenerSumaSegundos(formGroup.get('horaFin')!.value,
         formGroup.get('minFin')!.value, formGroup.get('segFin')!.value);
 
-      if (segInicio >= segFin) {
-        formGroup.get('horaFin')?.setErrors({ horaFinMenorError: true });
-        formGroup.get('minFin')?.setErrors({ horaFinMenorError: true });
-        formGroup.get('segFin')?.setErrors({ horaFinMenorError: true });
-      } else {
-        formGroup.get('horaFin')?.setErrors(null);
-        formGroup.get('minFin')?.setErrors(formGroup.get('minFin')!.value > 59 ? { errorMax: true } : null);
-        formGroup.get('segFin')?.setErrors(formGroup.get('segFin')!.value > 59 ? { errorMax: true } : null);
-      }
+      if (formGroup.get('horaInicio')!.touched && formGroup.get('minInicio')!.touched &&
+        formGroup.get('segInicio')!.touched && formGroup.get('horaFin')!.touched &&
+        formGroup.get('minFin')!.touched && formGroup.get('segFin')!.touched) {
+          if (segInicio >= segFin) {
+            formGroup.get('horaFin')?.setErrors({ horaFinMenorError: true });
+            formGroup.get('minFin')?.setErrors({ horaFinMenorError: true });
+            formGroup.get('segFin')?.setErrors({ horaFinMenorError: true });
+          } else {
+            formGroup.get('horaFin')?.setErrors(null);
+            formGroup.get('minFin')?.setErrors(formGroup.get('minFin')!.value > 59 ? { errorMax: true } : null);
+            formGroup.get('segFin')?.setErrors(formGroup.get('segFin')!.value > 59 ? { errorMax: true } : null);
+          }
+        }
     }
   }
 
@@ -255,35 +283,47 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
       arbitro: hayValoracion ? this.formNuevoCorte.get('arbitro')?.value : null,
     }
 
-    this.dataService.guardarCorte(nuevoCorte).subscribe(
+    this.cortesService.guardarCorte(nuevoCorte).subscribe(
       () => {
         if (this.formNuevoCorte.get('checkOtroCorte')?.value) {
-          this.formNuevoCorte.reset();
+          if (this.router.url.includes('informes/realizar-informe')) {
+            this.formNuevoCorte.reset({
+              checkMasInfo: true
+            });
+          } else {
+            this.formNuevoCorte.reset();
+          }
+          
           Object.keys(this.formNuevoCorte.controls).forEach(key => {
             this.formNuevoCorte.get(key)?.setErrors(null);
           });
-          Swal.fire({
-            title: 'Corte registrado',
-            text: 'Se ha registrado el corte correctamente.',
-            icon: 'success'
-          })
+          this.dialog.open(DialogConfirmarComponent,
+            {restoreFocus: false, data: 'Se ha registrado el corte correctamente'})
+
         } else {
-          this.interdataService.setIdPartidoToCache(this.datosPartido._id!);
-          this.router.navigateByUrl(`/dashboard/partidos/partido`);
-          Swal.fire({
-            title: 'Corte registrado',
-            text: 'Se ha registrado el corte correctamente.',
-            icon: 'success'
-          })
+          if (this.router.url.includes('informes/realizar-informe')) {
+            // Vuelve a la realización del informe
+            this.router.navigateByUrl(`/dashboard/informes/realizar-informe`);
+          
+            this.dialog.open(DialogConfirmarComponent,
+             {restoreFocus: false, data: 'Se ha registrado el corte correctamente'})
+
+          } else {
+            // Accede a los datos del partido
+            this.interdataService.setIdPartidoToCache(this.datosPartido._id!);
+            this.router.navigateByUrl(`/dashboard/partidos/partido`);
+          
+            this.dialog.open(DialogConfirmarComponent,
+             {restoreFocus: false, data: 'Se ha registrado el corte correctamente'})
+          }
         }
       },
       err => {
         console.log(err);
-        Swal.fire({
-          title: 'Ha ocurrido un error',
-          text: 'Ha ocurrido un error al registrar el corte. Inténtelo de nuevo más tarde',
-          icon: 'error'
-        })
+
+        this.dialog.open(DialogConfirmarComponent,
+          {restoreFocus: false, data: 'Ha ocurrido un error al registrar el corte. Inténtelo de nuevo más tarde y contacte con el administrador.'})
+        
       }
     );
   }
@@ -321,23 +361,23 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
       arbitro: hayValoracion ? this.formNuevoCorte.get('arbitro')?.value : null,
     }
 
-    this.dataService.modificarDatosCorte(corteModificado).subscribe(
+    this.cortesService.modificarDatosCorte(corteModificado).subscribe(
       () => {
+
         this.interdataService.setIdPartidoToCache(this.datosPartido._id!);
         this.router.navigateByUrl(`/dashboard/partidos/partido`);
-        Swal.fire({
-          title: 'Corte modificado',
-          text: 'Se ha modificado el corte correctamente.',
-          icon: 'success'
-        })
+        this.dialog.open(DialogConfirmarComponent,
+          { restoreFocus: false, data: 'Se han modificado los datos del corte correctamente.' });
+
       },
       err => {
+
         console.log(err);
-        Swal.fire({
-          title: 'Ha ocurrido un error',
-          text: 'Ha ocurrido un error al modificar los datos del corte. Inténtelo de nuevo más tarde',
-          icon: 'error'
-        })
+        this.dialog.open(DialogConfirmarComponent,
+          { 
+            restoreFocus: false, 
+            data: 'Ha ocurrido un error al modificar los datos del corte. Inténtelo de nuevo más tarde y consulte con el administrador del sitio.' 
+          });
       }
     );
   }
@@ -348,15 +388,20 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
 
   submit() {
     if (this.formNuevoCorte.invalid) {
+      console.log(this.formNuevoCorte);
       this.formNuevoCorte.markAllAsTouched();
       return;
     }
 
     const dialogRef = this.datosCorte ?
-      this.dialog.open(DialogModificarCorteComponent,
-        { restoreFocus: false, data: { modificado: false } }) :
-      this.dialog.open(DialogNuevoCorteComponent,
-        { restoreFocus: false, data: { guardado: false } });
+      this.dialog.open(DialogModificarComponent,
+        { restoreFocus: false, data: { modificado: false, mensajeDialog: '¿Desea modificar los datos del corte?' } }) :
+      this.dialog.open(DialogRegistrarComponent,
+        { 
+          restoreFocus: false, 
+          data: { registrado: false , mensajeDialog: '¿Desea registrar los datos del nuevo corte?'
+        }
+      });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

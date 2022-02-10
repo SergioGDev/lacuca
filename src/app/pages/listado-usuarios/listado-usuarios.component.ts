@@ -3,7 +3,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Usuario } from 'src/app/interfaces/usuario.interface';
-import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { InterdataService } from '../../services/interdata.service';
@@ -12,6 +11,13 @@ import { InterdataService } from '../../services/interdata.service';
   selector: 'app-listado-usuarios',
   templateUrl: './listado-usuarios.component.html',
   styles: [
+    `.content-botones {
+        background-color: white;
+        border-radius: 3px;
+        box-shadow: 2px 2px 5px var(--color-texto-negro-transparente);
+        margin: 15px;
+        padding: 10px;
+    }`
   ]
 })
 export class ListadoUsuariosComponent implements OnInit {
@@ -58,7 +64,6 @@ export class ListadoUsuariosComponent implements OnInit {
 
   ordenarTablaBusqueda(sort: any) {
     const data = this.listadoUsuarios.slice();
-    console.log('Listado antes de ordenar:', this.listadoUsuarios);
     if (!sort.active || sort.direction === '') {
       this.listadoUsuarios = data;
       return;
@@ -72,10 +77,10 @@ export class ListadoUsuariosComponent implements OnInit {
 
           case 'nombre':
 
-            if ((isAsc && data[j-1].nombre!.toLowerCase() > data[j].nombre!.toLowerCase()) || 
-              (!isAsc && data[j-1].nombre!.toLowerCase() < data[j].nombre!.toLowerCase())) {
-              aux = data[j-1];
-              data[j-1] = data[j];
+            if ((isAsc && data[j - 1].nombre!.toLowerCase() > data[j].nombre!.toLowerCase()) ||
+              (!isAsc && data[j - 1].nombre!.toLowerCase() < data[j].nombre!.toLowerCase())) {
+              aux = data[j - 1];
+              data[j - 1] = data[j];
               data[j] = aux;
             }
 
@@ -83,10 +88,10 @@ export class ListadoUsuariosComponent implements OnInit {
 
           case 'apellidos':
 
-            if ((isAsc && data[j-1].apellidos!.toLowerCase() > data[j].apellidos!.toLowerCase()) || 
-              (!isAsc && data[j-1].apellidos!.toLowerCase() < data[j].apellidos!.toLowerCase())) {
-              aux = data[j-1];
-              data[j-1] = data[j];
+            if ((isAsc && data[j - 1].apellidos!.toLowerCase() > data[j].apellidos!.toLowerCase()) ||
+              (!isAsc && data[j - 1].apellidos!.toLowerCase() < data[j].apellidos!.toLowerCase())) {
+              aux = data[j - 1];
+              data[j - 1] = data[j];
               data[j] = aux;
             }
 
@@ -94,10 +99,10 @@ export class ListadoUsuariosComponent implements OnInit {
 
           case 'nif':
 
-            if ((isAsc && data[j-1].nif!.toLowerCase() > data[j].nif!.toLowerCase()) || 
-              (!isAsc && data[j-1].nif!.toLowerCase() < data[j].nif!.toLowerCase())) {
-              aux = data[j-1];
-              data[j-1] = data[j];
+            if ((isAsc && data[j - 1].nif!.toLowerCase() > data[j].nif!.toLowerCase()) ||
+              (!isAsc && data[j - 1].nif!.toLowerCase() < data[j].nif!.toLowerCase())) {
+              aux = data[j - 1];
+              data[j - 1] = data[j];
               data[j] = aux;
             }
 
@@ -105,10 +110,10 @@ export class ListadoUsuariosComponent implements OnInit {
 
           case 'delegacion':
 
-            if ((isAsc && data[j-1].delegacion!.toLowerCase() > data[j].delegacion!.toLowerCase()) || 
-              (!isAsc && data[j-1].delegacion!.toLowerCase() < data[j].delegacion!.toLowerCase())) {
-              aux = data[j-1];
-              data[j-1] = data[j];
+            if ((isAsc && data[j - 1].delegacion!.toLowerCase() > data[j].delegacion!.toLowerCase()) ||
+              (!isAsc && data[j - 1].delegacion!.toLowerCase() < data[j].delegacion!.toLowerCase())) {
+              aux = data[j - 1];
+              data[j - 1] = data[j];
               data[j] = aux;
             }
 
@@ -116,10 +121,10 @@ export class ListadoUsuariosComponent implements OnInit {
 
           case 'email':
 
-            if ((isAsc && data[j-1].email!.toLowerCase() > data[j].email!.toLowerCase()) || 
-              (!isAsc && data[j-1].email!.toLowerCase() < data[j].email!.toLowerCase())) {
-              aux = data[j-1];
-              data[j-1] = data[j];
+            if ((isAsc && data[j - 1].email!.toLowerCase() > data[j].email!.toLowerCase()) ||
+              (!isAsc && data[j - 1].email!.toLowerCase() < data[j].email!.toLowerCase())) {
+              aux = data[j - 1];
+              data[j - 1] = data[j];
               data[j] = aux;
             }
 
@@ -129,14 +134,11 @@ export class ListadoUsuariosComponent implements OnInit {
       }
     }
     this.listadoUsuarios = data;
-    console.log('Listado DESPUÉS de ordenar:', this.listadoUsuarios);
-
     this.asignarDataSource();
   }
 
   compare(a: string, b: string, isAsc: boolean) {
     const result = (a && b) ? (a.toLowerCase() < b.toLowerCase() ? -1 : 1) * (isAsc ? 1 : -1) : (a ? -1 : 1)
-    console.log(`CompareTo --> a: ${a} | b: ${b} | result: ${result}`)
     return result;
   }
 
@@ -145,5 +147,11 @@ export class ListadoUsuariosComponent implements OnInit {
     this.router.navigateByUrl('/dashboard/listado-usuarios/editar-usuario');
   }
 
+  registrarUsuario() {
+    
+  }
 
+  registrarListadoUsuarios() {
+    this.router.navigateByUrl('/dashboard/listado-usuarios/registrar-listado-usuarios')
+  }
 }

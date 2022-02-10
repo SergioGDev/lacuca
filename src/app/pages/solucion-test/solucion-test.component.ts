@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { ItemPreguntaRespondida } from '../../interfaces/data.interface';
 import { lStorageVSoluciones, lStorageNumeroPreguntas } from '../../interfaces/constantes.interface';
 
@@ -26,7 +27,6 @@ export class SolucionTestComponent implements OnInit, OnDestroy {
 
     if (itemRespuestas) {
       this.vMisRespuestas = JSON.parse(itemRespuestas!);
-      console.log(this.vMisRespuestas);
       this.numeroPreguntas = parseInt(localStorage.getItem(lStorageNumeroPreguntas)!);
       this.preguntasAcertadas = this.numeroPreguntas - this.vMisRespuestas.length;
 

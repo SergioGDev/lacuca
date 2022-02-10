@@ -14,7 +14,10 @@ html, body {
 
 body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+    font-family: 'Open Sans', sans-serif;
 }
 
 .spacer {
@@ -27,7 +30,12 @@ body {
 }
 
 .titulo {
+    text-align: left;
+    font-family: 'Public Sans', sans-serif;
+    font-weight: bold;
     font-size: 30pt;
+    color: var(--color-texto-negro);
+    text-shadow: 0px 3px 3px var(--color-texto-negro-transparente);
 }
 
 .subtitulo {
@@ -78,7 +86,7 @@ ol>li:before {
 
     --color-eliminar: #990000;
     --color-modificar: #282800;
-    --color-ver-video: #42a242;
+    --color-ver-video: #265526;
     --color-cortes: #efefef;
 
     --color-error: #f44336;

@@ -26,6 +26,11 @@ import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-
 import { PanelAdministracionVideotestComponent } from './panel-administracion-videotest/panel-administracion-videotest.component';
 import { RegistrarNuevoVideotestComponent } from './registrar-nuevo-videotest/registrar-nuevo-videotest.component';
 import { RegistrarNuevoUsuarioComponent } from './registrar-nuevo-usuario/registrar-nuevo-usuario.component';
+import { RegistrarPartidosCsvComponent } from './registrar-partidos-csv/registrar-partidos-csv.component';
+import { InformesComponent } from './informes/informes.component';
+import { RegistrarNuevoInformeComponent } from './registrar-nuevo-informe/registrar-nuevo-informe.component';
+import { RegistrarUsuariosCsvComponent } from './registrar-usuarios-csv/registrar-usuarios-csv.component';
+import { RealizarInformeComponent } from './realizar-informe/realizar-informe.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +50,11 @@ import { RegistrarNuevoUsuarioComponent } from './registrar-nuevo-usuario/regist
     PanelAdministracionVideotestComponent,
     RegistrarNuevoVideotestComponent,
     RegistrarNuevoUsuarioComponent,
+    RegistrarPartidosCsvComponent,
+    InformesComponent,
+    RegistrarNuevoInformeComponent,
+    RegistrarUsuariosCsvComponent,
+    RealizarInformeComponent,
   ],
   exports: [
     DashboardComponent,
