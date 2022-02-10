@@ -1,0 +1,12 @@
+.etiqueta,
+.info-partido {
+    margin: 12px !important;
+}
+
+.etiqueta {
+    font-weight: 900;
+}
+
+.info-partido {
+    font-size: 12pt;
+}

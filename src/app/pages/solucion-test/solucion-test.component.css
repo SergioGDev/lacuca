@@ -11,14 +11,6 @@
     color: var(--color-error);
 }
 
-
-.titulo {
-    font-size: 30pt;
-    color: var(--color-texto-negro);
-    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
-    margin: 20px
-}
-
 .solucion-respuestas {
     border: 1px solid var(--color-texto-negro-transparente);
     border-radius: 3px;

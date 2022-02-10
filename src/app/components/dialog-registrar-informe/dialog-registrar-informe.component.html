@@ -1,0 +1,14 @@
+<div class="content-dialog">
+
+    <mat-dialog-content>
+        <div> Se va a {{ modificar ? 'modificar el registro del' : ' registrar el'}} informe. 
+            ¿Quieres comenzar ahora a realizar este informe o prefieres hacerlo en otro momento? 
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close> Cancelar </button>
+        <button mat-button [mat-dialog-close]="true" (click)="registrarCortes()"> Realizar informe ahora </button>
+        <button mat-button [mat-dialog-close]="false" (click)="noRegistrarCortes()"> Realizar en otro momento </button>
+    </mat-dialog-actions>
+</div>

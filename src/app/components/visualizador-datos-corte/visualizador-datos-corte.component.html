@@ -1,14 +1,13 @@
 <div fxLayout="row" fxLayout.md="column" fxLayout.sm="column" fxLayout.xs="column">
 
     <div [fxFlex]="getFxFlexVideo(corte)" fxLayoutAlign="center" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
-        <youtube-player class="youtube-player" [videoId]="corte.datosPartido?.url"
-            suggestedQuality="highres"
+        <app-yt-player-corte class="youtube-player"
+            [videoId]="corte.datosPartido?.url"
             [height]="getYoutubePlayerWidth() / 2"
             [width]="getYoutubePlayerWidth()"
-            [startSeconds]="corte.segundoInicio"
-            [endSeconds]="corte.segundoInicio + corte.duracion"
-            [showBeforeIframeApiLoads]="true">
-        </youtube-player>
+            [startSecond]="corte.segundoInicio"
+            [endSecond]="corte.segundoInicio + corte.duracion">
+        </app-yt-player-corte> 
     </div>
 
     <div fxFlex="40" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" *ngIf="corte.valoracion">

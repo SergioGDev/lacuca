@@ -1,16 +1,12 @@
 <div>
 
-    <div class="header m-2" fxLayout="row" fxLayout.xs="column">
-        <span class="titulo">Listado de partidos</span>
+    <div class="header" fxLayout="row" fxLayout.xs="column">
+        <div class="titulo">Listado de partidos</div>    
+    </div>
 
-        <span fxShow.xs="false" class="spacer"></span>
-
-        <div class="m-2" fxLayoutAlign.xs="end">
-            <button mat-raised-button color="basic" (click)="registrarPartido()">
-                Registrar nuevo partido
-            </button>
-        </div>
-
+    <div class="m-2" class="content-botones" fxLayoutAlign="end" *ngIf="!cargandoListado">
+        <button mat-button (click)="irComponenteCSV()"> Registrar partidos mediante CSV </button>
+        <button mat-button (click)="registrarPartido()"> Registrar nuevo partido </button>
     </div>
 
     <app-spinner-cargando *ngIf="cargandoListado"></app-spinner-cargando>
@@ -20,7 +16,7 @@
     </div>
 
     <div class="w-100" *ngIf="!cargandoListado && listadoPartidos.length !== 0">
-        <app-listado-videos class="w-100" [listadoPartidos]="listadoPartidos"></app-listado-videos>
+        <app-listado-datos-partido class="w-100" [listadoPartidos]="listadoPartidos"></app-listado-datos-partido>
     </div>
     
 

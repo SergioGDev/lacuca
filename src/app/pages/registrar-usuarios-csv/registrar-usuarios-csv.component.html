@@ -1,0 +1,21 @@
+<div fxLayout="column">
+
+    <div class="titulo">
+        Registrar listado de usuarios
+    </div>
+
+    <mat-card class="explicacion">
+        <mat-card-content>
+            Desde este lugar va a poder registrar usuarios de una forma mucho más rápida. 
+            Solo tiene que <b>descargar la plantilla</b> que se facilita abajo y <b>rellenarla con 
+            los datos de los usuarios</b> que va a registrar. Todos los campos son obligatorios.
+        </mat-card-content>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-actions fxLayoutAlign="end">
+            <a mat-button href="/assets/modelo-user.csv" download="modelo-registro-usuarios.csv"> Descargar plantilla </a>
+            <app-load-csv (onLoadCsv)="loadCsv($event)" [textoBoton]="textoBotonAdjuntar"></app-load-csv>
+        </mat-card-actions>
+    </mat-card>
+</div>

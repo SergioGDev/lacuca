@@ -1,3 +1,8 @@
+import { Usuario } from './usuario.interface';
+// ************************************************** //
+// ***************     PREGUNTAS     **************** //
+// ************************************************** //
+
 export interface ItemPregunta {
     _id:            string;
     texto:          string;
@@ -16,6 +21,9 @@ export interface LacucaRespuesta {
     preguntas: ItemPregunta[];
 }
 
+// ************************************************** //
+// ************    DATOS PARTIDO     **************** //
+// ************************************************** //
 export interface DatosPartido {
     _id?:               string;
     __v?:               number;
@@ -30,6 +38,9 @@ export interface DatosPartido {
     comentario:         string;
 }
 
+// ************************************************** //
+// ************    DATOS CORTE       **************** //
+// ************************************************** //
 export interface DatosCorte {
     _id?:           string,
     __v?:           number,
@@ -43,6 +54,9 @@ export interface DatosCorte {
     posicion?:      string,
     arbitro?:       string,
     datosPartido?:  DatosPartido,
+
+    // Para la generación del videotest
+    checked?:       boolean,
 }
 
 export interface OptionItem {
@@ -65,14 +79,66 @@ export interface HorMinSeg {
     segundos:   number
 }
 
-export const DATE_FORMATS = {
-    parse: {
-      dateInput: 'LL',
-    },
-    display: {
-      dateInput: 'YYYY-MM-DD',
-      monthYearLabel: 'YYYY',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'YYYY',
-    },
-  };
+// ************************************************** //
+// ************    VIDEOTEST         **************** //
+// ************************************************** //
+export interface DatosPreguntaVideotest {
+    pregunta: string,
+    respuestas: string[],
+    solucion: string,
+    corte: DatosCorte,
+}
+
+export interface DatosVideotest {
+    _id?:           string,
+    __v?:           string,
+    nombre?:        string,
+    descripcion?:   string,
+    preguntas?:     DatosPreguntaVideotest[],
+}
+
+export interface DatosFiltroVideotest {
+    equipo:                 string,
+    posicion:               string[],
+    situacion:              string[],
+    tipo:                   string[],
+    valoracion:             string[],
+    checkValoracion:        boolean,
+}
+
+// ************************************************** //
+// ***************     INFORMES      **************** //
+// ************************************************** //
+export interface DatosInforme {
+    _id?:                           string,
+    __v?:                           string,
+    idPartido?:                     string,
+    datosPartido?:                  DatosPartido,
+    arbitroPrincipal?:              string,
+    datosArbitroPrincipal?:         Usuario,
+    arbitroAuxiliar?:               string,
+    datosArbitroAuxiliar?:          Usuario,
+    informador?:                    string,
+    datosInformador?:               Usuario,
+    cortesIds?:                     string[],
+    comentarioGeneral?:             string,
+    comentarioArbitroPrincipal?:    string,
+    comentarioArbitroAuxiliar?:     string,
+    notaArbitroPrincipal?:          number,
+    notaArbitroAuxiliar?:           number,
+    finalizado?:                    boolean,
+    estado?:                        string,
+}
+
+export interface LSCortesInforme {
+    idInforme:      string,
+    cortesIds:      string[],
+}
+
+// ************************************************** //
+// ***************     USUARIOS      **************** //
+// ************************************************** //
+export interface DatosRol {
+    description:    string;
+    value:          string;
+}

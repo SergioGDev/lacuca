@@ -10,12 +10,14 @@ export class VisualizadorDatosCorteComponent implements OnInit {
 
   @Input() corte!: DatosCorte;
 
-  constructor() { }
+  constructor( ) { }
 
   ngOnInit(): void {
   }
 
-
+  getUrl() {
+    return `${this.corte.datosPartido?.url}`
+  }
   
   // ************************************************** //
   // ********      FUNCIONES DE TAMAÑO          ******* //
@@ -27,4 +29,5 @@ export class VisualizadorDatosCorteComponent implements OnInit {
   getYoutubePlayerWidth() {
     return window.innerWidth > 500 ? 500 : window.innerWidth;
   }
+
 }

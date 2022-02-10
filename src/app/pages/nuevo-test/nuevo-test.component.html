@@ -1,11 +1,12 @@
 <div class="container-zona-tests m-3">
-    <div class="titulo"> {{ vPreguntas.length > 1 ? 'Test teórico' : 'Pregunta rápida' }} </div>
+    
+    <div class="titulo" *ngIf="!obteniendoPreguntas"> {{ vPreguntas.length > 1 ? 'Test teórico' : 'Pregunta rápida' }} </div>
 
-    <div class="seleccion-preguntas p-4">
+    <app-spinner-cargando *ngIf="obteniendoPreguntas"></app-spinner-cargando>
 
-        <app-spinner-cargando *ngIf="obteniendoPreguntas"></app-spinner-cargando>
+    <div class="seleccion-preguntas p-4" *ngIf="!obteniendoPreguntas">
 
-        <form [formGroup]="formTest" (submit)="enviarTest()" *ngIf="!obteniendoPreguntas">
+        <form [formGroup]="formTest" (submit)="enviarTest()">
 
             <mat-radio-group *ngFor="let pregunta of vPreguntas; index as i" [formControlName]="getFormControlName(i+1)"
                 class="mb-4 rg-pregunta" aria-label="Seleciona una opción" fxLayout="column">
@@ -19,7 +20,7 @@
             </mat-radio-group>
 
 
-            <div class="botones text-center mt-4" *ngIf="!obteniendoPreguntas">
+            <div class="botones text-center mt-4">
                 <button mat-raised-button color="basic" 
                     [disabled]="this.formTest.invalid" 
                     type="submit">

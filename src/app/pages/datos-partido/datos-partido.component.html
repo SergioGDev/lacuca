@@ -1,118 +1,42 @@
 <div fxLayout="column" class="datos-container">
 
-    <h2 class="titulo">Datos del partido</h2>    
-
     <app-spinner-cargando *ngIf="cargando"></app-spinner-cargando>
 
-    <div *ngIf="!cargando" fxFlex="100" fxLayout.sm="row wrap" fxLayoutAlign.sm="center" fxLayout.xs="row wrap" class="acciones text-end">
-        <button id="eliminar-partido" (click)="eliminarPartido()"
-            fxFlex.xs="100" fxFlex.sm="45" mat-raised-button class="m-1">Eliminar partido</button>
-        <button id="modificar-partido" (click)="modificarPartido()"
-            fxFlex.xs="100" fxFlex.sm="45" mat-raised-button class="m-1">Modificar datos</button>
-        <a id="ver-video-partido" [href]="urlVideoPartido()" target="_blank"
-            fxFlex.xs="100" fxFlex.sm="45" mat-raised-button class="m-1">
-            Video del partido
-        </a>
-        <button id="cortes-partido" (click)="generarNuevoCorte()"
-            fxFlex.xs="100" fxFlex.sm="45" mat-raised-button class="m-1">Generar nuevo corte</button>
+    <div class="titulo" *ngIf="!cargando">
+        Datos del partido
     </div>
 
     <!-- Cuadro con los datos del partido -->
-    <div class="info-content" *ngIf="!cargando" fxLayout="row wrap">
+    <mat-card *ngIf="!cargando">
 
-        <!-- Equipo local -->
-        <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100"
-            class="etiqueta">
-            Equipo local:
-        </div>
+        <mat-card-content fxLayout="row wrap">
+            
+            <app-data-partido [datosPartido]="datosPartido"></app-data-partido>
 
-        <div fxFlex="70" fxFlex.xs="100" fxFlex.sm="65"
-            class="info-partido">
-            {{ datosPartido.equipoLocal | uppercase }}
-        </div>
-        
-        <!-- Equipo visitante -->
-        <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100"
-            class="etiqueta">
-            Equipo visitante:
-        </div>
-        
-        
-        <div fxFlex="70" fxFlex.xs="100" fxFlex.sm="65"
-            class="info-partido">
-            {{ datosPartido.equipoVisitante | uppercase }}
-        </div>
-        
-        <!-- Fecha -->
-        <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100"
-            class="etiqueta">
-            Fecha:
-        </div>
-        
+            <!-- Listado con los cortes -->
+            <h3 class="subtitulo" *ngIf="!cargando">Listado de cortes</h3>
 
-        <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65"
-            class="info-partido">
-            {{ datosPartido.fechaHora | date:'dd/MM/yyyy' }}
-        </div>
+            <div *ngIf="listadoCortes.length === 0 && !cargando" fxFlexAlign="center" fxFlex="100" fxLayoutAlign="center">
+                No hay cortes asociados a este partido.
+            </div>
 
-        <!-- Localidad -->
-        <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="35" fxFlex.xs="100" fxFlex.sm="25"
-            class="etiqueta">
-            Localidad:
-        </div>
-        
+            <div *ngIf="listadoCortes.length !== 0 && !cargando" fxFlex="100">
+                <app-listado-cortes [listadoCortes]="listadoCortes"></app-listado-cortes>
+            </div>
 
-        <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65"
-            class="info-partido">
-            {{ datosPartido.localidad | uppercase }}
-        </div>
+        </mat-card-content>
 
-         <!-- Fase -->
-         <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="35" fxFlex.xs="100" fxFlex.sm="25"
-            class="etiqueta">
-            Fase:
-        </div>
-        
+        <mat-divider inset></mat-divider>
 
-        <div fxFlex="20" fxFlex.sm="35" fxFlex.xs="100" fxFlex.sm="65"
-            class="info-partido">
-            {{ datosPartido.fase }}
-        </div>
+        <mat-card-actions fxLayout.xs="column" fxLayoutAlign="end" fxLayoutAlign.xs="center">
+            <button mat-button color="warn" (click)="eliminarPartido()">Eliminar partido</button>
+            <button mat-button (click)="modificarPartido()">Modificar partido</button>
+            <a mat-button [href]="urlVideoPartido()">Video del partido</a>
+            <button mat-button (click)="generarNuevoCorte()">Generar nuevo corte</button>
+        </mat-card-actions>
 
-        <!-- Jornada -->
-        <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100"
-            class="etiqueta">
-            Jornada:
-        </div>
-        
+    </mat-card>
 
-        <div fxFlex="20" fxFlex.sm="65" fxFlex.xs="100"
-            class="info-partido">
-            {{ datosPartido.jornada }}
-        </div>
 
-        <!-- Otros comentarios -->
-        <div fxFlex="20" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100"
-            class="etiqueta" *ngIf="datosPartido.comentario !== ''">
-            Otros datos:
-        </div>
-        
-        <div fxFlex="70" fxFlex.xs="100" fxFlex.sm="65"
-            class="info-partido" *ngIf="datosPartido.comentario !== ''">
-            {{ datosPartido.comentario }}
-        </div>
-        
-    </div>
-
-    <!-- Listado con los cortes -->
-    <h3 class="subtitulo" *ngIf="!cargando">Listado de cortes</h3>
-
-    <div *ngIf="listadoCortes.length === 0 && !cargando" fxFlexAlign="center">
-        No hay cortes asociados a este partido.
-    </div>
-
-    <div *ngIf="listadoCortes.length !== 0 && !cargando">
-        <app-listado-cortes [listadoCortes]="listadoCortes"></app-listado-cortes>
-    </div>
 
 </div>

@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import Swal from 'sweetalert2';
 
-import { DataService } from '../../services/data.service';
 import { DatosPartido, DatosCorte } from '../../interfaces/data.interface';
-import { DialogEliminarVideoComponent } from '../../components/dialog-eliminar-video/dialog-eliminar-video.component';
-import { DialogEliminarCorteComponent } from '../../components/dialog-eliminar-corte/dialog-eliminar-corte.component';
 import { InterdataService } from '../../services/interdata.service';
+import { DialogEliminarComponent } from '../../components/dialog-eliminar/dialog-eliminar.component';
+import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
+import { PartidosService } from '../../services/partidos.service';
+import { CortesService } from '../../services/cortes.service';
 
 @Component({
   selector: 'app-datos-partido',
@@ -27,7 +27,8 @@ export class DatosPartidoComponent implements OnInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private dataService: DataService,
+    private partidosService: PartidosService,
+    private cortesService: CortesService,
     private interdataService: InterdataService
   ) { }
 
@@ -37,12 +38,20 @@ export class DatosPartidoComponent implements OnInit {
     const idPartido = this.interdataService.getIdPartidoFromCache();
     if (idPartido) {
 
-      this.dataService.obtenerDatosPartido(idPartido)
+      this.partidosService.obtenerDatosPartido(idPartido)
         .pipe(
           switchMap(({ partido }) => this.asignarPartidoYBuscarCortes(partido))
         ).subscribe(listadoCortesResp => {
           this.listadoCortes = listadoCortesResp;
           this.cargando = false;
+        }, error => {
+          console.log(error);
+          this.router.navigateByUrl('/dashboard/listado-partidos');
+          this.dialog.open( DialogConfirmarComponent, 
+            {
+              restoreFocus: false,
+              data: 'Ha ocurrido un error al cargar los datos del partido. Consulte con el administrador del lugar.'
+            });
         });
 
     } else {
@@ -57,7 +66,7 @@ export class DatosPartidoComponent implements OnInit {
   // Asigna los datos del partido a la variable y lanza la petición para obtener los cortes.
   asignarPartidoYBuscarCortes(partido: any): Observable<any> {
     this.datosPartido = partido;
-    return this.dataService.obtenerCortesDelPartido(this.datosPartido._id!);
+    return this.cortesService.obtenerCortesDelPartido(this.datosPartido._id!);
   }
 
   urlVideoPartido(): string {
@@ -78,40 +87,42 @@ export class DatosPartidoComponent implements OnInit {
   }
 
   eliminarPartido() {
-    const dialogRef = this.dialog.open(DialogEliminarVideoComponent,
-      { restoreFocus: false, data: { id: this.datosPartido._id, borrado: null } });
+    const dialogRef = this.dialog.open(DialogEliminarComponent,
+      { 
+        restoreFocus: false, 
+        data: { eliminado: null, mensajeDialog: '¿Desea eliminar los datos del partido?' } 
+      });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataService.eliminarPartido(this.datosPartido._id!)
+        this.partidosService.eliminarPartido(this.datosPartido._id!)
           .subscribe(() => {
 
             // Partido borrado
-            this.router.navigateByUrl('/dashboard/videos');
-
-            Swal.fire({
-              title: 'Partido borrado',
-              text: 'Se ha borrado el partido correctamente.',
-              icon: 'success'
-            });
+            this.router.navigateByUrl('/dashboard/partidos');
+            this.dialog.open( DialogConfirmarComponent, 
+              {
+                restoreFocus: false,
+                data: 'El partido ha sido eliminado correctamente.'
+              });
 
           }, err => {
             console.log(err);
-            Swal.fire({
-              title: 'Error',
-              text: 'Ha ocurrido un error al intentar eliminar el partido. Inténtelo de nuevo más tarde.',
-              icon: 'error'
-            })
+            this.dialog.open( DialogConfirmarComponent, 
+              {
+                restoreFocus: false,
+                data: 'Ha ocurrido un error al intentar eliminar el partido. Inténtelo de nuevo más tarde. Contacte con el administrador para más información.'
+              });
           });
 
       }
     }, err => {
       console.log(err);
-      Swal.fire({
-        title: 'Error',
-        text: 'Ha ocurrido un error al intentar eliminar el partido. Inténtelo de nuevo más tarde.',
-        icon: 'error'
-      })
+      this.dialog.open( DialogConfirmarComponent, 
+        {
+          restoreFocus: false,
+          data: 'Ha ocurrido un error al intentar eliminar el partido. Inténtelo de nuevo más tarde. Contacte con el administrador para más información.'
+        });
     })
   }
 
@@ -126,12 +137,13 @@ export class DatosPartidoComponent implements OnInit {
   }
 
   eliminarCorte(idCorte: string) {
-    const dialogRef = this.dialog.open(DialogEliminarCorteComponent,
-      { restoreFocus: false, data: { id: idCorte, borrado: null } });
+    const dialogRef = this.dialog.open( DialogEliminarComponent,
+      { 
+        restoreFocus: false, data: { borrado: null } });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataService.eliminarCorte(idCorte)
+        this.cortesService.eliminarCorte(idCorte)
           .subscribe(() => {
 
             // Quitamos el corte de la lista
@@ -145,30 +157,29 @@ export class DatosPartidoComponent implements OnInit {
                 i++;
               }
             } while (!enc && i < this.listadoCortes.length);
-
-            Swal.fire({
-              title: 'Corte borrado',
-              text: 'Se ha borrado el corte correctamente.',
-              icon: 'success'
-            });
+            this.dialog.open( DialogConfirmarComponent, 
+              {
+                restoreFocus: false,
+                data: 'Se ha borrado el corte correctamente.'
+              });
 
           }, err => {
             console.log(err);
-            Swal.fire({
-              title: 'Error',
-              text: 'Ha ocurrido un error al intentar eliminar el corte. Inténtelo de nuevo más tarde.',
-              icon: 'error'
-            })
+            this.dialog.open( DialogConfirmarComponent, 
+              {
+                restoreFocus: false,
+                data: 'Ha ocurrido un error al intentar eliminar el corte. Inténtelo de nuevo más tarde. Contacte con el administrador para más información.'
+              });
           });
 
       }
     }, err => {
       console.log(err);
-      Swal.fire({
-        title: 'Error',
-        text: 'Ha ocurrido un error al intentar corte el partido. Inténtelo de nuevo más tarde.',
-        icon: 'error'
-      })
+      this.dialog.open( DialogConfirmarComponent, 
+        {
+          restoreFocus: false,
+          data: 'Ha ocurrido un error al intentar eliminar el corte. Inténtelo de nuevo más tarde. Contacte con el administrador para más información.'
+        });
     })
   }
 

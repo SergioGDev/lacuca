@@ -13,7 +13,7 @@ export class CuadroDatosPartidoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("CUADRO DATOS PARTIDO:", this.datosPartido);
+    
   }
 
 }

@@ -1,0 +1,21 @@
+<div>
+
+    <div class="header" fxLayout="row" fxLayout.xs="column">
+        <div class="titulo">Informes</div>
+    </div>
+
+    <div class="m-2" class="content-botones" fxLayoutAlign="end">
+        <button mat-button (click)="registrarInforme()"> Registrar nuevo informe </button>
+    </div>
+
+    <app-spinner-cargando *ngIf="!mostrarTabla()"></app-spinner-cargando>
+
+    <div class="no-hay-informes text-center m-5" *ngIf="!cargandoInformes && listadoInformes.length === 0">
+        No hay informes registrados
+    </div>
+
+    <div class="w-100" *ngIf="mostrarTabla()">
+        <app-listado-informes [listadoInformes]="listadoInformes"></app-listado-informes>
+    </div>
+
+</div>

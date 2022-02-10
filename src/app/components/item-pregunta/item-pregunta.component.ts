@@ -1,5 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 
 import { ItemPregunta } from '../../interfaces/data.interface';
 

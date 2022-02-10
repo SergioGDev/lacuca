@@ -1,3 +1,73 @@
+
+.contenedor-login {
+  height: 100%;
+}
+
+.mitad-izquierda {
+  height: 100%;
+  background-color: black;
+  background-image: url('../../../assets/img/fondo_arbitros_fexb.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mitad-derecha {
+  height: 100%;
+}
+
+.borde-medio-derecha {
+  background: linear-gradient(270deg, black, white);
+}
+
+.borde-medio-izquierda {
+  background: linear-gradient(90deg, black, white);
+}
+
+.margen-derecho {
+  background-color: black;
+}
+
+.titulo {
+  margin-top: 100px;
+  text-align: center;
+}
+
+button {
+  color: var(--color-texto-blanco);
+  background-color: var(--color-texto-negro);
+}
+
+@media screen and (max-width: 959px) {
+  .mitad-izquierda {
+    background-image: none;
+  }
+
+  .mitad-derecha {
+    background-color: black;
+    background-image: url('../../../assets/img/fondo_arbitros_fexb.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .cortinilla {
+    height: 100%;
+    background-color: #FFFFFFF0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
 .login-or {
     position: relative;
     font-size: 18px;
@@ -22,4 +92,4 @@
     height: 1px;
     margin-top: 0px !important;
     margin-bottom: 0px !important;
-  }
+  } */
