@@ -89,7 +89,7 @@ export class AuthService {
       tap((resp: any) => {
         localStorage.setItem('token', resp.token);
       }),
-      map(resp => {        
+      map(resp => {
         return resp.user.role.includes('ROLE_ADMIN');
       }),
       catchError(err => of(false))
@@ -104,7 +104,7 @@ export class AuthService {
       tap((resp: any) => {
         localStorage.setItem('token', resp.token);
       }),
-      map(resp => {        
+      map(resp => {
         return resp.user.role.includes('ROLE_INFORMADOR');
       }),
       catchError(err => of(false))

@@ -4,18 +4,35 @@
         <div class="titulo">Informes</div>
     </div>
 
-    <div class="m-2" class="content-botones" fxLayoutAlign="end">
-        <button mat-button (click)="registrarInforme()"> Registrar nuevo informe </button>
+    <app-spinner-cargando *ngIf="!cargadosTodosLosDatos()"></app-spinner-cargando>
+
+
+    <div class="listado-completo-informes" *ngIf="cargadosTodosLosDatos()">
+        <div class="subtitulo">
+            Mis informes
+        </div>
+    
+        <div class="w-100">
+            <app-listado-informes 
+                [listadoInformes]="listadoMisInformes"
+                [msgNoHayInformes]="msgMisInformesSinAsignar"></app-listado-informes>
+        </div>
     </div>
 
-    <app-spinner-cargando *ngIf="!mostrarTabla()"></app-spinner-cargando>
+    <div class="listado-completo-informes" *ngIf="mostrarTablaCompleta()">
 
-    <div class="no-hay-informes text-center m-5" *ngIf="!cargandoInformes && listadoInformes.length === 0">
-        No hay informes registrados
-    </div>
-
-    <div class="w-100" *ngIf="mostrarTabla()">
-        <app-listado-informes [listadoInformes]="listadoInformes"></app-listado-informes>
+        <div class="subtitulo">
+            Listado completo de informes
+        </div>
+    
+        <div class="w-100" *ngIf="mostrarTablaCompleta()">
+            <app-listado-informes [listadoInformes]="listadoInformes"></app-listado-informes>
+        </div>
+    
+        <div class="m-2" class="content-botones" fxLayoutAlign="end">
+            <button mat-raised-button (click)="registrarInforme()"> Registrar nuevo informe </button>
+        </div>
+    
     </div>
 
 </div>

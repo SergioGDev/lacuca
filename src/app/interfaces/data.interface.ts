@@ -86,7 +86,8 @@ export interface DatosPreguntaVideotest {
     pregunta: string,
     respuestas: string[],
     solucion: string,
-    corte: DatosCorte,
+    idCorte: string,
+    corte?: DatosCorte,
 }
 
 export interface DatosVideotest {

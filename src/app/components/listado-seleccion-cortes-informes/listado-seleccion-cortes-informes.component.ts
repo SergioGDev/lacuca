@@ -24,7 +24,7 @@ export class ListadoSeleccionCortesInformesComponent implements OnInit, AfterVie
 
   // Variables para la tabla y el paginador
   dataSource: any;
-  displayedColums = ['selected', 'valoracion', 'situacion', 'tipo', 'posicion', 'acciones'];
+  displayedColums = ['selected', 'valoracion', 'situacion', 'tipo', 'posicion', 'arbitro', 'acciones'];
   resultsLength: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;

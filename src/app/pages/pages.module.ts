@@ -32,6 +32,7 @@ import { RegistrarNuevoInformeComponent } from './registrar-nuevo-informe/regist
 import { RegistrarUsuariosCsvComponent } from './registrar-usuarios-csv/registrar-usuarios-csv.component';
 import { RealizarInformeComponent } from './realizar-informe/realizar-informe.component';
 import { VisualizarDatosInformeComponent } from './visualizar-datos-informe/visualizar-datos-informe.component';
+import { VisualizarVideotestComponent } from './visualizar-videotest/visualizar-videotest.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { VisualizarDatosInformeComponent } from './visualizar-datos-informe/visu
     RegistrarUsuariosCsvComponent,
     RealizarInformeComponent,
     VisualizarDatosInformeComponent,
+    VisualizarVideotestComponent,
   ],
   exports: [
     DashboardComponent,

@@ -51,6 +51,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.interdataService.removeIdCorteFromCache();
     this.interdataService.removeIdInformeFromCache();
     this.interdataService.removeIdPartidoFromCache();
+    this.interdataService.removeIdVideotestFromCache();
     this.interdataService.removeUserFromCache();
   }
 

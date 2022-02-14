@@ -23,7 +23,7 @@
 
             <mat-divider class="m-3" inset></mat-divider>
 
-            <div *ngIf="!cargandoPartidos">
+            <div *ngIf="!cargandoPartidos && !partidoInformado">
                 <app-listado-seleccion-partido 
                     [listadoPartidos]="listadoPartidos"
                     (partidoSeleccionado)="escucharPartidoSeleccionado($event)">
@@ -32,7 +32,11 @@
 
 
             <div class="m-3" fxLayoutAlign="end">
-                <button class="m-2 boton-stepper" mat-raised-button 
+                <button class="m-2 boton-stepper" mat-raised-button *ngIf="partidoInformado"
+                    (click)="deseleccionarPartidoInformado()">
+                    Cambiar partido seleccionado
+                </button>
+               <button class="m-2 boton-stepper" mat-raised-button 
                     matStepperNext [disabled]="partidoInformado === undefined">Seleccionar árbitros</button>
             </div>
 

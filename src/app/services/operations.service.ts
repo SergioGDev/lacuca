@@ -34,6 +34,14 @@ export class OperationsService {
     return (match && match[2].length === 11) ? match[2] : false;
   }
 
+
+  /***************************************************/
+  /********     OBTENER TOKEN                  *******/
+  /***************************************************/
+  getToken(): string {
+    return localStorage.getItem('token') || '';
+  }
+
   /***************************************************/
   /********     OPERACIONES USUARIOS           *******/
   /***************************************************/

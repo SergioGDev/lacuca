@@ -25,11 +25,13 @@ export class ListadoInformesComponent implements OnInit {
   @Input() listadoInformes!: DatosInforme[];
   // Variables para la tabla y el paginador
   dataSource: any;
-  displayedColumns: string[] = ['partido', 'fecha', 'informador', 'arbitroPrincipal', 'arbitroAuxiliar', 'estado', 'acciones'];
+  displayedColumns: string[] = ['partido', 'fecha', 'informador', 'arbitros', 'estado', 'acciones'];
   resultLength: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  @Input() msgNoHayInformes!: string;
 
   constructor(
     private operationsService: OperationsService,
@@ -41,6 +43,7 @@ export class ListadoInformesComponent implements OnInit {
 
   ngOnInit(): void {
     this.asignarDataSource();
+    this.ordenarTablaListadoInformes({active: 'fecha', direction: 'desc'});
   }
 
 
@@ -139,7 +142,7 @@ export class ListadoInformesComponent implements OnInit {
     return datosPartido.equipoLocal + '\n' + datosPartido.equipoVisitante;
   }
 
-  ordenarTablaListadoPartidos(sort: any) {
+  ordenarTablaListadoInformes(sort: any) {
     const data = this.listadoInformes.slice();
     if (!sort.active || sort.direction == '') {
       this.listadoInformes = data;

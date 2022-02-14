@@ -1,0 +1,12 @@
+.no-hay-datos {
+    margin: 30px 10px;
+    text-align: center;
+}
+
+.columna-nombre {
+    min-width: 200px;
+}
+
+.columna-descripcion {
+    max-width: 600px;
+}

@@ -1,89 +1,33 @@
 <div>
 
     <div class="titulo">
-        Listado de usuarios
+        Usuarios
     </div>
 
     <div *ngIf="cargandoUsuarios">
         <app-spinner-cargando></app-spinner-cargando>
     </div>
 
-    <div class="m-2" class="content-botones" fxLayoutAlign="end">
-        <button mat-button (click)="registrarListadoUsuarios()"> Registrar usuarios mediante CSV </button>
-        <button mat-button disabled (click)="registrarUsuario()"> Registrar nuevo usuario </button>
+    <div>
+        <div class="m-2" class="content-botones" fxLayoutAlign="end">
+            <button mat-button (click)="registrarListadoUsuarios()"> Registrar usuarios mediante CSV </button>
+            <button mat-button disabled (click)="registrarUsuario()"> Registrar nuevo usuario </button>
+        </div>
+    
+        <div class="tabla-usuarios w-100 mat-elevation-z2" *ngIf="!cargandoUsuarios">
+            <app-data-usuarios [listadoUsuarios]="listadoUsuarios"></app-data-usuarios>
+        </div>
+    
+        <div class="subtitulo">
+            Grupos de usuarios
+        </div>
+    
+        <div class="m-2" class="content-botones" fxLayoutAlign="end">
+            <button mat-button (click)="registrarGrupo()"> Registrar grupo </button>
+        </div>
+
+        
     </div>
+    
 
-    <div class="tabla-usuarios w-100 mat-elevation-z2" *ngIf="!cargandoUsuarios">
-
-        <table class="w-100 mat-elevation-z2" mat-table [dataSource]="dataSource" matSort
-            (matSortChange)="ordenarTablaBusqueda($event)">
-
-            <!-- Nombre -->
-            <ng-container matColumnDef="nombre">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-                <td mat-cell *matCellDef="let fila"> {{ fila.nombre }} </td>
-            </ng-container>
-
-            <!-- Apellidos -->
-            <ng-container matColumnDef="apellidos">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellidos</th>
-                <td mat-cell *matCellDef="let fila"> {{ fila.apellidos }} </td>
-            </ng-container>
-
-            <!-- NIF -->
-            <ng-container matColumnDef="nif">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>NIF</th>
-                <td mat-cell *matCellDef="let fila"> {{ fila.nif }} </td>
-            </ng-container>
-
-            <!-- Delegacion -->
-            <ng-container matColumnDef="delegacion">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Delegación</th>
-                <td mat-cell *matCellDef="let fila"> {{ fila.delegacion }} </td>
-            </ng-container>
-
-            <!-- Es Informador -->
-            <ng-container matColumnDef="esInformador">
-                <th mat-header-cell *matHeaderCellDef>Es Informador</th>
-                <td mat-cell *matCellDef="let fila"> 
-                    {{ fila.role!.includes('ROLE_INFORMADOR') ? 'Si' : 'No' }}    
-                </td>
-            </ng-container>
-
-            <!-- Es Administrador -->
-            <ng-container matColumnDef="esAdministrador">
-                <th mat-header-cell *matHeaderCellDef>Es Administrador</th>
-                <td mat-cell *matCellDef="let fila"> 
-                    {{ fila.role!.includes('ROLE_ADMIN') ? 'Si' : 'No' }}
-                </td>
-            </ng-container>
-
-            <!-- Email -->
-            <ng-container matColumnDef="email">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo Electrónico</th>
-                <td mat-cell *matCellDef="let fila"> {{ fila.email }} </td>
-            </ng-container>
-
-            <!-- Acciones -->
-            <ng-container matColumnDef="acciones">
-                <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                <td mat-cell *matCellDef="let fila">
-                    <button mat-button (click)="editarUsuario(fila)">Editar</button>
-                </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColums"></tr>
-            <tr mat-row *matRowDef="let fila; columns: displayedColums"></tr>
-
-            <!-- Cuando no hay datos -->
-            <tr *matNoDataRow>
-                <td colspan="7">No hay usuarios registrados</td>
-            </tr>
-
-        </table>
-
-    </div>
-
-    <mat-paginator [pageSizeOptions]="[10, 25, 50]" [length]="resultLength">
-    </mat-paginator>
 </div>

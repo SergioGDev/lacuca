@@ -35,7 +35,7 @@ body {
     font-weight: bold;
     font-size: 30pt;
     color: var(--color-texto-negro);
-    text-shadow: 0px 3px 2px var(--color-texto-negro-transparente);
+    text-shadow: 1px 1px 2px var(--color-texto-negro-transparente);
 }
 
 .subtitulo {

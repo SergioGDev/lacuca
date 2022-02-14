@@ -13,6 +13,7 @@ export const lStorageTestAleatorio = 'testAleatorio';
 export const lStorageIdPartido = 'idPartidoCache';
 export const lStorageIdCorte = 'idCorteCache';
 export const lStorageIdInforme = 'idInformeCache';
+export const lStorageIdVideotest = 'idVideotestCache';
 
 export const lStorageUser = 'userCache';
 

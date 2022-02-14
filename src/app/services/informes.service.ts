@@ -22,6 +22,7 @@ export class InformesService {
   ) { }
 
   datosInforme?: DatosInforme;
+  listadoInformes?: DatosInforme[];
 
   guardarInforme(informe: DatosInforme): Observable<any> {
     const token = localStorage.getItem('token') || '';
@@ -33,36 +34,14 @@ export class InformesService {
     return this.http.get(`${environment.herokuUrl}/informe/`, {headers: {'token': token}});
   }
 
-  async obtenerListadoInformesConDatos() {
+  obtenerListadoInformesConDatos(): Observable<any> {
     const token = localStorage.getItem('token') || '';
-    var listadoInformes: DatosInforme[] = [];
-    await this.http.get<DatosInforme[]>(`${environment.herokuUrl}/informe/`, {headers: {'token': token}})
-      .toPromise<DatosInforme[]>()
-      .then(listadoInformesResp => listadoInformes = listadoInformesResp);
-    
-    listadoInformes.forEach( (informe) => {
-      // Datos del partido
-      this.partidosService.obtenerDatosPartido(informe.idPartido!)
-      .toPromise<any>()
-      .then( ({ partido }) => informe.datosPartido = partido);
-      
-      // Datos del árbitro principal
-      this.authService.herokuGetUserProtected(informe.arbitroPrincipal!)
-      .toPromise<any>()
-      .then( (usuario) => informe.datosArbitroPrincipal = usuario);
-      
-      // Datos del árbitro auxiliar
-      this.authService.herokuGetUserProtected(informe.arbitroAuxiliar!)
-      .toPromise<any>()
-      .then( (usuario) => informe.datosArbitroAuxiliar = usuario);
-      
-      // Datos del informador
-      this.authService.herokuGetUserProtected(informe.informador!)
-      .toPromise<any>()
-      .then( (usuario) => informe.datosInformador = usuario);
-    })
-
-    return listadoInformes;
+    return this.http.get<DatosInforme[]>(`${environment.herokuUrl}/informe/`, {headers: {'token': token}})
+      .pipe(
+        switchMap( listadoInformesResp => this.asignarListadoInformesYObtenerListadoPartidos(listadoInformesResp)),
+        switchMap( listadoPartidosResp => this.asignarDatosPartidoAListadoInformesYObtenerListadoUsuarios(listadoPartidosResp)),
+        switchMap( listadoUsuariosResp => this.asignarUsuariosAListadoInformes(listadoUsuariosResp))
+      );
   }
 
   obtenerInforme(idInforme: string): Observable<any> {
@@ -75,7 +54,7 @@ export class InformesService {
     return this.http.get(`${environment.herokuUrl}/informe/${idInforme}`, {headers: {'token': token}})
       .pipe(
         switchMap( informeResp => this.asignarInformeYObtenerDatosPartidos(informeResp)),
-        switchMap( ({partido}) => this.asignarDatosPartidoYObtenerListadoUsuarios(partido)),
+        switchMap( ({partido}) => this.asignarDatosPartidoAInformeYObtenerListadoUsuarios(partido)),
         switchMap( listadoUsuariosResp => this.asignarUsuariosYObtenerCortes(listadoUsuariosResp)),
         switchMap( listadoCortesResp => this.asignarListadoCortes(listadoCortesResp) )
       )
@@ -91,13 +70,14 @@ export class InformesService {
     return this.http.delete(`${environment.herokuUrl}/informe/${idInforme}`, {headers: {'token': token}});
   }
 
-  // Métodos adiccionales
+  // ***********   Métodos adiccionales   ************ //
+  // Métodos adiccionales para obtener datos de un informe
   asignarInformeYObtenerDatosPartidos(informeResp: DatosInforme) {
     this.datosInforme = informeResp;
     return this.partidosService.obtenerDatosPartido(informeResp.idPartido!);
   }
 
-  asignarDatosPartidoYObtenerListadoUsuarios(datosPartido: DatosPartido) {
+  asignarDatosPartidoAInformeYObtenerListadoUsuarios(datosPartido: DatosPartido) {
     this.datosInforme!.datosPartido = datosPartido;
     return this.authService.herokuGetUserListProtected();
   }
@@ -129,5 +109,39 @@ export class InformesService {
 
     return of(this.datosInforme);
     
+  }
+
+  // Métodos adiccionales para obtener listado de informes con todos los datos
+  asignarListadoInformesYObtenerListadoPartidos(listadoInformesResp: DatosInforme[]) {
+    this.listadoInformes = listadoInformesResp;
+    return this.partidosService.obtenerListadoPartidos();
+  }
+
+  asignarDatosPartidoAListadoInformesYObtenerListadoUsuarios(listadoPartidos: DatosPartido[]) {
+    this.listadoInformes?.forEach( informe => {
+      listadoPartidos.forEach( partido => {
+        if (informe.idPartido === partido._id) {
+          informe.datosPartido = partido;
+        }
+      })
+    })
+
+    return this.authService.herokuGetUserListProtected();
+  }
+
+  asignarUsuariosAListadoInformes(listadoUsuarios: Usuario[]) {
+    this.listadoInformes?.forEach( informe => {
+      listadoUsuarios.forEach( usuario => {
+        if (informe.arbitroPrincipal === usuario._id) {
+          informe.datosArbitroPrincipal = usuario;
+        } else if (informe.arbitroAuxiliar === usuario._id) {
+          informe.datosArbitroAuxiliar = usuario;
+        } else if (informe.informador === usuario._id) {
+          informe.datosInformador = usuario;
+        }
+      })
+    })
+
+    return of(this.listadoInformes);
   }
 }

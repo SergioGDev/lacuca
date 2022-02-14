@@ -19,7 +19,7 @@ import { ESTADO_INFORME_BORRADOR, ESTADO_INFORME_TERMINADO } from '../../interfa
   templateUrl: './realizar-informe.component.html',
   styleUrls: ['./realizar-informe.component.css']
 })
-export class RealizarInformeComponent implements OnInit {
+export class RealizarInformeComponent implements OnInit, OnDestroy {
 
   // PASO 1: SELECCIÓN DE LOS CORTES
   cargandoCortes: boolean = false;
@@ -61,14 +61,23 @@ export class RealizarInformeComponent implements OnInit {
     const idInforme = this.interdataService.getIdInformeFromCache();
     const cortesInforme: LSCortesInforme = this.interdataService.getCortesInformeFromCache();
 
-    console.log(idInforme);
-    console.log(cortesInforme);
-
     if (idInforme || cortesInforme) {
       this.obtenerDatosCompletosDelInforme(idInforme!, cortesInforme);
     } else {
       this.router.navigateByUrl('/dashboard/informes');
     }
+  }
+
+  ngOnDestroy(): void {
+    this.datosInforme.estado = ESTADO_INFORME_BORRADOR;
+    this.datosInforme.comentarioArbitroPrincipal = this.formComentarios.get('comentarioArbitroPrincipal')?.value;
+    this.datosInforme.comentarioArbitroAuxiliar = this.formComentarios.get('comentarioArbitroAuxiliar')?.value;
+    this.datosInforme.comentarioGeneral = this.formComentarios.get('comentarioGeneral')?.value;
+    this.datosInforme.notaArbitroPrincipal = this.formNotas.get('notaArbitroPrincipal')?.value;
+    this.datosInforme.notaArbitroAuxiliar = this.formNotas.get('notaArbitroAuxiliar')?.value;
+
+    this.informesService.modificarInforme(this.datosInforme)
+    .subscribe(() => {}, err => console.log(err));
   }
 
   obtenerDatosCompletosDelInforme(idInforme: string | undefined, cortesInforme?: LSCortesInforme) {
@@ -164,34 +173,25 @@ export class RealizarInformeComponent implements OnInit {
   // Va a la página de registrar cortes, guardando el estado actual de la ventana
   registrarNuevosCortes() {
     this.datosInforme.estado = ESTADO_INFORME_BORRADOR;
-          
-          this.datosInforme.comentarioArbitroPrincipal = this.formComentarios.get('comentarioArbitroPrincipal')?.value;
-          this.datosInforme.comentarioArbitroAuxiliar = this.formComentarios.get('comentarioArbitroAuxiliar')?.value;
-          this.datosInforme.comentarioGeneral = this.formComentarios.get('comentarioGeneral')?.value;
-          this.datosInforme.notaArbitroPrincipal = this.formNotas.get('notaArbitroPrincipal')?.value;
-          this.datosInforme.notaArbitroAuxiliar = this.formNotas.get('notaArbitroAuxiliar')?.value;
+    this.datosInforme.comentarioArbitroPrincipal = this.formComentarios.get('comentarioArbitroPrincipal')?.value;
+    this.datosInforme.comentarioArbitroAuxiliar = this.formComentarios.get('comentarioArbitroAuxiliar')?.value;
+    this.datosInforme.comentarioGeneral = this.formComentarios.get('comentarioGeneral')?.value;
+    this.datosInforme.notaArbitroPrincipal = this.formNotas.get('notaArbitroPrincipal')?.value;
+    this.datosInforme.notaArbitroAuxiliar = this.formNotas.get('notaArbitroAuxiliar')?.value;
 
-          this.informesService.modificarInforme(this.datosInforme).subscribe(
-            () => {
-              this.interdataService.setIdPartidoToCache(this.datosInforme.datosPartido!._id!);
-              this.router.navigateByUrl('dashboard/informes/realizar-informe/nuevo-corte');
-            },
-            err => {
-              console.log(err);
-
-              this.dialog.open( DialogConfirmarComponent ,
-                {
-                  restoreFocus: false,
-                  data: 'Ha ocurrido un error al guardar el borrador. Inténtelo de nuevo más tarde. Contacte con el administrador del sitio.'
-                })
-            }
-          )
-    
-  }
-
-  // Realiza el guardado de un informe en estado BORRADOR en la base de datos
-  guardarBorrador() {
-    
+    this.informesService.modificarInforme(this.datosInforme).subscribe(
+      () => {
+        this.interdataService.setIdPartidoToCache(this.datosInforme.datosPartido!._id!);
+        this.router.navigateByUrl('dashboard/informes/realizar-informe/nuevo-corte');
+      },
+      err => {
+        console.log(err);
+        this.dialog.open( DialogConfirmarComponent ,
+          {
+            restoreFocus: false,
+            data: 'Ha ocurrido un error al guardar el borrador. Inténtelo de nuevo más tarde. Contacte con el administrador del sitio.'
+          })
+      })
   }
 
   terminarInforme() {
@@ -268,7 +268,6 @@ export class RealizarInformeComponent implements OnInit {
         // Se guarda el borrador del informe
         if (resp) {
           this.datosInforme.estado = ESTADO_INFORME_BORRADOR;
-          
           this.datosInforme.comentarioArbitroPrincipal = this.formComentarios.get('comentarioArbitroPrincipal')?.value;
           this.datosInforme.comentarioArbitroAuxiliar = this.formComentarios.get('comentarioArbitroAuxiliar')?.value;
           this.datosInforme.comentarioGeneral = this.formComentarios.get('comentarioGeneral')?.value;

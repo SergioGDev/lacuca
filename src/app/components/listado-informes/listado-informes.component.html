@@ -2,7 +2,7 @@
 
   <div>
     <table mat-table [dataSource]="dataSource" class="w-100"
-        (matSortChange)="ordenarTablaListadoPartidos($event)" matSort>
+        (matSortChange)="ordenarTablaListadoInformes($event)" matSort>
 
         <ng-container matColumnDef="partido">
             <th mat-header-cell *matHeaderCellDef> Partido </th>
@@ -11,22 +11,29 @@
                 {{ (fila.datosPartido) ? fila.datosPartido.equipoVisitante  : '' }}
             </td>
         </ng-container>
-
+        
         <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha del partido </th>
             <td mat-cell *matCellDef="let fila"> 
                 {{ fila.datosPartido.fechaHora | date:'dd/MM/yyyy' }}
             </td>
         </ng-container>
-
+        
         <ng-container matColumnDef="informador">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Informador </th>
             <td mat-cell *matCellDef="let fila"> 
                 {{ (fila.datosInformador) ? obtenerNombreCompletoUsuario(fila.datosInformador) : '' }}
             </td>
         </ng-container>
-
-        <ng-container matColumnDef="arbitroPrincipal">
+        
+        <ng-container matColumnDef="arbitros">
+            <th mat-header-cell *matHeaderCellDef> Árbitros </th>
+            <td mat-cell *matCellDef="let fila"> 
+                {{ (fila.datosArbitroPrincipal) ? obtenerNombreCompletoUsuario(fila.datosArbitroPrincipal) : '' }} <br>
+                {{ (fila.datosArbitroAuxiliar) ? obtenerNombreCompletoUsuario(fila.datosArbitroAuxiliar) : '' }}
+            </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="arbitroPrincipal">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Árbitro principal </th>
             <td mat-cell *matCellDef="let fila"> 
                 {{ (fila.datosArbitroPrincipal) ? obtenerNombreCompletoUsuario(fila.datosArbitroPrincipal) : '' }}
@@ -38,7 +45,7 @@
             <td mat-cell *matCellDef="let fila"> 
                 {{ (fila.datosArbitroAuxiliar) ? obtenerNombreCompletoUsuario(fila.datosArbitroAuxiliar) : '' }}
             </td>
-        </ng-container>
+        </ng-container> -->
 
         <ng-container matColumnDef="estado">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
@@ -122,6 +129,14 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
+         <!-- Cuando no hay datos -->
+         <tr *matNoDataRow>
+            <td colspan="6">
+                <div class="no-hay-informes">
+                    {{ msgNoHayInformes ? msgNoHayInformes : 'No hay informes registrados' }}
+                </div>
+            </td>
+        </tr>
     </table>
 </div>
 

@@ -27,6 +27,7 @@ import { RegistrarNuevoInformeComponent } from './registrar-nuevo-informe/regist
 import { RegistrarUsuariosCsvComponent } from './registrar-usuarios-csv/registrar-usuarios-csv.component';
 import { RealizarInformeComponent } from './realizar-informe/realizar-informe.component';
 import { VisualizarDatosInformeComponent } from './visualizar-datos-informe/visualizar-datos-informe.component';
+import { VisualizarVideotestComponent } from './visualizar-videotest/visualizar-videotest.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,7 @@ const routes: Routes = [
       { path: 'zona-tests/solucion-test', component: SolucionTestComponent, data: { titulo: 'Solución test' } },
       { path: 'zona-tests/admin-videotest', component: PanelAdministracionVideotestComponent, data: { titulo: 'Panel Administración Videotest' } },
       { path: 'zona-tests/admin-videotest/registrar-nuevo-videotest', component: RegistrarNuevoVideotestComponent, data: { titulo: 'Registrar Nuevo Videotest' } },
+      { path: 'zona-tests/admin-videotest/ver-videotest', component: VisualizarVideotestComponent, data: { titulo: 'Ver Videotest' } },
       { path: 'designaciones', component: DesignacionesComponent, data: { titulo: 'Designaciones' } },
       { path: 'partidos', component: ListadoPartidosComponent, data: { titulo: 'Partidos' } },
       { path: 'partidos/partido', component: DatosPartidoComponent, data: { titulo: 'Datos partido' } },

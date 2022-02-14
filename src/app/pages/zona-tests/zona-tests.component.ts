@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { lStorageNumeroPreguntas } from '../../interfaces/constantes.interface';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { ROLE_ADMIN, ROLE_INFORMADOR } from '../../interfaces/auth.interface';
+import { InterdataService } from '../../services/interdata.service';
 
 @Component({
   selector: 'app-zona-tests',
@@ -18,10 +19,12 @@ export class ZonaTestsComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private interdataService: InterdataService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
+    this.interdataService.limpiarCache();
     this.gettingUser = true;
     this.authService.herokuRenew().subscribe(
       ({user}) => {
