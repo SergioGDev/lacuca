@@ -9,6 +9,7 @@ export interface User {
     rol?: string;
     delegacion?: string;
     nif?: string;
+    grupos?: string[];
     lastLogin?: Date;
     firstLogin?: Date;
 }

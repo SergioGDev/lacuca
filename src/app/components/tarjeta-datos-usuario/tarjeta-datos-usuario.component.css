@@ -1,0 +1,17 @@
+.contenedor {
+    margin-top: 40px;
+}
+
+.etiqueta {
+    font-weight: 900;
+    text-align: right;
+}
+
+.datos {
+    text-align: left;
+}
+
+.etiqueta, .datos {
+    margin: 10px;
+    font-size: 12pt;
+}

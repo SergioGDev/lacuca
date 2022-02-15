@@ -6,5 +6,6 @@ export interface Usuario {
     email?: string;
     role?: string[];
     delegacion?: string;
+    grupos?: string[];
     nif: string;    
 }

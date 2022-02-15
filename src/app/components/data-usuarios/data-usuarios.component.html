@@ -16,10 +16,10 @@
         </ng-container>
 
         <!-- NIF -->
-        <ng-container matColumnDef="nif">
+        <!-- <ng-container matColumnDef="nif">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>NIF</th>
             <td mat-cell *matCellDef="let fila"> {{ fila.nif }} </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Delegacion -->
         <ng-container matColumnDef="delegacion">
@@ -28,20 +28,20 @@
         </ng-container>
 
         <!-- Es Informador -->
-        <ng-container matColumnDef="esInformador">
+        <!-- <ng-container matColumnDef="esInformador">
             <th mat-header-cell *matHeaderCellDef>Es Informador</th>
             <td mat-cell *matCellDef="let fila"> 
                 {{ fila.role!.includes('ROLE_INFORMADOR') ? 'Si' : 'No' }}    
             </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Es Administrador -->
-        <ng-container matColumnDef="esAdministrador">
+        <!-- <ng-container matColumnDef="esAdministrador">
             <th mat-header-cell *matHeaderCellDef>Es Administrador</th>
             <td mat-cell *matCellDef="let fila"> 
                 {{ fila.role!.includes('ROLE_ADMIN') ? 'Si' : 'No' }}
             </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Email -->
         <ng-container matColumnDef="email">
@@ -53,7 +53,8 @@
         <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let fila">
-                <button mat-button (click)="editarUsuario(fila)">Editar</button>
+                <!-- <button mat-button (click)="editarUsuario(fila)">Editar</button> -->
+                <button mat-button (click)="verDatosUsuario(fila)">Ver datos</button>
             </td>
         </ng-container>
 

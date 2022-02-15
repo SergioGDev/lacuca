@@ -10,15 +10,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { DialogModificarComponent } from '../../components/dialog-modificar/dialog-modificar.component';
 import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
+import { DialogRegistrarComponent } from '../../components/dialog-registrar/dialog-registrar.component';
 
 @Component({
   selector: 'app-registrar-nuevo-usuario',
-  templateUrl: './registrar-nuevo-usuario.component.html'
+  templateUrl: './registrar-nuevo-usuario.component.html',
+  styleUrls: ['./registrar-nuevo-usuario.component.css']
 })
 export class RegistrarNuevoUsuarioComponent implements OnInit {
 
   vRoles: DatosRol[] = this.dataService.obtenerVRoles();
   vDelegaciones: string[] = this.dataService.obtenerVDelegaciones();
+
+  cargandoGrupos: boolean = true;
 
   user?: Usuario;
 
@@ -57,6 +61,9 @@ export class RegistrarNuevoUsuarioComponent implements OnInit {
       } else {
         this.router.navigateByUrl('/dashboard/listado-usuarios');
       }
+
+    } else if (!this.router.url.includes('registrar-usuario')) {
+      this.router.navigateByUrl('/dashboard/listado-usuarios')
     }
   }
 
@@ -68,25 +75,38 @@ export class RegistrarNuevoUsuarioComponent implements OnInit {
     }
 
     // TODO: AÑADIR LA OPCIÓN PARA LA CREACIÓN DE UN NUEVO USUARIO
-    const dialogRef = this.dialog.open(DialogModificarComponent,
-      { 
-        restoreFocus: false, 
-        data: { 
-          modificado: false,
-          mensajeDialog: '¿Desea modificar los datos del usuario?',
-        }
-      });
+    const dialogRef = this.user !== undefined ?
+     this.dialog.open(DialogModificarComponent,
+        { 
+          restoreFocus: false, 
+          data: { 
+            modificado: false,
+            mensajeDialog: '¿Desea modificar los datos del usuario?',
+          }
+        }) :
+      this.dialog.open( DialogRegistrarComponent,
+        { 
+          restoreFocus: false, 
+          data: { 
+            modificado: false,
+            mensajeDialog: '¿Desea registrar el nuevo usuario con estos datos?',
+          }
+        })
 
     dialogRef.afterClosed().subscribe( result => {
       if (result) {
         // TODO: AÑADIR LA OPCIÓN DE NUEVO USUARIO CON UN TERNARIO (MIRAR REGISTRAR NUEVO PARTIDO)
-        this.modificarUsuario();
+        this.user ? this.modificarUsuario() : this.registrarUsuario();
       }
     })
   }
 
   modificarUsuario() {
-    
+
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
 
     const updateUser: Usuario = Object.assign({}, this.registerForm.value, {
       password: this.user!.nif!.substring(0, 8),
@@ -112,4 +132,36 @@ export class RegistrarNuevoUsuarioComponent implements OnInit {
     });
 
   } 
+
+  registrarUsuario() {
+
+    console.log(this.registerForm);
+
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
+
+    const newUser: Usuario = Object.assign({}, this.registerForm.value, {
+      password: this.registerForm.get('nif')!.value.substring(0, 8)
+    })
+
+    this.authService.herokuNewUser(newUser).subscribe(
+      () => {
+        this.dialog.open(DialogConfirmarComponent,
+          { 
+            restoreFocus: false, 
+            data: 'El usuario ha sido registrado correctamente.'
+          });
+        this.router.navigateByUrl('/dashboard/listado-usuarios');
+      }, err => {
+        console.log(err)
+        this.dialog.open(DialogConfirmarComponent,
+          { 
+            restoreFocus: false, 
+            data: 'Ha ocurrido un error inesperado al intentar registrar al usuario. Inténtelo de nuevo más tarde y consulte con el administrador del sitio.' 
+          });
+      }
+    )
+  }
 }

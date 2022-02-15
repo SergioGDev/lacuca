@@ -1,91 +1,95 @@
-<div class="registrar-nuevo-usuario-container">
+<div class="registrar-nuevo-usuario-container" fxLayout="row wrap" fxLayoutAlign="center">
 
-    <div class="titulo">
-        {{ user ? 'Modificar datos del usuario' : 'Registrar nuevo usuario' }}
-    </div>
+    <div fxFlex="50" fxFlex.sm="80" fxFlex.xs="100">
+        <div class="subtitulo">
+            {{ user ? 'Editar datos del usuario' : 'Registro de nuevo usuario' }}
+        </div>
+        
+        <div class="formulario">
+            <form autocomplete="off"[formGroup]="registerForm" (submit)="submit()">
     
-    <div class="formulario">
-        <form autocomplete="off"[formGroup]="registerForm" (submit)="submit()">
-
-            <div fxLayout="row wrap" class="body-formulario">
-
-                <div fxFlex="30" fxFlex.sm="100" fxFlex.xs="100" class="p-2">
-                    <mat-form-field class="w-100" appearance="fill">
-                        <mat-label>Nombre</mat-label>
-                        <input matInput formControlName="nombre">
-                        <mat-error class="error" 
-                            *ngIf="registerForm.get('nombre')?.invalid && 
-                            registerForm.get('nombre')?.touched">
-                            El campo "Nombre" es obligatorio
-                        </mat-error>
-                    </mat-form-field>
+                <div fxLayout="column" class="body-formulario">
+    
+                    <div class="p-2">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre">
+                            <mat-error class="error" 
+                                *ngIf="registerForm.get('nombre')?.invalid && 
+                                registerForm.get('nombre')?.touched">
+                                El campo "Nombre" es obligatorio
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="p-2">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Apellidos</mat-label>
+                            <input matInput formControlName="apellidos">
+                            <mat-error class="error" 
+                                *ngIf="registerForm.get('apellidos')?.invalid && 
+                                registerForm.get('apellidos')?.touched">
+                                El campo "Apellidos" es obligatorio
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="p-2">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>NIF</mat-label>
+                            <input matInput formControlName="nif">
+                            <mat-error class="error" 
+                                *ngIf="registerForm.get('nif')?.invalid && 
+                                registerForm.get('nif')?.touched">
+                                El campo "NIF" es obligatorio y debe tener formato '12345678A'
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="p-2">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Correo electrónico</mat-label>
+                            <input matInput formControlName="email">
+                            <mat-error class="error" 
+                                *ngIf="registerForm.get('email')?.invalid && 
+                                registerForm.get('email')?.touched">
+                                El campo "Correo electrónico" es obligatorio y debe tener formato 'correo@electronico.com'
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="p-2">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Delegación</mat-label>
+                            <mat-select matNativeControl formControlName="delegacion">
+                                <mat-option *ngFor="let item of vDelegaciones" [value]="item">
+                                    {{ item }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="p-2">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Roles</mat-label>
+                            <mat-select matNativeControl formControlName="role" multiple>
+                                <mat-option *ngFor="let item of vRoles" [value]="item.value">
+                                    {{ item.description }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="mt-2 p-2" fxLayoutAlign="end">
+                        <button mat-raised-button class="button-submit" type="submit">
+                            {{ user ? 'Modificar usuario' : 'Registrar usuario' }}
+                        </button>
+                    </div>
+    
                 </div>
-
-                <div fxFlex="70" fxFlex.sm="100" fxFlex.xs="100" class="p-2">
-                    <mat-form-field class="w-100" appearance="fill">
-                        <mat-label>Apellidos</mat-label>
-                        <input matInput formControlName="apellidos">
-                        <mat-error class="error" 
-                            *ngIf="registerForm.get('apellidos')?.invalid && 
-                            registerForm.get('apellidos')?.touched">
-                            El campo "Apellidos" es obligatorio
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div fxFlex="30" fxFlex.sm="100" fxFlex.xs="100" class="p-2">
-                    <mat-form-field class="w-100" appearance="fill">
-                        <mat-label>NIF</mat-label>
-                        <input matInput formControlName="nif">
-                        <mat-error class="error" 
-                            *ngIf="registerForm.get('nif')?.invalid && 
-                            registerForm.get('nif')?.touched">
-                            El campo "NIF" es obligatorio y debe tener formato '12345678A'
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div fxFlex="70" fxFlex.sm="100" fxFlex.xs="100" class="p-2">
-                    <mat-form-field class="w-100" appearance="fill">
-                        <mat-label>Correo electrónico</mat-label>
-                        <input matInput formControlName="email">
-                        <mat-error class="error" 
-                            *ngIf="registerForm.get('email')?.invalid && 
-                            registerForm.get('email')?.touched">
-                            El campo "Correo electrónico" es obligatorio y debe tener formato 'correo@electronico.com'
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="p-2">
-                    <mat-form-field class="w-100" appearance="fill">
-                        <mat-label>Delegación</mat-label>
-                        <mat-select matNativeControl formControlName="delegacion">
-                            <mat-option *ngFor="let item of vDelegaciones" [value]="item">
-                                {{ item }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-                <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="p-2">
-                    <mat-form-field class="w-100" appearance="fill">
-                        <mat-label>Roles</mat-label>
-                        <mat-select matNativeControl formControlName="role" multiple>
-                            <mat-option *ngFor="let item of vRoles" [value]="item.value">
-                                {{ item.description }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-            </div>
-
-            <div class="mt-2 p-2" fxLayoutAlign="end">
-                <button mat-raised-button type="submit">{{ user ? 'Modificar usuario' : 'Registrar usuario' }}</button>
-            </div>
-
-        </form>
+    
+            </form>
+        </div>
     </div>
 
 </div>

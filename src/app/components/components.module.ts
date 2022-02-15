@@ -34,6 +34,7 @@ import { ListadoInformesComponent } from './listado-informes/listado-informes.co
 import { ListadoSeleccionCortesInformesComponent } from './listado-seleccion-cortes-informes/listado-seleccion-cortes-informes.component';
 import { ListadoVideotestsComponent } from './listado-videotests/listado-videotests.component';
 import { DataUsuariosComponent } from './data-usuarios/data-usuarios.component';
+import { TarjetaDatosUsuarioComponent } from './tarjeta-datos-usuario/tarjeta-datos-usuario.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { DataUsuariosComponent } from './data-usuarios/data-usuarios.component';
     ListadoSeleccionCortesInformesComponent,
     ListadoVideotestsComponent,
     DataUsuariosComponent,
+    TarjetaDatosUsuarioComponent,
   ],
   imports: [
     CommonModule,
@@ -83,6 +85,7 @@ import { DataUsuariosComponent } from './data-usuarios/data-usuarios.component';
     CuadroDatosPartidoComponent,
     DataPartidoComponent,
     DataUsuariosComponent,
+    TarjetaDatosUsuarioComponent,
     ItemPreguntaComponent,
     ItemPreguntaConSolucionComponent,
     ListadoDatosPartidoComponent, 

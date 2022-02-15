@@ -11,7 +11,7 @@
     <div>
         <div class="m-2" class="content-botones" fxLayoutAlign="end">
             <button mat-button (click)="registrarListadoUsuarios()"> Registrar usuarios mediante CSV </button>
-            <button mat-button disabled (click)="registrarUsuario()"> Registrar nuevo usuario </button>
+            <button mat-button (click)="registrarUsuario()"> Registrar nuevo usuario </button>
         </div>
     
         <div class="tabla-usuarios w-100 mat-elevation-z2" *ngIf="!cargandoUsuarios">

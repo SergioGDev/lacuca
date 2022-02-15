@@ -16,7 +16,7 @@ export class DataUsuariosComponent implements OnInit, AfterViewInit {
 
   // Variables para la tabla y el paginador (Angular material)
   dataSource: any;
-  displayedColums = ['nombre', 'apellidos', 'nif', 'delegacion', 'esInformador', 'esAdministrador', 'email', 'acciones'];
+  displayedColums = ['nombre', 'apellidos', 'delegacion', 'email', 'acciones'];
   resultLength: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
@@ -125,5 +125,10 @@ export class DataUsuariosComponent implements OnInit, AfterViewInit {
   editarUsuario(user: Usuario) {
     this.interdataService.setUserToCache(user);
     this.router.navigateByUrl('/dashboard/listado-usuarios/editar-usuario');
+  }
+
+  verDatosUsuario(user: Usuario) {
+    this.interdataService.setUserToCache(user);
+    this.router.navigateByUrl('/dashboard/listado-usuarios/ver-datos')
   }
 }

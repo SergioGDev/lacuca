@@ -1,0 +1,49 @@
+<mat-card>
+
+    <mat-card-title>
+        Datos del usuario
+    </mat-card-title>
+
+    <mat-card-content>
+
+        <div fxLayout="row wrap" class="mt-5 mb-2">
+
+            <div fxFlex="20" class="etiqueta">
+                Nombre completo:
+            </div>
+
+            <div fxFlex="70" class="datos">
+                {{ datosUsuario.nombre }} {{ datosUsuario.apellidos }}
+            </div>
+
+            <div fxFlex="20" class="etiqueta">
+                Correo electrónico:
+            </div>
+
+            <div fxFlex="70" class="datos">
+                {{ datosUsuario.email }}
+            </div>
+
+            <div fxFlex="20" class="etiqueta">
+                Delegación:
+            </div>
+
+            <div fxFlex="20" class="datos">
+                {{ datosUsuario.delegacion }}
+            </div>
+
+            <div fxFlex="20" class="etiqueta">
+                Tipo de usuario:
+            </div>
+
+            <div fxFlex="20" class="datos">
+                {{ rolesDelUsuario() }}
+            </div>
+
+
+
+        </div>
+
+    </mat-card-content>
+
+</mat-card>

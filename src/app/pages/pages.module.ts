@@ -33,6 +33,8 @@ import { RegistrarUsuariosCsvComponent } from './registrar-usuarios-csv/registra
 import { RealizarInformeComponent } from './realizar-informe/realizar-informe.component';
 import { VisualizarDatosInformeComponent } from './visualizar-datos-informe/visualizar-datos-informe.component';
 import { VisualizarVideotestComponent } from './visualizar-videotest/visualizar-videotest.component';
+import { EditarMisDatosComponent } from './editar-mis-datos/editar-mis-datos.component';
+import { DatosUsuarioComponent } from './datos-usuario/datos-usuario.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { VisualizarVideotestComponent } from './visualizar-videotest/visualizar-
     RealizarInformeComponent,
     VisualizarDatosInformeComponent,
     VisualizarVideotestComponent,
+    EditarMisDatosComponent,
+    DatosUsuarioComponent,
   ],
   exports: [
     DashboardComponent,

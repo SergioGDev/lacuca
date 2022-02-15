@@ -144,3 +144,15 @@ export interface DatosRol {
     description:    string;
     value:          string;
 }
+
+
+// ************************************************** //
+// ***************     GRUPOS        **************** //
+// ************************************************** //
+export interface DatosGrupo {
+    _id:                string,
+    descripcion:        string,
+    responsables:       string[],
+    datosResponsables:  Usuario[],
+    __v:                string,
+}

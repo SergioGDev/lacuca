@@ -28,6 +28,8 @@ import { RegistrarUsuariosCsvComponent } from './registrar-usuarios-csv/registra
 import { RealizarInformeComponent } from './realizar-informe/realizar-informe.component';
 import { VisualizarDatosInformeComponent } from './visualizar-datos-informe/visualizar-datos-informe.component';
 import { VisualizarVideotestComponent } from './visualizar-videotest/visualizar-videotest.component';
+import { EditarMisDatosComponent } from './editar-mis-datos/editar-mis-datos.component';
+import { DatosUsuarioComponent } from './datos-usuario/datos-usuario.component';
 
 const routes: Routes = [
   {
@@ -58,9 +60,11 @@ const routes: Routes = [
       { path: 'informes/ver-informe', component: VisualizarDatosInformeComponent, data: { titulo: 'Ver informe' } },
       { path: 'listado-usuarios', component: ListadoUsuariosComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Listado de usuarios' } },
       { path: 'listado-usuarios/editar-usuario', component: RegistrarNuevoUsuarioComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Editar datos del usuario' } },
+      { path: 'listado-usuarios/ver-datos', component: DatosUsuarioComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Datos del usuario' } },
+      { path: 'listado-usuarios/registrar-usuario', component: RegistrarNuevoUsuarioComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Registrar usuario' } },
       { path: 'listado-usuarios/registrar-listado-usuarios', component: RegistrarUsuariosCsvComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Registrar listado de usuarios' } },
       { path: 'change-password', component: ChangePasswordComponent },
-      { path: 'editar-mis-datos', component: CreateUserComponent },
+      { path: 'editar-mis-datos', component: EditarMisDatosComponent, data: { titulo: 'Editar mis datos'} },
       { path: '**', redirectTo: 'inicio' },
     ]
 

@@ -46,7 +46,7 @@ export class ListadoUsuariosComponent implements OnInit {
   }
 
   registrarUsuario() {
-    
+    this.router.navigateByUrl('/dashboard/listado-usuarios/registrar-usuario');
   }
 
   registrarListadoUsuarios() {
