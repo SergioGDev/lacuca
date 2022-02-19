@@ -7,6 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { ItemSidebar } from '../interfaces/sidebar.interface';
 import { Usuario } from '../interfaces/usuario.interface';
 import { ROLE_ADMIN } from '../interfaces/auth.interface';
+import { InterdataService } from '../services/interdata.service';
 
 @Component({
   selector: 'app-pages',
@@ -26,6 +27,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   constructor(
     private sidebarService: SidebarService,
+    private interdataService: InterdataService,
     private authService: AuthService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
@@ -45,6 +47,12 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeEventListener("resize", this._mobileQueryListener);
+    this.interdataService.removeCortesInformeFromCache();
+    this.interdataService.removeIdCorteFromCache();
+    this.interdataService.removeIdInformeFromCache();
+    this.interdataService.removeIdPartidoFromCache();
+    this.interdataService.removeIdVideotestFromCache();
+    this.interdataService.removeUserFromCache();
   }
 
   getClass(itemSidebar: ItemSidebar) {

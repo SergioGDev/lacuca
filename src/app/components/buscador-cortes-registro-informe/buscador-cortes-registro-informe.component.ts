@@ -58,7 +58,18 @@ export class BuscadorCortesRegistroInformeComponent implements OnInit {
 
   // Variables para la tabla y el paginador
   dataSource: any;
-  displayedColums = ['selected', 'valoracion', 'situacion', 'tipo', 'posicion', 'equipoLocal', 'equipoVisitante', 'acciones'];
+  displayedColums = [
+    'selected', 
+    'inicio', 
+    'duracion', 
+    'valoracion', 
+    'situacion', 
+    'tipo', 
+    'posicion', 
+    'equipoLocal', 
+    'equipoVisitante', 
+    'acciones'
+  ];
   resultsLength: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;

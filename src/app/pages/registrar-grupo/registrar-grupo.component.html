@@ -1,0 +1,58 @@
+<div fxLayout="row wrap" fxLayoutAlign="center" class="content-registrar-grupo">
+
+    <app-spinner-cargando *ngIf="cargando()"></app-spinner-cargando>
+
+    <div *ngIf="!cargando()" fxFlex="50" fxFlex.md="70" fxFlex.sm="80" fxFlex.xs="100">
+
+        <div class="titulo">
+            {{ datosGrupo ? 'Modificar grupo' : 'Registrar grupo' }}
+        </div>
+
+        <div class="formulario pt-4">
+            <form autocomplete="off" [formGroup]="formGrupo" (submit)="submit()">
+
+                <div class="p-2">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label> Nombre </mat-label>
+                        <input type="text" id="nombre" matInput formControlName="descripcion">
+                        <mat-error class="error" 
+                            *ngIf="formGrupo.get('descripcion')?.invalid && 
+                                formGrupo.get('descripcion')?.touched">
+                            El campo "Nombre" es obligatorio
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="p-2">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label> Responsables </mat-label>
+                        <mat-select matNativeControl formControlName="responsables" multiple>
+                            <mat-option *ngFor="let item of listadoInformadores" 
+                                [value]="item._id">{{ item.nombre }} {{ item.apellidos }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="p-2">
+                    <mat-form-field class="w-100" appearance="fill">
+                        <mat-label> Árbitros </mat-label>
+                        <mat-select matNativeControl formControlName="arbitros" multiple>
+                            <mat-option *ngFor="let item of listadoCompletoArbitros" 
+                                [value]="item._id">{{ item.nombre }} {{ item.apellidos }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="p-2" fxLayoutAlign="end">
+                    <button class="boton-submit" mat-raised-button type="submit">
+                        {{ datosGrupo ? 'Modificar grupo' : 'Registrar grupo' }}
+                    </button>
+                </div>
+                
+
+            </form>
+        </div>
+
+    </div>
+
+</div>

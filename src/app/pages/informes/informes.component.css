@@ -3,12 +3,14 @@ button i {
     margin-left: 5px;
 }
 
-.content-botones {
-    background-color: white;
-    border-radius: 3px;
-    box-shadow: 2px 2px 5px var(--color-texto-negro-transparente);
+.content-botones { 
     margin: 15px;
     padding: 10px;
+}
+
+.content-botones button {
+    background-color: var(--color-texto-negro);
+    color: var(--color-texto-blanco);
 }
 
 .material-icons {

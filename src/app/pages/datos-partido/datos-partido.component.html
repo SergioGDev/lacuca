@@ -31,7 +31,7 @@
         <mat-card-actions fxLayout.xs="column" fxLayoutAlign="end" fxLayoutAlign.xs="center">
             <button mat-button color="warn" (click)="eliminarPartido()">Eliminar partido</button>
             <button mat-button (click)="modificarPartido()">Modificar partido</button>
-            <a mat-button [href]="urlVideoPartido()">Video del partido</a>
+            <a mat-button [href]="urlVideoPartido()" target="_blank">Video del partido</a>
             <button mat-button (click)="generarNuevoCorte()">Generar nuevo corte</button>
         </mat-card-actions>
 

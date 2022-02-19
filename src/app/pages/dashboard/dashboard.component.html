@@ -1,1 +1,17 @@
-<p>dashboard works!</p>
+<div class="dashboard-content" class="pt-5">
+
+    <app-spinner-cargando *ngIf="!mostrarDatos()"></app-spinner-cargando>
+
+    <div *ngIf="mostrarDatos()">
+
+        <app-tarjeta-datos-usuario [datosUsuario]="currentUser!"></app-tarjeta-datos-usuario>
+
+        <div class="subtitulo">
+            Mis informes
+        </div>
+
+        <app-listado-informes [listadoInformes]="listadoInformesUsuario"></app-listado-informes>
+    </div>
+    
+
+</div>

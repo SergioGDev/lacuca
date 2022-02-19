@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { DatosPartido } from '../../interfaces/data.interface';
 import { PartidosService } from '../../services/partidos.service';
+import { InterdataService } from '../../services/interdata.service';
 
 @Component({
   selector: 'app-listado-partidos',
@@ -17,11 +18,13 @@ export class ListadoPartidosComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private partidosService: PartidosService
+    private partidosService: PartidosService,
+    private interdataService: InterdataService
   ) { }
 
   ngOnInit(): void {
     this.cargarListadoPartidos();
+    this.interdataService.limpiarCache();
   }
   
   cargarListadoPartidos(): void {

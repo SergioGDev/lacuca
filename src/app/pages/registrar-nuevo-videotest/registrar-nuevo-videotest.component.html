@@ -120,8 +120,10 @@
 
                     <div class="p-2">
                         <mat-form-field class="w-100" appearance="fill">
-                            <mat-label>Descripcion (opcional)</mat-label>
-                            <input matInput formControlName="descripcionVideotest" autocomplete="off">                    
+                            <mat-label>Descripción (opcional)</mat-label>
+                            <textarea matInput formControlName="descripcionVideotest" 
+                                autocomplete="off" rows="4">
+                            </textarea>        
                         </mat-form-field>
                     </div>
 
@@ -131,11 +133,11 @@
                         <div class="p-3" fxLayout="row wrap">
                             <div class="clip-container">
                                 <app-yt-player-corte class="youtube-player"
-                                    [videoId]="pregunta.corte.datosPartido?.url"
+                                    [videoId]="pregunta.corte!.datosPartido?.url"
                                     [height]="getYoutubePlayerWidth() / 2"
                                     [width]="getYoutubePlayerWidth()"
-                                    [startSecond]="pregunta.corte.segundoInicio"
-                                    [endSecond]="pregunta.corte.segundoInicio + pregunta.corte.duracion">
+                                    [startSecond]="pregunta.corte!.segundoInicio"
+                                    [endSecond]="pregunta.corte!.segundoInicio + pregunta.corte!.duracion">
                                 </app-yt-player-corte> 
                             </div>
 
@@ -237,11 +239,11 @@
                     <div class="p-3" fxLayout="row wrap">
                         <div class="clip-container">
                             <app-yt-player-corte class="youtube-player"
-                                [videoId]="pregunta.corte.datosPartido?.url"
+                                [videoId]="pregunta.corte!.datosPartido?.url"
                                 [height]="getYoutubePlayerWidth() / 2"
                                 [width]="getYoutubePlayerWidth()"
-                                [startSecond]="pregunta.corte.segundoInicio"
-                                [endSecond]="pregunta.corte.segundoInicio + pregunta.corte.duracion">
+                                [startSecond]="pregunta.corte!.segundoInicio"
+                                [endSecond]="pregunta.corte!.segundoInicio + pregunta.corte!.duracion">
                             </app-yt-player-corte> 
                         </div>
 
@@ -274,7 +276,7 @@
                     <button mat-button matStepperPrevious>Asignar preguntas y respuestas a los cortes</button>
                 </div>
                 <div fxFlex="50" fxLayoutAlign="end">
-                    <button mat-button matStepperNext>Guardar videotest</button>
+                    <button mat-button matStepperNext (click)="guardarVideotest()">Guardar videotest</button>
                 </div>
             </div>
         </mat-step>

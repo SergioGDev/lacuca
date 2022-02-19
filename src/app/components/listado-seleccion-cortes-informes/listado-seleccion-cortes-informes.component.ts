@@ -24,7 +24,17 @@ export class ListadoSeleccionCortesInformesComponent implements OnInit, AfterVie
 
   // Variables para la tabla y el paginador
   dataSource: any;
-  displayedColums = ['selected', 'valoracion', 'situacion', 'tipo', 'posicion', 'acciones'];
+  displayedColums = [
+    'selected', 
+    'inicio', 
+    'duracion', 
+    'valoracion', 
+    'situacion', 
+    'tipo', 
+    'posicion', 
+    'arbitro', 
+    'acciones'
+  ];
   resultsLength: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
@@ -46,7 +56,11 @@ export class ListadoSeleccionCortesInformesComponent implements OnInit, AfterVie
   }
 
   ngAfterViewInit(): void {
-    this.asignarDataSource();    
+    this.asignarDataSource();
+    this.ordenarTablaBusqueda({
+      direction: 'asc',
+      active: 'inicio'
+    })
   }
 
   asignarDataSource() {
@@ -70,6 +84,26 @@ export class ListadoSeleccionCortesInformesComponent implements OnInit, AfterVie
       for (var j = 1; j < data.length; j++) {
         const isAsc = sort.direction === 'asc';
         switch (sort.active) {
+
+          case 'inicio':
+            if ((data[j].segundoInicio && data[j-1].segundoInicio) &&
+            ((isAsc && data[j-1].segundoInicio > data[j].segundoInicio) || 
+            (!isAsc && data[j-1].segundoInicio < data[j].segundoInicio))) {
+              aux = data[j-1];
+              data[j-1] = data[j];
+              data[j] = aux;
+            }
+            break;
+
+          case 'duracion':
+            if ((data[j].duracion && data[j-1].duracion) &&
+            ((isAsc && data[j-1].duracion > data[j].duracion) || 
+            (!isAsc && data[j-1].duracion < data[j].duracion))) {
+              aux = data[j-1];
+              data[j-1] = data[j];
+              data[j] = aux;
+            }
+            break;
 
           case 'situacion':
             if ((data[j].situacion && data[j-1].situacion) &&
@@ -154,13 +188,32 @@ export class ListadoSeleccionCortesInformesComponent implements OnInit, AfterVie
     this.asignarDataSource();
   }
 
+  tiempoInicio(corte: DatosCorte): string {
+    const totalMinutos = corte.segundoInicio / 60;
+    const segundos = corte.segundoInicio % 60 < 10 ? 
+      '0' + Math.floor(corte.segundoInicio % 60) : 
+      Math.floor(corte.segundoInicio % 60);
+    const minutos = totalMinutos % 60 < 10 ? 
+      '0' + Math.floor(totalMinutos % 60) : 
+      Math.floor(totalMinutos % 60);
+    const horas = Math.floor(totalMinutos / 60);
+
+    return `${horas}:${minutos}:${segundos}`;
+  }
+
+  duracion(corte: DatosCorte): string {
+    const minutos = Math.floor(corte.duracion) / 60;
+    const segundos = Math.floor(corte.duracion) % 60;
+
+    return `${Math.floor(minutos) > 0 ? Math.floor(minutos)+"' " : ''}${segundos < 10 ? '0'+segundos+'"' : segundos+'"'}`;
+  }
+
   emitirCorte(corte: DatosCorte) {
     this.asignarDataSource();
     this.propagar.emit(corte);
   }
 
   verCorte(datosCorte: DatosCorte) {
-    console.log(datosCorte)
     this.dialog.open(DialogVerCorteComponent, {data: {datosCorte: datosCorte}});
   }
 

@@ -34,6 +34,8 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
   formComentarios: FormGroup = this.fb.group({
     comentarioArbitroPrincipal:   [ , [Validators.required ] ],
     comentarioArbitroAuxiliar:    [ , [Validators.required ] ],
+    comentarioGeneral:            [ , [Validators.required ] ],
+    
   })
 
   // PASO 3: NOTAS SOBRE LOS ÁRBITROS
@@ -59,9 +61,7 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
     const idInforme = this.interdataService.getIdInformeFromCache();
     const cortesInforme: LSCortesInforme = this.interdataService.getCortesInformeFromCache();
 
-    if (idInforme) {
-      this.obtenerDatosCompletosDelInforme(idInforme);
-    } else if (cortesInforme) {
+    if (idInforme || cortesInforme) {
       this.obtenerDatosCompletosDelInforme(idInforme!, cortesInforme);
     } else {
       this.router.navigateByUrl('/dashboard/informes');
@@ -69,7 +69,15 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.interdataService.removeIdInformeFromCache();
+    this.datosInforme.estado = ESTADO_INFORME_BORRADOR;
+    this.datosInforme.comentarioArbitroPrincipal = this.formComentarios.get('comentarioArbitroPrincipal')?.value;
+    this.datosInforme.comentarioArbitroAuxiliar = this.formComentarios.get('comentarioArbitroAuxiliar')?.value;
+    this.datosInforme.comentarioGeneral = this.formComentarios.get('comentarioGeneral')?.value;
+    this.datosInforme.notaArbitroPrincipal = this.formNotas.get('notaArbitroPrincipal')?.value;
+    this.datosInforme.notaArbitroAuxiliar = this.formNotas.get('notaArbitroAuxiliar')?.value;
+
+    this.informesService.modificarInforme(this.datosInforme)
+    .subscribe(() => {}, err => console.log(err));
   }
 
   obtenerDatosCompletosDelInforme(idInforme: string | undefined, cortesInforme?: LSCortesInforme) {
@@ -83,8 +91,14 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
     ).subscribe( listadoCortesResp => {
       
       this.listadoCortesPartido = this.filtrarListadoCortesConValoracion(listadoCortesResp);
-      console.log(this.listadoCortesPartido)
-      if (cortesInforme || this.datosInforme.estado === ESTADO_INFORME_BORRADOR) {
+
+      if (cortesInforme !== undefined) {
+        this.datosInforme.cortesIds = cortesInforme.cortesIds;
+      }
+
+      if (cortesInforme || 
+        this.datosInforme.estado === ESTADO_INFORME_BORRADOR || 
+        this.datosInforme.estado === ESTADO_INFORME_TERMINADO) {
         this.listadoCortesPartido.forEach( corte => {
           if (cortesInforme?.cortesIds.includes(corte._id!) ||
             this.datosInforme.cortesIds?.includes(corte._id!)) {
@@ -93,10 +107,20 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
         })
       }
 
-      if (cortesInforme !== undefined) {
-        this.datosInforme.cortesIds = cortesInforme.cortesIds;
-      }
+      if (this.datosInforme.estado === ESTADO_INFORME_BORRADOR || this.datosInforme.estado === ESTADO_INFORME_TERMINADO) {
 
+        this.formComentarios.reset({
+          comentarioArbitroPrincipal: this.datosInforme.comentarioArbitroPrincipal,
+          comentarioArbitroAuxiliar: this.datosInforme.comentarioArbitroAuxiliar,
+          comentarioGeneral: this.datosInforme.comentarioGeneral,
+        })
+
+        this.formNotas.reset({
+          notaArbitroPrincipal: this.datosInforme.notaArbitroPrincipal,
+          notaArbitroAuxiliar: this.datosInforme.notaArbitroAuxiliar,
+        })
+
+      }
 
       this.cargandoCortes = false;
     })
@@ -138,7 +162,7 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
   }
 
   // Escucha el corte que se emite desde el buscador de cortes para insertarlo/eliminarlo en la lista
-  escucharCorteEmitido(corte: DatosCorte) {    
+  escucharCorteEmitido(corte: DatosCorte) {
     if (corte.checked) {  
       this.datosInforme.cortesIds?.push(corte._id!);
     } else {
@@ -148,12 +172,26 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
 
   // Va a la página de registrar cortes, guardando el estado actual de la ventana
   registrarNuevosCortes() {
-    this.interdataService.setCortesInformeFromCache({
-      cortesIds: this.datosInforme.cortesIds!,
-      idInforme: this.datosInforme._id!
-    })
-    this.interdataService.setIdPartidoToCache(this.datosInforme.datosPartido!._id!);
-    this.router.navigateByUrl('dashboard/informes/realizar-informe/nuevo-corte');
+    this.datosInforme.estado = ESTADO_INFORME_BORRADOR;
+    this.datosInforme.comentarioArbitroPrincipal = this.formComentarios.get('comentarioArbitroPrincipal')?.value;
+    this.datosInforme.comentarioArbitroAuxiliar = this.formComentarios.get('comentarioArbitroAuxiliar')?.value;
+    this.datosInforme.comentarioGeneral = this.formComentarios.get('comentarioGeneral')?.value;
+    this.datosInforme.notaArbitroPrincipal = this.formNotas.get('notaArbitroPrincipal')?.value;
+    this.datosInforme.notaArbitroAuxiliar = this.formNotas.get('notaArbitroAuxiliar')?.value;
+
+    this.informesService.modificarInforme(this.datosInforme).subscribe(
+      () => {
+        this.interdataService.setIdPartidoToCache(this.datosInforme.datosPartido!._id!);
+        this.router.navigateByUrl('dashboard/informes/realizar-informe/nuevo-corte');
+      },
+      err => {
+        console.log(err);
+        this.dialog.open( DialogConfirmarComponent ,
+          {
+            restoreFocus: false,
+            data: 'Ha ocurrido un error al guardar el borrador. Inténtelo de nuevo más tarde. Contacte con el administrador del sitio.'
+          })
+      })
   }
 
   terminarInforme() {
@@ -179,13 +217,17 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
 
           this.datosInforme.comentarioArbitroPrincipal = this.formComentarios.get('comentarioArbitroPrincipal')?.value;
           this.datosInforme.comentarioArbitroAuxiliar = this.formComentarios.get('comentarioArbitroAuxiliar')?.value;
+          this.datosInforme.comentarioGeneral = this.formComentarios.get('comentarioGeneral')?.value;
           this.datosInforme.notaArbitroPrincipal = this.formNotas.get('notaArbitroPrincipal')?.value;
           this.datosInforme.notaArbitroAuxiliar = this.formNotas.get('notaArbitroAuxiliar')?.value;
 
           this.informesService.modificarInforme(this.datosInforme).subscribe(
             resp => {
-              console.log(resp)
-              this.router.navigateByUrl('/dashboard/informes');
+              this.interdataService.setIdInformeToCache(this.datosInforme._id!);
+
+
+              this.interdataService.removeCortesInformeFromCache();
+              this.router.navigateByUrl('/dashboard/informes/ver-informe');
               this.dialog.open( DialogConfirmarComponent,
                 {
                   restoreFocus: false,
@@ -194,7 +236,10 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
               )
             }, err => {
               console.log(err);
+
+              this.interdataService.removeCortesInformeFromCache();
               this.router.navigateByUrl('/dashboard/informes');
+              
               this.dialog.open( DialogConfirmarComponent,
                 {
                   restoreFocus: false,
@@ -208,7 +253,7 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
     )
   }
 
-  guardarBorrador() {
+  pulsarBotonGuardarBorrador() {
     const dialogRef = this.dialog.open( DialogRegistrarComponent,
       {
         restoreFocus: false,
@@ -223,14 +268,16 @@ export class RealizarInformeComponent implements OnInit, OnDestroy {
         // Se guarda el borrador del informe
         if (resp) {
           this.datosInforme.estado = ESTADO_INFORME_BORRADOR;
-          
           this.datosInforme.comentarioArbitroPrincipal = this.formComentarios.get('comentarioArbitroPrincipal')?.value;
           this.datosInforme.comentarioArbitroAuxiliar = this.formComentarios.get('comentarioArbitroAuxiliar')?.value;
+          this.datosInforme.comentarioGeneral = this.formComentarios.get('comentarioGeneral')?.value;
           this.datosInforme.notaArbitroPrincipal = this.formNotas.get('notaArbitroPrincipal')?.value;
           this.datosInforme.notaArbitroAuxiliar = this.formNotas.get('notaArbitroAuxiliar')?.value;
 
           this.informesService.modificarInforme(this.datosInforme).subscribe(
             () => {
+
+              this.interdataService.removeCortesInformeFromCache();
               this.router.navigateByUrl('/dashboard/informes');
 
               this.dialog.open( DialogConfirmarComponent,

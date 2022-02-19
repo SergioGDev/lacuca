@@ -1,0 +1,105 @@
+<div fxLayout="row wrap" fxLayoutAlign="center">
+
+    <div class="pt-5" fxFlex="70" fxFlex.md="85" fxFlex.xs="100" fxFlex.sm="100">
+
+        <app-spinner-cargando *ngIf="!datosUsuario"></app-spinner-cargando>
+
+        <mat-card *ngIf="datosUsuario">
+
+            <mat-card-title>
+                <div class="subtitulo">Datos del usuario</div>
+            </mat-card-title>
+
+            <mat-card-content>
+
+                <div fxLayout="row wrap" class="mt-3 mb-2">
+        
+                    <div fxFlex="20" class="etiqueta">
+                        Nombre:
+                    </div>
+        
+                    <div fxFlex="20" class="datos">
+                        {{ datosUsuario.nombre }}
+                    </div>
+        
+                    <div fxFlex="20" class="etiqueta">
+                        Apellidos:
+                    </div>
+        
+                    <div fxFlex="20" class="datos">
+                        {{ datosUsuario.apellidos }}
+                    </div>
+        
+                    <div fxFlex="20" class="etiqueta">
+                        Correo electrónico:
+                    </div>
+        
+                    <div fxFlex="70" class="datos">
+                        {{ datosUsuario.email }}
+                    </div>
+
+                    <div fxFlex="20" class="etiqueta">
+                        NIF:
+                    </div>
+        
+                    <div fxFlex="20" class="datos">
+                        {{ datosUsuario.nif }}
+                    </div>
+        
+                    <div fxFlex="20" class="etiqueta">
+                        Delegación:
+                    </div>
+        
+                    <div fxFlex="20" class="datos">
+                        {{ datosUsuario.delegacion }}
+                    </div>
+        
+                    <div fxFlex="20" class="etiqueta">
+                        Tipo de usuario:
+                    </div>
+        
+                    <div fxFlex="70" class="datos">
+                        {{ rolesDelUsuario() }}
+                    </div>
+
+                    <div fxFlex="20" class="etiqueta">
+                        Grupos:
+                    </div>
+
+                    <div fxFlex="70" class="datos no-grupo"
+                        *ngIf="datosUsuario.grupos?.length === 0 || !datosUsuario.grupos">
+                        No pertenece a ningún grupo
+                    </div>
+
+                    <div fxFlex="70" class="datos" *ngIf="datosUsuario.grupos!.length > 0">
+                        <div class="grupo" *ngFor="let grupo of datosUsuario.datosGrupos">
+                            {{ grupo.descripcion }}
+                        </div>
+                    </div>
+        
+                </div>
+        
+            </mat-card-content>
+
+            <mat-divider inset></mat-divider>
+            
+            <mat-card-actions>
+    
+                <div fxLayoutAlign="end">
+                    <button mat-button (click)="editarDatosUsuario()">
+                        Editar datos
+                    </button>
+                </div>
+
+            </mat-card-actions>
+        </mat-card>
+
+        <div fxLayoutAlign="end" class="mt-5">
+            <button mat-raised-button (click)="volverAlListado()">
+                Volver al listado
+            </button>
+        </div>
+
+    </div>
+
+</div>

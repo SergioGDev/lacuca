@@ -42,18 +42,18 @@ export interface DatosPartido {
 // ************    DATOS CORTE       **************** //
 // ************************************************** //
 export interface DatosCorte {
-    _id?:           string,
-    __v?:           number,
-    idPartido:      string,
-    segundoInicio:  number,
-    duracion:       number,
-    comentario?:    string,
-    valoracion?:    string,
-    situacion?:     string,
-    tipo?:          string,
-    posicion?:      string,
-    arbitro?:       string,
-    datosPartido?:  DatosPartido,
+    _id?:               string,
+    __v?:               number,
+    idPartido:          string,
+    segundoInicio:      number,
+    duracion:           number,
+    comentario?:        string,
+    valoracion?:        string,
+    situacion?:         string,
+    tipo?:              string,
+    posicion?:          string,
+    arbitro?:           string,
+    datosPartido?:      DatosPartido,
 
     // Para la generación del videotest
     checked?:       boolean,
@@ -86,7 +86,8 @@ export interface DatosPreguntaVideotest {
     pregunta: string,
     respuestas: string[],
     solucion: string,
-    corte: DatosCorte,
+    idCorte: string,
+    corte?: DatosCorte,
 }
 
 export interface DatosVideotest {
@@ -121,6 +122,7 @@ export interface DatosInforme {
     informador?:                    string,
     datosInformador?:               Usuario,
     cortesIds?:                     string[],
+    listadoCortes?:                 DatosCorte[],
     comentarioGeneral?:             string,
     comentarioArbitroPrincipal?:    string,
     comentarioArbitroAuxiliar?:     string,
@@ -141,4 +143,16 @@ export interface LSCortesInforme {
 export interface DatosRol {
     description:    string;
     value:          string;
+}
+
+
+// ************************************************** //
+// ***************     GRUPOS        **************** //
+// ************************************************** //
+export interface DatosGrupo {
+    _id?:                string,
+    descripcion?:        string,
+    responsables?:       string[],
+    datosResponsables?:  Usuario[],
+    __v?:                string,
 }

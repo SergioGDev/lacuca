@@ -1,48 +1,23 @@
 
 <div class="listado-videotest">
 
-    <mat-card>
+    <div class="titulo">
+        Listado de videotests
+    </div>
 
-        <mat-card-title>Listado de Videotest</mat-card-title>
+    <app-spinner-cargando *ngIf="cargandoVideotests"></app-spinner-cargando>
 
-        <mat-card-content>
-            <!-- <app-spinner-cargando *ngIf="cargandoVideotests"></app-spinner-cargando> -->
+    <div>
 
-        </mat-card-content>
+        <div class="m-2" *ngIf="!cargandoCortes" class="content-botones" fxLayoutAlign="end">
+            <button mat-button (click)="registrarNuevoVideotest()"> Registrar nuevo videotest </button>
+        </div>
 
-        <mat-divider inset></mat-divider>
+        <div *ngIf="!cargandoVideotests">
+            <app-listado-videotests [listadoVideotests]="listadoVideotest"></app-listado-videotests>
+        </div>
 
-        <mat-card-actions>
-            <button mat-button (click)="registrarNuevoVideotest()">Generar nuevo videotest</button>
-        </mat-card-actions>
-    </mat-card>
+    </div>
+
 
 </div>
-
-<!-- <div class="listado-cortes">
-
-    <mat-card>
-
-        <mat-card-title>Listado de Cortes disponibles</mat-card-title>
-
-        <mat-card-content>
-            <app-spinner-cargando *ngIf="cargandoCortes"></app-spinner-cargando>
-
-            <div *ngIf="!cargandoCortes && listadoCortes.length !== 0">
-                <app-listado-cortes [listadoCortes]="listadoCortes"></app-listado-cortes>
-            </div>
-
-            <div *ngIf="!cargandoCortes && listadoCortes.length === 0">
-                No hay cortes disponibles
-            </div>
-
-        </mat-card-content>
-
-        <mat-divider inset></mat-divider>
-
-        <mat-card-actions>
-            <button mat-button>Generar nuevo corte</button>
-        </mat-card-actions>
-    </mat-card>
-
-</div> -->

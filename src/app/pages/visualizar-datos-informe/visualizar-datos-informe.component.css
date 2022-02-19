@@ -1,0 +1,55 @@
+.etiqueta,
+.info-partido {
+    margin: 12px !important;
+}
+
+.etiqueta {
+    font-weight: 900;
+}
+
+.info-partido {
+    font-size: 12pt;
+}
+
+.container-datos,
+.container-comentarios {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px var(--color-texto-negro-transparente);
+}
+
+.container-datos {
+    padding: 30px 10px;
+}
+
+.container-comentarios {
+    padding: 5px 20px 30px 20px;
+}
+
+.datos-comentarios {
+    margin: 5px 50px;
+}
+
+.datos-comentarios>div {
+    margin: 10px 0px;
+}
+
+.nota-container {
+    font-size: 18px;
+}
+
+.nota-container span:last-child {
+    font-weight: 900;
+}
+
+.container-datos,
+.container-cortes,
+.container-comentarios,
+.container-botones {
+    margin-bottom: 60px;
+}
+
+.container-botones button {
+    background-color: var(--color-texto-negro);
+    color: var(--color-texto-blanco);
+}

@@ -23,6 +23,7 @@ export class UsersFromCsvComponent implements OnInit {
     filas.forEach(fila => {
       const usuario = this.parseUser(fila);
       if(usuario){
+        usuario.password = usuario.nif!.substring(0, 8)
         usuarios.push(usuario);
       }
     });

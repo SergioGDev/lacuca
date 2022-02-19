@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Router } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { User } from '../interfaces/user.interface';
+import { Usuario } from '../interfaces/usuario.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +14,8 @@ import { User } from '../interfaces/user.interface';
 export class AuthService {
 
   constructor(
-    private db: AngularFirestore,
-    private router: Router,
     private http: HttpClient
   ) { }
-
-  BASE_URL = environment.herokuUrl;
 
   // Obtenemos el usuario actual
   getCurrentUserRol(): string | null{
@@ -33,7 +28,7 @@ export class AuthService {
   }
 
   herokuLogin(nif: string, password: string): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/auth/login`, {
+    return this.http.post(`${environment.herokuUrl}/auth/login`, {
       nif,
       password
     })
@@ -45,12 +40,12 @@ export class AuthService {
   }
 
   herokuNewUser(user: User): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/auth/new`, user);
+    return this.http.post(`${environment.herokuUrl}/auth/new`, user);
   }
 
   herokuUpdateUser(user: User): Observable<any> { 
     const token = localStorage.getItem('token') || '';
-    return this.http.put(`${this.BASE_URL}/auth/update/${user._id}`, user, {headers: {'token': token}});
+    return this.http.put(`${environment.herokuUrl}/auth/update/${user._id}`, user, {headers: {'token': token}});
   }
 
   herokuRenew(): Observable<any> {
@@ -59,12 +54,12 @@ export class AuthService {
     }
 
     const token = localStorage.getItem('token') || '';
-    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}});
+    return this.http.get(`${environment.herokuUrl}/auth/renew`, {headers: {'token': token}});
   }
 
   herokuChangePassword(nif: string, oldPassword: string, newPassword: string): Observable<any> {
     const token = localStorage.getItem('token') || '';
-    return this.http.post(`${this.BASE_URL}/auth/change-password`, {
+    return this.http.post(`${environment.herokuUrl}/auth/change-password`, {
       nif,
       oldPassword,
       newPassword
@@ -73,7 +68,7 @@ export class AuthService {
 
   herokuValidarToken(): Observable<boolean>{
     const token = localStorage.getItem('token') || '';
-    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}})
+    return this.http.get(`${environment.herokuUrl}/auth/renew`, {headers: {'token': token}})
     .pipe(
       tap((resp: any) => {
         localStorage.setItem('token', resp.token);
@@ -86,12 +81,12 @@ export class AuthService {
 
   herokuValidarIsAdmin(): Observable<boolean>{
     const token = localStorage.getItem('token') || '';
-    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}})
+    return this.http.get(`${environment.herokuUrl}/auth/renew`, {headers: {'token': token}})
     .pipe(
       tap((resp: any) => {
         localStorage.setItem('token', resp.token);
       }),
-      map(resp => {        
+      map(resp => {
         return resp.user.role.includes('ROLE_ADMIN');
       }),
       catchError(err => of(false))
@@ -101,12 +96,12 @@ export class AuthService {
 
   herokuValidarIsInformador(): Observable<boolean>{
     const token = localStorage.getItem('token') || '';
-    return this.http.get(`${this.BASE_URL}/auth/renew`, {headers: {'token': token}})
+    return this.http.get(`${environment.herokuUrl}/auth/renew`, {headers: {'token': token}})
     .pipe(
       tap((resp: any) => {
         localStorage.setItem('token', resp.token);
       }),
-      map(resp => {        
+      map(resp => {
         return resp.user.role.includes('ROLE_INFORMADOR');
       }),
       catchError(err => of(false))
@@ -115,16 +110,20 @@ export class AuthService {
   }
 
   herokuGetUserList(): Observable<any> {
-    return this.http.get(`${this.BASE_URL}/auth/user`);
+    return this.http.get(`${environment.herokuUrl}/auth/user`);
   }
 
-  herokuGetUserListProtected(): Observable<any> {
+  herokuGetUserListProtected(): Observable<Usuario[]> {
     const token = localStorage.getItem('token') || '';
-    return this.http.get(`${this.BASE_URL}/usuario`, {headers: {'token': token}});
+    return this.http.get<Usuario[]>(`${environment.herokuUrl}/usuario`, {headers: {'token': token}});
   }
 
   herokuGetUserProtected(idUser: string): Observable<any> {
     const token = localStorage.getItem('token') || '';
-    return this.http.get(`${this.BASE_URL}/usuario/${idUser}`, {headers: {'token': token}});
+    return this.http.get(`${environment.herokuUrl}/usuario/${idUser}`, {headers: {'token': token}});
   }
+
+  // herokuAsignarGrupoAUsuarios(idGrupo: string, idsUsuarios: string[]): Observable<any> {
+    
+  // }
 }

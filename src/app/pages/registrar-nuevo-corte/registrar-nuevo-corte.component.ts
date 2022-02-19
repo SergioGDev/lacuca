@@ -18,7 +18,7 @@ import { CortesService } from '../../services/cortes.service';
   templateUrl: './registrar-nuevo-corte.component.html',
   styleUrls: ['./registrar-nuevo-corte.component.css']
 })
-export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
+export class RegistrarNuevoCorteComponent implements OnInit {
 
   datosPartido!: DatosPartido;
   datosCorte?: DatosCorte;
@@ -150,10 +150,6 @@ export class RegistrarNuevoCorteComponent implements OnInit, OnDestroy {
 
     }
 
-  }
-
-  ngOnDestroy(): void {
-    this.interdataService.removeIdCorteFromCache();
   }
 
   // Dado el segundo inicio y la duración, devuelve un objeto con el tiempo de inicio y fin

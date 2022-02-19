@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { environment } from 'src/environments/environment';
-import { DatosCorte } from '../interfaces/data.interface';
-import { Observable } from 'rxjs';
+import { DatosCorte, DatosPartido } from '../interfaces/data.interface';
 import { PartidosService } from './partidos.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CortesService {
+
+  listadoCortes: DatosCorte[] = [];
 
   constructor(
     private http: HttpClient,
@@ -47,20 +51,32 @@ export class CortesService {
     return this.http.get(`${environment.herokuUrl}/corte`, {headers: {'token': token}});
   }
 
-  async obtenerListadoCompletoCortesConDatosPartidos() {
+  obtenerListadoCompletoCortesConDatosPartidos() {
     const token = localStorage.getItem('token') || '';
-    var listadoCortes: DatosCorte[] = [];
 
-    await this.http.get<DatosCorte[]>(`${environment.herokuUrl}/corte`, {headers: {'token': token}})
-      .toPromise<DatosCorte[]>()
-      .then(listadoCortesResp => listadoCortes = listadoCortesResp);
+    return this.http.get<DatosCorte[]>(`${environment.herokuUrl}/corte`, {headers: {'token': token}})
+      .pipe(
+        switchMap( listadoCortesResp => this.asignarCortesYObtenerListadoPartidos(listadoCortesResp)),
+        switchMap( listadoPartidosResp => this.asignarDatosPartidosAListadoCortes(listadoPartidosResp))
+      )
+  }
 
-    listadoCortes.forEach( (corte) => {
-      this.partidosService.obtenerDatosPartido(corte.idPartido)
-        .toPromise<any>()
-        .then ( ({partido}) => corte.datosPartido = partido );
+  // Métodos auxiliares
+  asignarCortesYObtenerListadoPartidos(listadoCortesResp: DatosCorte[]) {
+    this.listadoCortes = listadoCortesResp;
+    return this.partidosService.obtenerListadoPartidos();
+  }
+
+  asignarDatosPartidosAListadoCortes(listadoPartidosResp: DatosPartido[]) {
+    listadoPartidosResp.forEach( partido => {
+      this.listadoCortes.forEach( corte => {
+        if (partido._id === corte.idPartido) {
+          corte.datosPartido = partido;
+        }
+      })
     })
 
-    return listadoCortes;
+    return of(this.listadoCortes);
   }
+ 
 }

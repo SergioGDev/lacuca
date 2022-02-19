@@ -15,24 +15,29 @@
 
             <app-spinner-cargando *ngIf="cargandoPartidos"></app-spinner-cargando>
 
-            <div *ngIf="!cargandoPartidos">
+            <div class="datos-partido" *ngIf="!cargandoPartidos">
+                <app-data-partido
+                    [datosPartido]="partidoInformado">
+                </app-data-partido>
+            </div>
+
+            <mat-divider class="m-3" inset></mat-divider>
+
+            <div *ngIf="!cargandoPartidos && !partidoInformado">
                 <app-listado-seleccion-partido 
                     [listadoPartidos]="listadoPartidos"
                     (partidoSeleccionado)="escucharPartidoSeleccionado($event)">
                 </app-listado-seleccion-partido>
             </div>
 
-            <mat-divider class="m-3" inset></mat-divider>
 
-            <div class="datos-partido" *ngIf="!cargandoPartidos">
-                <app-data-partido
-                    [datosPartido]="partidoInformado">
-                </app-data-partido>
-
-                <div class="m-3" fxLayoutAlign="end">
-                    <button class="m-2 boton-stepper" mat-raised-button 
-                        matStepperNext [disabled]="partidoInformado === undefined">Seleccionar árbitros</button>
-                </div>
+            <div class="m-3" fxLayoutAlign="end">
+                <button class="m-2 boton-stepper" mat-raised-button *ngIf="partidoInformado"
+                    (click)="deseleccionarPartidoInformado()">
+                    Cambiar partido seleccionado
+                </button>
+               <button class="m-2 boton-stepper" mat-raised-button 
+                    matStepperNext [disabled]="partidoInformado === undefined">Seleccionar árbitros</button>
             </div>
 
         </mat-step>

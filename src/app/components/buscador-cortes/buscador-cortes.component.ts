@@ -84,12 +84,12 @@ export class BuscadorCortesComponent implements OnInit {
   mostrarListadoCompletoCortes() {
     this.cargandoCortes = true;
     this.cortesService.obtenerListadoCompletoCortesConDatosPartidos()
-      .then( listadoCompletoCortesResp => {
-        this.listadoCompletoCortes = listadoCompletoCortesResp;
-        this.listadoCortes = listadoCompletoCortesResp;
-        this.cargandoCortes = false;
-        this.asignarDataSource();
-      })
+      .subscribe( listadoCortesResp => {
+          this.listadoCompletoCortes = listadoCortesResp;
+          this.listadoCortes = listadoCortesResp;
+          this.cargandoCortes = false;
+          this.asignarDataSource();
+      });
   }
 
   asignarDataSource() {

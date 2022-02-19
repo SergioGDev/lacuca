@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { lStorageIdPartido, lStorageIdCorte, lStorageUser, lStorageIdInforme, lStorageCortesInforme } from '../interfaces/constantes.interface';
+import { lStorageIdPartido, lStorageIdCorte, lStorageUser, lStorageIdInforme, lStorageCortesInforme, lStorageIdVideotest, lStorageIdGrupo } from '../interfaces/constantes.interface';
 import { LSCortesInforme } from '../interfaces/data.interface';
 
 @Injectable({
@@ -8,6 +8,14 @@ import { LSCortesInforme } from '../interfaces/data.interface';
 export class InterdataService {
 
   constructor() { }
+
+  // Método para limpiar la caché completa
+  limpiarCache() {
+    this.removeCortesInformeFromCache();
+    this.removeIdCorteFromCache();
+    this.removeIdInformeFromCache();
+    this.removeIdPartidoFromCache();
+  }
 
   // ID PARTIDO
   setIdPartidoToCache(idPartido: string) {
@@ -36,7 +44,7 @@ export class InterdataService {
   }
 
   // ID INFOMRE
-  setIdInformeFromCache(idInforme: string) {
+  setIdInformeToCache(idInforme: string) {
     localStorage.setItem(lStorageIdInforme, idInforme);
   }
 
@@ -74,5 +82,31 @@ export class InterdataService {
   
   removeCortesInformeFromCache() {
     localStorage.removeItem(lStorageCortesInforme);
+  }
+
+  // ID VIDEOTESTS
+  setIdVideotestToCache(idVideotest: string) {
+    localStorage.setItem(lStorageIdVideotest, idVideotest);
+  }
+
+  getIdVideotestFromCache(): string | null {
+    return localStorage.getItem(lStorageIdVideotest);
+  }
+
+  removeIdVideotestFromCache() {
+    localStorage.removeItem(lStorageIdVideotest);
+  }
+
+  // ID GRUPO
+  setIdGrupoToCache(idGrupo: string) {
+    localStorage.setItem(lStorageIdGrupo, idGrupo);
+  }
+
+  getIdGrupoFromCache(): string | null {
+    return localStorage.getItem(lStorageIdGrupo);
+  }
+
+  removeIdGrupoFromCache() {
+    localStorage.removeItem(lStorageIdGrupo);
   }
 }
