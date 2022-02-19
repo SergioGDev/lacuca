@@ -150,9 +150,9 @@ export interface DatosRol {
 // ***************     GRUPOS        **************** //
 // ************************************************** //
 export interface DatosGrupo {
-    _id:                string,
-    descripcion:        string,
-    responsables:       string[],
-    datosResponsables:  Usuario[],
-    __v:                string,
+    _id?:                string,
+    descripcion?:        string,
+    responsables?:       string[],
+    datosResponsables?:  Usuario[],
+    __v?:                string,
 }

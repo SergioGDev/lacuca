@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { lStorageIdPartido, lStorageIdCorte, lStorageUser, lStorageIdInforme, lStorageCortesInforme, lStorageIdVideotest } from '../interfaces/constantes.interface';
+import { lStorageIdPartido, lStorageIdCorte, lStorageUser, lStorageIdInforme, lStorageCortesInforme, lStorageIdVideotest, lStorageIdGrupo } from '../interfaces/constantes.interface';
 import { LSCortesInforme } from '../interfaces/data.interface';
 
 @Injectable({
@@ -95,5 +95,18 @@ export class InterdataService {
 
   removeIdVideotestFromCache() {
     localStorage.removeItem(lStorageIdVideotest);
+  }
+
+  // ID GRUPO
+  setIdGrupoToCache(idGrupo: string) {
+    localStorage.setItem(lStorageIdGrupo, idGrupo);
+  }
+
+  getIdGrupoFromCache(): string | null {
+    return localStorage.getItem(lStorageIdGrupo);
+  }
+
+  removeIdGrupoFromCache() {
+    localStorage.removeItem(lStorageIdGrupo);
   }
 }

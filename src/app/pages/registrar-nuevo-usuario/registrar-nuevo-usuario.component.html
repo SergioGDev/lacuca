@@ -79,6 +79,17 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+
+                    <div class="p-2">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Grupos</mat-label>
+                            <mat-select matNativeControl formControlName="grupos" multiple>
+                                <mat-option *ngFor="let item of listadoGrupos" [value]="item._id">
+                                    {{ item.descripcion }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
     
                     <div class="mt-2 p-2" fxLayoutAlign="end">
                         <button mat-raised-button class="button-submit" type="submit">

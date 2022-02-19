@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ROLE_ARBITRO, ROLE_INFORMADOR, ROLE_ADMIN } from '../../interfaces/auth.interface';
 import { GruposService } from '../../services/grupos.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-datos-usuario',
@@ -22,7 +23,6 @@ export class DatosUsuarioComponent implements OnInit {
     private interdataService: InterdataService,
     private gruposService: GruposService,
     private router: Router,
-    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -31,9 +31,24 @@ export class DatosUsuarioComponent implements OnInit {
     const lsUsuario = this.interdataService.getUserFromCache();
 
     if (lsUsuario) {
-      this.datosUsuario = lsUsuario;
-      
-      this.cargandoDatosUsuarios = false;
+      this.authService.herokuGetUserProtected(lsUsuario._id).pipe(
+        switchMap( userResp => {
+          this.datosUsuario = userResp;
+          return this.gruposService.obtenerListadoGrupos();
+        })
+      ).subscribe(
+        listadoGruposResp => {
+          this.datosUsuario!.datosGrupos = [];
+          listadoGruposResp.forEach( grupo => {
+            this.datosUsuario?.grupos?.forEach( userGroup => {
+              if (grupo._id === userGroup) {
+                this.datosUsuario!.datosGrupos!.push(grupo);
+              }
+            })
+          })
+          this.cargandoDatosUsuarios = false;
+        }
+      )
     } else {
       this.router.navigateByUrl('/dashboard/listado-usuarios');
     }
@@ -43,6 +58,11 @@ export class DatosUsuarioComponent implements OnInit {
   editarDatosUsuario() {
     this.interdataService.setUserToCache(this.datosUsuario);
     this.router.navigateByUrl('/dashboard/listado-usuarios/editar-usuario')
+  }
+
+  volverAlListado() {
+    this.interdataService.removeUserFromCache();
+    this.router.navigateByUrl('/dashboard/listado-usuarios');
   }
 
   // Obtiene un string con los roles del usuario

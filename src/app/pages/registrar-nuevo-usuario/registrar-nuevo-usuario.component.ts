@@ -4,13 +4,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service';
 import { DataService } from '../../services/data.service';
-import { DatosRol } from '../../interfaces/data.interface';
+import { DatosRol, DatosGrupo } from '../../interfaces/data.interface';
 import { InterdataService } from '../../services/interdata.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { DialogModificarComponent } from '../../components/dialog-modificar/dialog-modificar.component';
 import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
 import { DialogRegistrarComponent } from '../../components/dialog-registrar/dialog-registrar.component';
+import { GruposService } from '../../services/grupos.service';
 
 @Component({
   selector: 'app-registrar-nuevo-usuario',
@@ -21,8 +22,10 @@ export class RegistrarNuevoUsuarioComponent implements OnInit {
 
   vRoles: DatosRol[] = this.dataService.obtenerVRoles();
   vDelegaciones: string[] = this.dataService.obtenerVDelegaciones();
+  listadoGrupos: DatosGrupo[] = []
 
-  cargandoGrupos: boolean = true;
+  cargandoGrupos: boolean = false;
+  cargandoUsuario: boolean = false;
 
   user?: Usuario;
 
@@ -33,12 +36,14 @@ export class RegistrarNuevoUsuarioComponent implements OnInit {
     nif: ['', [Validators.required, Validators.pattern("^[0-9]{8}[A-Z]$")]],
     delegacion: ['', [Validators.required]],
     role: [''],
+    grupos: []
   })
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private dataService: DataService,
+    private gruposService: GruposService,
     private interdataService: InterdataService,
     private dialog: MatDialog,
     private router: Router,
@@ -47,6 +52,7 @@ export class RegistrarNuevoUsuarioComponent implements OnInit {
   ngOnInit(): void {
 
     if (this.router.url.includes('editar-usuario')) {
+      this.cargandoUsuario = true;
       const user = this.interdataService.getUserFromCache();
       if (user) {
         this.user = user;
@@ -57,14 +63,29 @@ export class RegistrarNuevoUsuarioComponent implements OnInit {
           nif: user.nif,
           delegacion: user.delegacion,
           role: user.role,
+          grupos: user.grupos
         })
+        this.cargandoUsuario = false;
       } else {
         this.router.navigateByUrl('/dashboard/listado-usuarios');
       }
 
     } else if (!this.router.url.includes('registrar-usuario')) {
-      this.router.navigateByUrl('/dashboard/listado-usuarios')
+      this.router.navigateByUrl('/dashboard/listado-usuarios');
+      return;
     }
+
+    this.cargandoGrupos = true;
+    this.gruposService.obtenerListadoGrupos().subscribe(
+      (listadoGruposResp) => {
+        this.listadoGrupos = listadoGruposResp;
+        this.cargandoGrupos = false;
+      }
+    )
+  }
+
+  cargandoDatos() {
+    return this.cargandoGrupos || this.cargandoUsuario;
   }
 
   submit() {
@@ -74,7 +95,6 @@ export class RegistrarNuevoUsuarioComponent implements OnInit {
       return;
     }
 
-    // TODO: AÑADIR LA OPCIÓN PARA LA CREACIÓN DE UN NUEVO USUARIO
     const dialogRef = this.user !== undefined ?
      this.dialog.open(DialogModificarComponent,
         { 
@@ -95,7 +115,6 @@ export class RegistrarNuevoUsuarioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe( result => {
       if (result) {
-        // TODO: AÑADIR LA OPCIÓN DE NUEVO USUARIO CON UN TERNARIO (MIRAR REGISTRAR NUEVO PARTIDO)
         this.user ? this.modificarUsuario() : this.registrarUsuario();
       }
     })

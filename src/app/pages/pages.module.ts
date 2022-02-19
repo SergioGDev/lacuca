@@ -35,6 +35,7 @@ import { VisualizarDatosInformeComponent } from './visualizar-datos-informe/visu
 import { VisualizarVideotestComponent } from './visualizar-videotest/visualizar-videotest.component';
 import { EditarMisDatosComponent } from './editar-mis-datos/editar-mis-datos.component';
 import { DatosUsuarioComponent } from './datos-usuario/datos-usuario.component';
+import { RegistrarGrupoComponent } from './registrar-grupo/registrar-grupo.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { DatosUsuarioComponent } from './datos-usuario/datos-usuario.component';
     VisualizarVideotestComponent,
     EditarMisDatosComponent,
     DatosUsuarioComponent,
+    RegistrarGrupoComponent,
   ],
   exports: [
     DashboardComponent,

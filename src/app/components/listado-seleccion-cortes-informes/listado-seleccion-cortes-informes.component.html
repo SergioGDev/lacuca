@@ -16,13 +16,13 @@
             <!-- Inicio -->
             <ng-container matColumnDef="inicio">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Inicio</th>
-                <td mat-cell *matCellDef="let fila"> {{ fila.situacion ? fila.situacion : '-' }} </td>
+                <td mat-cell *matCellDef="let fila"> {{ fila.segundoInicio ? tiempoInicio(fila) : '-' }} </td>
             </ng-container>
 
             <!-- Duración -->
             <ng-container matColumnDef="duracion">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Duración</th>
-                <td mat-cell *matCellDef="let fila"> {{ fila.situacion ? fila.situacion : '-' }} </td>
+                <td mat-cell *matCellDef="let fila"> {{ fila.duracion ? duracion(fila) : '-' }} </td>
             </ng-container>
 
             <!-- Situación -->

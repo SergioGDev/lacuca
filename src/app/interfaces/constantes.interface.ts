@@ -14,6 +14,7 @@ export const lStorageIdPartido = 'idPartidoCache';
 export const lStorageIdCorte = 'idCorteCache';
 export const lStorageIdInforme = 'idInformeCache';
 export const lStorageIdVideotest = 'idVideotestCache';
+export const lStorageIdGrupo = 'idGrupoCache';
 
 export const lStorageUser = 'userCache';
 

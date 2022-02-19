@@ -66,13 +66,14 @@
                         Grupos:
                     </div>
 
-                    <div fxFlex="70" class="datos no-grupo">
+                    <div fxFlex="70" class="datos no-grupo"
+                        *ngIf="datosUsuario.grupos?.length === 0 || !datosUsuario.grupos">
                         No pertenece a ningún grupo
                     </div>
 
-                    <div fxFlex="90" class="datos" *ngIf="datosUsuario.grupos!.length > 0">
-                        <div class="grupo" *ngFor="let grupo of datosUsuario.grupos">
-                            {{ grupo }}
+                    <div fxFlex="70" class="datos" *ngIf="datosUsuario.grupos!.length > 0">
+                        <div class="grupo" *ngFor="let grupo of datosUsuario.datosGrupos">
+                            {{ grupo.descripcion }}
                         </div>
                     </div>
         
@@ -92,6 +93,12 @@
 
             </mat-card-actions>
         </mat-card>
+
+        <div fxLayoutAlign="end" class="mt-5">
+            <button mat-raised-button (click)="volverAlListado()">
+                Volver al listado
+            </button>
+        </div>
 
     </div>
 

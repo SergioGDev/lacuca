@@ -1,31 +1,36 @@
-<div>
+<div class="pb-5">
 
     <div class="titulo">
         Usuarios
     </div>
 
-    <div *ngIf="cargandoUsuarios">
+    <div *ngIf="cargando">
         <app-spinner-cargando></app-spinner-cargando>
     </div>
 
-    <div>
+    <div *ngIf="!cargando">
         <div class="m-2" class="content-botones" fxLayoutAlign="end">
             <button mat-button (click)="registrarListadoUsuarios()"> Registrar usuarios mediante CSV </button>
             <button mat-button (click)="registrarUsuario()"> Registrar nuevo usuario </button>
         </div>
+
+        <div class="subtitulo">
+            Listado de usuarios
+        </div>
     
-        <div class="tabla-usuarios w-100 mat-elevation-z2" *ngIf="!cargandoUsuarios">
+        <div class="tabla-usuarios w-100 mat-elevation-z2">
             <app-data-usuarios [listadoUsuarios]="listadoUsuarios"></app-data-usuarios>
         </div>
     
         <div class="subtitulo">
             Grupos de usuarios
         </div>
-    
+        
         <div class="m-2" class="content-botones" fxLayoutAlign="end">
             <button mat-button (click)="registrarGrupo()"> Registrar grupo </button>
         </div>
-
+        
+        <app-data-listado-grupos [listadoGrupos]="listadoGrupos"></app-data-listado-grupos>
         
     </div>
     

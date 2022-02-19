@@ -77,8 +77,11 @@ export class GruposService {
   asignarResponsableYDevolverListado(listadoUsuarios: Usuario[]): Observable<DatosGrupo[]> {
     listadoUsuarios.forEach( usuario => {
       this.listadoGrupo?.forEach( grupo => {
-        grupo.responsables.forEach( responsableId => {
+        grupo.responsables!.forEach( responsableId => {
           if (responsableId === usuario._id) {
+            if (grupo.datosResponsables === undefined) {
+              grupo.datosResponsables = [];
+            }
             grupo.datosResponsables.push(usuario);
           }
         })
@@ -90,9 +93,9 @@ export class GruposService {
 
   asignarResponsablesYDevolverGrupo(listadoUsuarios: Usuario[]): Observable<DatosGrupo> {
     listadoUsuarios.forEach( usuario => {
-      this.datosGrupo!.responsables.forEach( responsableId => {
+      this.datosGrupo!.responsables!.forEach( responsableId => {
         if (responsableId === usuario._id) {
-          this.datosGrupo!.datosResponsables.push(usuario);
+          this.datosGrupo!.datosResponsables!.push(usuario);
         }
       })
     })
