@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PdfService } from 'src/app/services/pdf.service';
 import { AuthService } from '../../services/auth.service';
 import { InformesService } from '../../services/informes.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +22,7 @@ export class DashboardComponent implements OnInit {
   listadoInformesUsuario: DatosInforme[] = [];
 
   constructor(
+    private pdfService: PdfService,
     private authService: AuthService,
     private informesService: InformesService,
     private dialog: MatDialog
@@ -56,6 +58,11 @@ export class DashboardComponent implements OnInit {
 
   mostrarDatos() {
     return !this.cargandoMisInformes && !this.cargandoUsuario;
+  }
+
+  generarPdf(){
+    console.log('Generar pdf');
+    this.pdfService.generarPdfInforme();
   }
 
 }
