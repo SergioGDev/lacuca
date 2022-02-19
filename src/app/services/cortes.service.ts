@@ -61,6 +61,11 @@ export class CortesService {
       )
   }
 
+  obtenerDatosCortes(idCorteList: string[]): Observable<DatosCorte[]> {
+    const idsString = idCorteList.join(',');
+    return this.http.get<DatosCorte[]>(`${environment.herokuUrl}/corte/`, {headers: {'idlist': idsString}});
+  }
+
   // Métodos auxiliares
   asignarCortesYObtenerListadoPartidos(listadoCortesResp: DatosCorte[]) {
     this.listadoCortes = listadoCortesResp;
