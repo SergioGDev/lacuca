@@ -73,6 +73,17 @@ export interface TempoCorte {
     sFin:       number,
 }
 
+export interface DatosInforme {
+    _id?:           string,
+    idPartido:      string,
+    arbitroPrincipal: string,
+    arbitroAuxiliar: string,
+    cortesIds:    string[],
+    comentarioGeneral:    string,
+    comentarioArbitroPrincipal: string,
+    comentarioArbitroAuxiliar: string,
+}
+
 export interface HorMinSeg {
     horas:      number,
     minutos:    number,
