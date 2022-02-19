@@ -1,0 +1,33 @@
+
+button i {
+    margin-left: 5px;
+}
+
+.content-botones { 
+    margin: 15px;
+    padding: 10px;
+}
+
+.content-botones button {
+    background-color: var(--color-texto-negro);
+    color: var(--color-texto-blanco);
+}
+
+.material-icons {
+    margin-right: 5px;
+}
+
+.enlace {
+    font-size: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    color: black;
+}
+
+.enlace:hover {
+    color: gray
+}
+
+.w-100 {
+    width: 100%;
+}

@@ -1,0 +1,74 @@
+<div fxLayout="row wrap">
+    <!-- Equipo local -->
+    <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+        Equipo local:
+    </div>
+
+    <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+        {{ datosPartido ? datosPartido.equipoLocal : ' - ' | uppercase }}
+    </div>
+
+    <!-- Equipo visitante -->
+    <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+        Equipo visitante:
+    </div>
+
+
+    <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+        {{ datosPartido ? datosPartido.equipoVisitante : ' - ' | uppercase }}
+    </div>
+
+    <!-- Fecha -->
+    <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+        Fecha:
+    </div>
+
+    <div *ngIf="datosPartido && datosPartido.fechaHora" fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+        {{ datosPartido.fechaHora | date:'dd/MM/yyyy'  }}
+    </div>
+
+    <div *ngIf="!datosPartido" fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+        {{ ' - '  }}
+    </div>
+
+    <!-- Localidad -->
+    <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="35" fxFlex.xs="100" fxFlex.sm="25" class="etiqueta">
+        Localidad:
+    </div>
+
+
+    <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+        {{ datosPartido ? datosPartido.localidad : ' - ' | uppercase }}
+    </div>
+
+    <!-- Fase -->
+    <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="35" fxFlex.xs="100" fxFlex.sm="25" class="etiqueta">
+        Fase:
+    </div>
+
+
+    <div fxFlex="20" fxFlex.sm="35" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+        {{ datosPartido ? datosPartido.fase : ' - ' }}
+    </div>
+
+    <!-- Jornada -->
+    <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+        Jornada:
+    </div>
+
+
+    <div fxFlex="20" fxFlex.sm="65" fxFlex.xs="100" class="info-partido">
+        {{ datosPartido ? datosPartido.jornada : ' - ' }}
+    </div>
+
+    <!-- Otros comentarios -->
+    <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta"
+        *ngIf="datosPartido && datosPartido.comentario.trim() !== ''">
+        Otros datos:
+    </div>
+
+    <div fxFlex="60" fxFlex.xs="100" fxFlex.sm="65" class="info-partido" 
+        *ngIf="datosPartido && datosPartido.comentario.trim() !== ''">
+        {{ datosPartido ? datosPartido.comentario : ' - ' }}
+    </div>
+</div>

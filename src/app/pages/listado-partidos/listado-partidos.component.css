@@ -3,6 +3,14 @@ button i {
     margin-left: 5px;
 }
 
+.content-botones {
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 2px 2px 5px var(--color-texto-negro-transparente);
+    margin: 15px;
+    padding: 10px;
+}
+
 .material-icons {
     margin-right: 5px;
 }

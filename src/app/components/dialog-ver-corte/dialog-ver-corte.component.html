@@ -1,0 +1,17 @@
+<div fxFlexLayout="column">
+    <div>
+        <app-yt-player-corte class="youtube-player"
+            [videoId]="corte.datosPartido?.url"
+            [height]="337"
+            [width]="600"
+            [startSecond]="corte.segundoInicio"
+            [endSecond]="corte.segundoInicio + corte.duracion">
+        </app-yt-player-corte> 
+    </div>
+
+    <mat-divider class="m-3" inset></mat-divider>
+
+    <div fxLayoutAlign="end">
+        <button mat-button mat-dialog-close>Cerrar</button>
+    </div>
+</div>

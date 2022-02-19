@@ -1,7 +1,9 @@
-<div class="container-zona-tests m-3" fxLayout="column">
-  <span class="titulo mb-4">Zona tests</span>
+<div class="container-zona-tests" fxLayout="column">
+  <div class="titulo mb-4">Zona tests</div>
 
-  <div fxLayout="row wrap" fxLayoutAlign="center">
+  <app-spinner-cargando *ngIf="gettingUser"></app-spinner-cargando>
+
+  <div fxLayout="row wrap" fxLayoutAlign="center" *ngIf="!gettingUser">
 
     <!-- TEST TEÓRICO -->
     <mat-card class="section" fxFlex="48" fxFlex.sm="100" fxFlex.xs="100">
@@ -56,7 +58,8 @@
     </mat-card>
 
     <!-- Administrar videotest -->
-    <mat-card class="section" fxFlex="48" fxFlex.sm="100" fxFlex.xs="100">
+    <mat-card *ngIf="canAdminVideotest()" 
+      class="section" fxFlex="48" fxFlex.sm="100" fxFlex.xs="100">
 
       <mat-card-title>Administrar videotest</mat-card-title>
 

@@ -1,0 +1,285 @@
+<div>
+
+    <div class="titulo">
+        Registro de un nuevo videotest
+    </div>
+
+    <mat-stepper [linear]="true">
+
+        <!-------------------------------------------------->
+        <!-- Paso 1: Selección de los cortes del videotest-->
+        <!-------------------------------------------------->
+        <mat-step label="Selección de los cortes" [completed]="listadoCortesSeleccionados.length > 0">
+
+            <div class="buscador-cortes">
+
+                <div class="subtitulo">Buscador de cortes</div>
+                <app-buscador-cortes 
+                    [listadoCortesSeleccionados]="listadoCortesSeleccionados"
+                    [eventActualizar]="eventsSubject.asObservable()"
+                    (corteEmitido)="escucharCorteEmitido($event)">
+                </app-buscador-cortes>
+            </div>
+
+            <div class="listado-cortes-seleccionados">
+
+                <div class="subtitulo">Cortes seleccionados</div>
+
+                <table class="w-100 mat-elevation-z2" mat-table [dataSource]="dataSource">
+        
+                    <!-- Situación -->
+                    <ng-container matColumnDef="situacion">
+                        <th mat-header-cell *matHeaderCellDef>Situación</th>
+                        <td mat-cell *matCellDef="let fila"> {{ fila.situacion ? fila.situacion : '-' }} </td>
+                    </ng-container>
+                    
+                    <!-- Tipo -->
+                    <ng-container matColumnDef="tipo">
+                        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                        <td mat-cell *matCellDef="let fila"> {{ fila.tipo ? fila.tipo : '-' }} </td>
+                    </ng-container>
+                    
+                    <!-- Posición -->
+                    <ng-container matColumnDef="posicion">
+                        <th mat-header-cell *matHeaderCellDef>Posición</th>
+                        <td mat-cell *matCellDef="let fila"> {{ fila.posicion ? fila.posicion : '-' }} </td>
+                    </ng-container>
+                    
+                     <!-- Valoración -->
+                     <ng-container matColumnDef="valoracion">
+                        <th mat-header-cell *matHeaderCellDef>Valoración</th>
+                        <td mat-cell *matCellDef="let fila"> {{ fila.valoracion ? fila.valoracion : '-' }} </td>
+                    </ng-container>
+        
+                    <!-- Equipo Local -->
+                    <ng-container matColumnDef="equipoLocal">
+                        <th mat-header-cell *matHeaderCellDef>Equipo Local</th>
+                        <td mat-cell *matCellDef="let fila"> {{ fila.datosPartido.equipoLocal }} </td>
+                    </ng-container>
+                    
+                    <!-- Equipo Visitante -->
+                    <ng-container matColumnDef="equipoVisitante">
+                        <th mat-header-cell *matHeaderCellDef>Equipo Visitante</th>
+                        <td mat-cell *matCellDef="let fila"> {{ fila.datosPartido.equipoVisitante }} </td>
+                    </ng-container>
+                    
+                    <!-- Eliminar corte -->
+                    <ng-container matColumnDef="eliminar">
+                        <th mat-header-cell *matHeaderCellDef>Quitar selección</th>
+                        <td mat-cell *matCellDef="let fila"> 
+                            <button mat-button (click)="verCorteEnDialog(fila)">Ver corte</button>
+                            <button mat-button color="warn" (click)="eliminarCorteDeLaLista(fila)">Quitar</button>
+                        </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="displayedColums"></tr>
+                    <tr mat-row *matRowDef="let fila; columns: displayedColums"></tr>
+                    
+                    <!-- Cuando no hay datos -->
+                    <tr *matNoDataRow>
+                        <td colspan="7" class="no-info-selected">No se han seleccionado cortes</td>
+                    </tr>
+        
+                </table>
+        
+            </div>
+
+            <div class="botonera-step" fxLayoutAlign="end">
+                <button mat-button matStepperNext [disabled]="listadoCortesSeleccionados.length === 0">Asignar preguntas y respuestas a los cortes</button>
+            </div>
+        </mat-step>
+
+        <!--------------------------------------------------------->
+        <!-- Paso 2: Asignar preguntas y respuestas a cada corte -->
+        <!--------------------------------------------------------->
+
+        <mat-step label="Asignar preguntas y respuestas" [completed]="pasoDosCompletado()">
+
+            <div class="subtitulo">
+                Asignar preguntas y respuestas a los cortes
+            </div>
+
+            <div class="listado-cortes-paso2-vacio" *ngIf="listadoCortesSeleccionados.length === 0">
+                No has seleccionado ningún corte para el videotest
+            </div>
+
+            <div class="listado-cortes-paso2" *ngIf="listadoCortesSeleccionados.length > 0" fxLayout="row">
+                <form class="w-100" [formGroup]="formularioVideotest" (submit)="submitIrAlResumen()">
+
+                    <div class="p-2">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Nombre del videotest</mat-label>
+                            <input matInput formControlName="nombreVideotest" autocomplete="off">
+                            <mat-error class="error" 
+                                *ngIf="formularioVideotest.get('nombreVideotest')?.invalid && 
+                                formularioVideotest.get('nombreVideotest')?.touched">
+                                El nombre del videotest es obligatorio
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="p-2">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Descripción (opcional)</mat-label>
+                            <textarea matInput formControlName="descripcionVideotest" 
+                                autocomplete="off" rows="4">
+                            </textarea>        
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngFor="let pregunta of preguntasVideotest?.preguntas; let i = index" fxLayout="column">
+                        <mat-divider></mat-divider>
+                        
+                        <div class="p-3" fxLayout="row wrap">
+                            <div class="clip-container">
+                                <app-yt-player-corte class="youtube-player"
+                                    [videoId]="pregunta.corte!.datosPartido?.url"
+                                    [height]="getYoutubePlayerWidth() / 2"
+                                    [width]="getYoutubePlayerWidth()"
+                                    [startSecond]="pregunta.corte!.segundoInicio"
+                                    [endSecond]="pregunta.corte!.segundoInicio + pregunta.corte!.duracion">
+                                </app-yt-player-corte> 
+                            </div>
+
+                            <div class="formulario-container" fxFlex>
+
+                                <!-- Texto de la pregunta -->
+                                <div class="w-100">
+                                    <mat-form-field class="w-100" appearance="fill">
+                                        <mat-label>Texto de la pregunta</mat-label>
+                                        <input autocomplete="off" matInput
+                                            [formControlName]="getFormControlName(textoPregunta, i)">
+                                    </mat-form-field>
+                                </div>
+                                
+                                <!-- Añadir respuestas -->
+                                <div class="w-100">
+                                    <mat-form-field class="w-100" appearance="fill">
+                                        <mat-label>Añadir respuesta</mat-label>
+                                        <input matInput [formControlName]="getFormControlName(addRespuesta, i)" autocomplete="off"
+                                            (keydown.enter)="enterAddInput($event, i)">
+                                        <button matSuffix mat-icon-button aria-label="Añadir"
+                                            (click)="enterAddInput($event, i)"
+                                            *ngIf="this.formularioVideotest.get(getFormControlName(addRespuesta, i))?.value">
+                                            <mat-icon>add</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                    
+                                    <div class="error-maximo-respuestas" *ngIf="mensajeErrorExcesoPreguntas[i]">
+                                        El número máximo de respuestas por pregunta es 4
+                                    </div>
+                                </div>
+
+                                <div class="w-100" *ngIf="pregunta.respuestas.length > 0">
+                                    <mat-form-field class="w-100" appearance="fill">
+                                        <mat-label>Respuesta correcta</mat-label>
+                                            <mat-select matNativeControl [formControlName]="getFormControlName(textoSolucion, i)">
+                                                <mat-option *ngFor="let item of pregunta.respuestas" [value]="item">{{ item }}</mat-option>
+                                            </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="w-100 sin-respuestas-anadidas" fxLayoutAlign="center"
+                                    *ngIf="preguntasVideotest.preguntas![i].respuestas.length === 0">
+                                    Añade entre 2 y 4 respuestas
+                                </div>
+
+                                <div class="w-100 respuestas-anadidas" 
+                                    *ngIf="preguntasVideotest.preguntas![i].respuestas.length > 0">
+                                    
+                                        <div fxLayout="row" class="item-respuesta"
+                                            *ngFor="let respuesta of preguntasVideotest.preguntas![i].respuestas; let j = index">
+                                            <button mat-icon-button aria-label="Eliminar respuesta"
+                                                color="warn" (click)="eliminarRespuesta(i, j)">
+                                                <mat-icon>close</mat-icon>
+                                            </button>
+                                            <span>
+                                                {{ respuesta }}
+                                            </span>
+                                        </div>
+                                </div>
+            
+                            </div>
+
+                        </div>    
+                    </div>
+                    <mat-divider></mat-divider>
+
+                    <div class="botonera-step" fxLayout="row">
+                        <div fxFlex="50" fxLayoutAlign="start">
+                            <button mat-button matStepperPrevious>Seleccionar cortes</button>
+                        </div>
+                        <div fxFlex="50" fxLayoutAlign="end">
+                            <button mat-button matStepperNext [disabled]="!pasoDosCompletado()">Resumen</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </mat-step>
+
+        <!---------------------------------------------->
+        <!-- Paso 3: Resumen y guardado del videotest -->
+        <!---------------------------------------------->
+
+        <mat-step label="Resumen">
+
+            <div class="nombre-videotest-resumen">
+                {{ preguntasVideotest.nombre }}
+            </div>
+
+            <div class="descripcion-videotest-resumen">
+                {{ preguntasVideotest.descripcion }}
+            </div>
+
+            <div class="preguntas-videotest-resumen">
+                <div *ngFor="let pregunta of preguntasVideotest?.preguntas; let i = index" fxLayout="column">
+                    <mat-divider></mat-divider>
+                    
+                    <div class="p-3" fxLayout="row wrap">
+                        <div class="clip-container">
+                            <app-yt-player-corte class="youtube-player"
+                                [videoId]="pregunta.corte!.datosPartido?.url"
+                                [height]="getYoutubePlayerWidth() / 2"
+                                [width]="getYoutubePlayerWidth()"
+                                [startSecond]="pregunta.corte!.segundoInicio"
+                                [endSecond]="pregunta.corte!.segundoInicio + pregunta.corte!.duracion">
+                            </app-yt-player-corte> 
+                        </div>
+
+                        <div class="contenido-pregunta-resumen" fxFlex>
+
+                            <div class="w-100 texto-pregunta-resumen">
+                                {{ i + 1 }}) {{ pregunta.pregunta }}
+                            </div>
+                            
+                            <div class="w-100 respuestas-resumen">
+                                <ol type="a">
+                                    <li class="respuesta-resumen" *ngFor="let respuesta of pregunta.respuestas">
+                                       {{ respuesta }} 
+                                    </li>
+                                </ol>
+                            </div>
+        
+                            <div class="w-100 texto-solucion-resumen">
+                                <span class="label">Respuesta correcta:</span> <span class="solucion"> {{ pregunta.solucion }}</span>
+                            </div>
+                        </div>
+
+                    </div>    
+                </div>
+                <mat-divider></mat-divider>
+            </div>
+
+            <div class="botonera-step" fxLayout="row">
+                <div fxFlex="50" fxLayoutAlign="start">
+                    <button mat-button matStepperPrevious>Asignar preguntas y respuestas a los cortes</button>
+                </div>
+                <div fxFlex="50" fxLayoutAlign="end">
+                    <button mat-button matStepperNext (click)="guardarVideotest()">Guardar videotest</button>
+                </div>
+            </div>
+        </mat-step>
+    </mat-stepper>
+
+</div>

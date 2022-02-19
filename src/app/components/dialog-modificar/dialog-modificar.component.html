@@ -1,0 +1,12 @@
+<div>
+
+    <mat-dialog-content>
+        <div> {{ mensajeDialog }} </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close (click)="clickVolver()">Volver</button>
+        <button mat-button color="warn" (click)="modificado()" [mat-dialog-close]="true">Modificar</button>
+    </mat-dialog-actions>
+
+</div>

@@ -1,0 +1,199 @@
+<div>
+
+    <div class="header" fxLayout="row" fxLayout.xs="column">
+        <div class="titulo">
+            {{ modificando ? 'Modificar registro de informe' : 'Registrar nuevo informe'}}
+        </div>    
+    </div>
+
+    <mat-stepper orientation="vertical" linear="true">
+
+        <!--------------------------------------------------->
+        <!-- Paso 1: Seleccionar el partido                -->
+        <!--------------------------------------------------->
+        <mat-step label="Selecciona el partido" [completed]="partidoInformado !== undefined">
+
+            <app-spinner-cargando *ngIf="cargandoPartidos"></app-spinner-cargando>
+
+            <div class="datos-partido" *ngIf="!cargandoPartidos">
+                <app-data-partido
+                    [datosPartido]="partidoInformado">
+                </app-data-partido>
+            </div>
+
+            <mat-divider class="m-3" inset></mat-divider>
+
+            <div *ngIf="!cargandoPartidos && !partidoInformado">
+                <app-listado-seleccion-partido 
+                    [listadoPartidos]="listadoPartidos"
+                    (partidoSeleccionado)="escucharPartidoSeleccionado($event)">
+                </app-listado-seleccion-partido>
+            </div>
+
+
+            <div class="m-3" fxLayoutAlign="end">
+                <button class="m-2 boton-stepper" mat-raised-button *ngIf="partidoInformado"
+                    (click)="deseleccionarPartidoInformado()">
+                    Cambiar partido seleccionado
+                </button>
+               <button class="m-2 boton-stepper" mat-raised-button 
+                    matStepperNext [disabled]="partidoInformado === undefined">Seleccionar árbitros</button>
+            </div>
+
+        </mat-step>
+
+        <!--------------------------------------------------->
+        <!-- Paso 2: Seleccionar los árbitros              -->
+        <!--------------------------------------------------->
+        <mat-step label="Selecciona los árbitros" [completed]="habilitarPasoTres()">
+
+            <div>
+                
+                <form [formGroup]="formArbitros">
+
+                    <div fxLayout="row wrap">
+                        <div fxFlex="49" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="w-100 p-2" appearance="fill">
+                                <mat-label>Arbitro principal</mat-label>
+                                <mat-select (valueChange)="asignarArbitroPrincipal($event)" matNativeControl formControlName="arbitroPrincipal">
+                                    <mat-option *ngFor="let item of vSelectArbitros" [value]="item.value">{{ item.texto }}</mat-option>
+                                </mat-select>
+                                <mat-error class="error" 
+                                    *ngIf="formArbitros.get('arbitroPrincipal')?.invalid && formArbitros.get('arbitroPrincipal')?.touched">
+                                    Debes seleccionar un árbitro principal
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+        
+                        <div fxFlex="49" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
+                            <mat-form-field class="w-100 p-2" appearance="fill">
+                                <mat-label>Arbitro auxiliar</mat-label>
+                                <mat-select (valueChange)="asignarArbitroAuxiliar($event)" matNativeControl formControlName="arbitroAuxiliar">
+                                    <mat-option *ngFor="let item of vSelectArbitros" [value]="item.value">{{ item.texto }}</mat-option>
+                                </mat-select>
+                                <mat-error class="error" 
+                                    *ngIf="formArbitros.get('arbitroAuxiliar')?.invalid && formArbitros.get('arbitroAuxiliar')?.touched">
+                                    Debes seleccionar un árbitro auxiliar
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>                    
+
+                    <div class="m-3" fxLayoutAlign="end">
+                        <button class="m-2 boton-stepper"
+                            mat-raised-button matStepperPrevious>
+                            Seleccionar partido
+                        </button>
+                        <button class="m-2 boton-stepper" 
+                            mat-raised-button matStepperNext 
+                            [disabled]="!habilitarPasoTres()">
+                            Seleccionar informador
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+        </mat-step>
+
+        <!--------------------------------------------------->
+        <!-- Paso 3: Seleccionar el informador             -->
+        <!--------------------------------------------------->
+        <mat-step label="Selecciona el informador">
+
+            <form [formGroup]="formInformador">
+
+                <div fxLayout="row wrap" fxLayoutAlign="center">
+                    <div fxFlex="49" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
+                        <mat-form-field class="w-100 p-2" appearance="fill">
+                            <mat-label>Informador</mat-label>
+                            <mat-select (valueChange)="asignarInformador($event)" matNativeControl formControlName="informador">
+                                <mat-option *ngFor="let item of vSelectInformadores" [value]="item.value">{{ item.texto }}</mat-option>
+                            </mat-select>
+                            <mat-error class="error" 
+                                *ngIf="formArbitros.get('informador')?.invalid && formArbitros.get('informador')?.touched">
+                                Debes seleccionar un informador
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>    
+
+                <div class="m-3" fxLayoutAlign="end">
+                    <button class="m-2 boton-stepper"
+                        mat-raised-button matStepperPrevious>
+                        Seleccionar árbitros
+                    </button>
+                    <button class="m-2 boton-stepper" 
+                        mat-raised-button matStepperNext 
+                        [disabled]="!habilitarResumen()">
+                        Ir al resumen
+                    </button>
+                </div>
+
+            </form>
+            
+        </mat-step>
+
+        <!--------------------------------------------------->
+        <!-- Paso 4: Resumen            -->
+        <!--------------------------------------------------->
+        <mat-step label="Resumen">
+
+            <div *ngIf="partidoInformado">
+                <app-data-partido [datosPartido]="partidoInformado"></app-data-partido>
+            </div>
+
+            <div fxLayout="row wrap">
+                <!-- Árbitro principal -->
+                <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+                    Árbitro principal:
+                </div>
+            
+                <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+                    {{ nombreArbitroPrincipal }}
+                </div>
+            
+                <!-- Equipo visitante -->
+                <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+                    Árbitro auxiliar:
+                </div>
+            
+            
+                <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+                    {{ nombreArbitroAuxiliar }}
+                </div>
+            
+                <!-- Fecha -->
+                <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+                    Informador:
+                </div>
+            
+            
+                <div fxFlex="60" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+                    {{ nombreInformador }}
+                </div>
+
+            </div>
+
+            <div class="m-3" fxLayoutAlign="end">
+
+                <button class="m-2 boton-stepper" mat-raised-button matStepperPrevious>
+                    Seleccionar informador
+                </button>
+
+                <button class="m-2 boton-stepper" mat-raised-button matStepperNext 
+                    *ngIf="!modificando" (click)="registrarInforme()">
+                    Registrar informe
+                </button>
+                <button class="m-2 boton-stepper" mat-raised-button matStepperNext 
+                    *ngIf="modificando" (click)="registrarInforme()">
+                    Modificar informe
+                </button>
+            </div>
+
+        </mat-step>
+
+
+    </mat-stepper>
+
+</div>

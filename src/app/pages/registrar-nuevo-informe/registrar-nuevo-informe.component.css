@@ -1,0 +1,21 @@
+.boton-stepper {
+    background-color: var(--color-texto-negro);
+    color: var(--color-texto-blanco)
+}
+
+.etiqueta,
+.info-partido {
+    margin: 12px !important;
+}
+
+.etiqueta {
+    font-weight: 900;
+}
+
+.info-partido {
+    font-size: 12pt;
+}
+
+.datos-partido {
+    margin-top: 10px;
+}

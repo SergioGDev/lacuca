@@ -1,0 +1,14 @@
+<div fxFlexLayout="column">
+
+    <div>
+        <iframe [width]="width" [height]="height" allowfullscreen frameborder="0" [src]="src">
+        </iframe>
+    </div>
+
+    <div class="mb-3" fxLayoutAlign="center">
+        <button mat-raised-button class="reproducir-de-nuevo" (click)="verOtraVez()">
+            Reproducir de nuevo
+            <mat-icon>play_arrow</mat-icon>
+        </button>
+    </div>
+</div>

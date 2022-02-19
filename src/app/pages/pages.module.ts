@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { ComponentsModule } from '../components/components.module';
@@ -24,6 +24,18 @@ import { ListadoPartidosComponent } from './listado-partidos/listado-partidos.co
 import { ZonaTestsComponent } from './zona-tests/zona-tests.component';
 import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-nuevo-corte.component';
 import { PanelAdministracionVideotestComponent } from './panel-administracion-videotest/panel-administracion-videotest.component';
+import { RegistrarNuevoVideotestComponent } from './registrar-nuevo-videotest/registrar-nuevo-videotest.component';
+import { RegistrarNuevoUsuarioComponent } from './registrar-nuevo-usuario/registrar-nuevo-usuario.component';
+import { RegistrarPartidosCsvComponent } from './registrar-partidos-csv/registrar-partidos-csv.component';
+import { InformesComponent } from './informes/informes.component';
+import { RegistrarNuevoInformeComponent } from './registrar-nuevo-informe/registrar-nuevo-informe.component';
+import { RegistrarUsuariosCsvComponent } from './registrar-usuarios-csv/registrar-usuarios-csv.component';
+import { RealizarInformeComponent } from './realizar-informe/realizar-informe.component';
+import { VisualizarDatosInformeComponent } from './visualizar-datos-informe/visualizar-datos-informe.component';
+import { VisualizarVideotestComponent } from './visualizar-videotest/visualizar-videotest.component';
+import { EditarMisDatosComponent } from './editar-mis-datos/editar-mis-datos.component';
+import { DatosUsuarioComponent } from './datos-usuario/datos-usuario.component';
+import { RegistrarGrupoComponent } from './registrar-grupo/registrar-grupo.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +53,18 @@ import { PanelAdministracionVideotestComponent } from './panel-administracion-vi
     SolucionTestComponent,
     ZonaTestsComponent,
     PanelAdministracionVideotestComponent,
+    RegistrarNuevoVideotestComponent,
+    RegistrarNuevoUsuarioComponent,
+    RegistrarPartidosCsvComponent,
+    InformesComponent,
+    RegistrarNuevoInformeComponent,
+    RegistrarUsuariosCsvComponent,
+    RealizarInformeComponent,
+    VisualizarDatosInformeComponent,
+    VisualizarVideotestComponent,
+    EditarMisDatosComponent,
+    DatosUsuarioComponent,
+    RegistrarGrupoComponent,
   ],
   exports: [
     DashboardComponent,
@@ -53,6 +77,7 @@ import { PanelAdministracionVideotestComponent } from './panel-administracion-vi
     HttpClientModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    FormsModule,
 
     YouTubePlayerModule,
     

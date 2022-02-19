@@ -1,47 +1,38 @@
-<div class="card" *ngIf="!editMode">
+<div class="pb-5">
 
-    <div class="card-header">
-        <h1 class="p-2 text-center">Listado de usuarios</h1>
+    <div class="titulo">
+        Usuarios
     </div>
 
-    <div class="card-body">
-        
-        <div class="d-flex justify-content-center" *ngIf="cargandoUsuarios">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+    <div *ngIf="cargando">
+        <app-spinner-cargando></app-spinner-cargando>
+    </div>
+
+    <div *ngIf="!cargando">
+        <div class="m-2" class="content-botones" fxLayoutAlign="end">
+            <button mat-button (click)="registrarListadoUsuarios()"> Registrar usuarios mediante CSV </button>
+            <button mat-button (click)="registrarUsuario()"> Registrar nuevo usuario </button>
+        </div>
+
+        <div class="subtitulo">
+            Listado de usuarios
+        </div>
+    
+        <div class="tabla-usuarios w-100 mat-elevation-z2">
+            <app-data-usuarios [listadoUsuarios]="listadoUsuarios"></app-data-usuarios>
+        </div>
+    
+        <div class="subtitulo">
+            Grupos de usuarios
         </div>
         
-        <table class="table table-striped table-hover" *ngIf="!cargandoUsuarios">
-            <thead>
-                <tr class="p-1">
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Nif</th>
-                    <th>Delegación</th>
-                    <th>Informador</th>
-                    <th>Administrador</th>
-                    <th>Correo electrónico</th>
-                    <th>Editar</th>
-                </tr>
-            </thead>
+        <div class="m-2" class="content-botones" fxLayoutAlign="end">
+            <button mat-button (click)="registrarGrupo()"> Registrar grupo </button>
+        </div>
         
-            <tbody>
-                <tr class="p-1" *ngFor="let usuario of listadoUsuarios; index as i">
-                    <th> {{ i }} </th>
-                    <td> {{ usuario.nombre}} </td>
-                    <td> {{ usuario.apellidos }} </td>
-                    <td> {{ usuario.nif }} </td>
-                    <td> {{ usuario.delegacion }} </td>
-                    <td> {{ esInformador(usuario) }} </td>
-                    <td> {{ esAdmin(usuario) }} </td>
-                    <td> {{ usuario.email }} </td>
-                    <td> <button (click)="editar(usuario)">Editar</button> </td>
-                </tr>
-            </tbody>
-        </table>
-
+        <app-data-listado-grupos [listadoGrupos]="listadoGrupos"></app-data-listado-grupos>
+        
     </div>
+    
+
 </div>
-<create-user-comp *ngIf="editMode" [user]="usuarioEdit!" (userSaved)="onUsuarioGuardado($event)"></create-user-comp>

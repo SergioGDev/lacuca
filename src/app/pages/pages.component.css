@@ -33,6 +33,8 @@
 /**********     container     **********/
 .content-dashboard {
     padding: 16px;
+    max-width: 1400px;
+    margin: auto;
 }
 
 .mat-drawer-container {
@@ -49,11 +51,6 @@
 
 .h-100 {
     height: 100%;
-}
-
-.titulo {
-    font-size: 30pt;
-    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
 }
 
 .my-user-name {

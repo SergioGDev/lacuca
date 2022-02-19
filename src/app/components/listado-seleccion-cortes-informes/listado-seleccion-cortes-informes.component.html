@@ -1,0 +1,83 @@
+<div>
+
+    <div class="tabla-cortes w-100 mat-elevation-z2">
+
+        <table class="w-100 mat-elevation-z2" mat-table [dataSource]="dataSource" 
+            matSort (matSortChange)="ordenarTablaBusqueda($event)">
+
+            <!-- Check selección de corte -->
+            <ng-container matColumnDef="selected">
+                <th mat-header-cell *matHeaderCellDef>Seleccionar</th>
+                <td mat-cell *matCellDef="let fila"> 
+                    <mat-checkbox (change)="emitirCorte(fila)" [(ngModel)]="fila.checked"></mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- Inicio -->
+            <ng-container matColumnDef="inicio">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Inicio</th>
+                <td mat-cell *matCellDef="let fila"> {{ fila.segundoInicio ? tiempoInicio(fila) : '-' }} </td>
+            </ng-container>
+
+            <!-- Duración -->
+            <ng-container matColumnDef="duracion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Duración</th>
+                <td mat-cell *matCellDef="let fila"> {{ fila.duracion ? duracion(fila) : '-' }} </td>
+            </ng-container>
+
+            <!-- Situación -->
+            <ng-container matColumnDef="situacion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Situación</th>
+                <td mat-cell *matCellDef="let fila"> {{ fila.situacion ? fila.situacion : '-' }} </td>
+            </ng-container>
+            
+            <!-- Tipo -->
+            <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+                <td mat-cell *matCellDef="let fila"> {{ fila.tipo ? fila.tipo : '-' }} </td>
+            </ng-container>
+            
+            <!-- Posición -->
+            <ng-container matColumnDef="posicion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Posición</th>
+                <td mat-cell *matCellDef="let fila"> {{ fila.posicion ? fila.posicion : '-' }} </td>
+            </ng-container>
+            
+             <!-- Valoración -->
+             <ng-container matColumnDef="valoracion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Valoración</th>
+                <td mat-cell *matCellDef="let fila"> {{ fila.valoracion ? fila.valoracion : '-' }} </td>
+            </ng-container>
+            
+             <!-- Árbitro -->
+             <ng-container matColumnDef="arbitro">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Árbitro</th>
+                <td mat-cell *matCellDef="let fila"> {{ fila.arbitro ? fila.arbitro : '-' }} </td>
+            </ng-container>
+
+            <!-- Acciones -->
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let fila"> 
+                    <button mat-button (click)="verCorte(fila)">Ver corte</button>    
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColums"></tr>
+            <tr mat-row *matRowDef="let fila; columns: displayedColums"></tr>
+            
+            <!-- Cuando no hay datos -->
+            <tr *matNoDataRow>
+                <td colspan="6">No hay cortes registrados para este partido</td>
+            </tr>
+
+        </table>
+
+    </div>
+    
+    <mat-paginator 
+        [pageSizeOptions]="[5, 10, 20]" 
+        [length]="resultsLength">
+    </mat-paginator>
+
+</div>

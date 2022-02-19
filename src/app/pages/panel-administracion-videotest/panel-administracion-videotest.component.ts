@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
-import { DatosCorte } from '../../interfaces/data.interface';
+import { Router } from '@angular/router';
+
+import { DatosVideotest } from '../../interfaces/data.interface';
+import { VideotestService } from '../../services/videotest.service';
 
 @Component({
   selector: 'app-panel-administracion-videotest',
@@ -9,27 +11,30 @@ import { DatosCorte } from '../../interfaces/data.interface';
 })
 export class PanelAdministracionVideotestComponent implements OnInit {
 
-  listadoCortes: DatosCorte[] = [];
+  listadoVideotest: DatosVideotest[] = [];
 
   cargandoVideotests: boolean = false;
   cargandoCortes: boolean = false;
 
   constructor(
-    private dataService: DataService
+    private videotestService: VideotestService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-
-    this.cargandoCortes = true;
     this.cargandoVideotests = true;
+    
+    this.videotestService.obtenerListadoCompletoVideotest().subscribe(
+      ({videotests}) => {
+        this.listadoVideotest = videotests;
+        this.cargandoVideotests = false;
+      }
+    )
 
-    this.dataService.obtenerListadoCompletoCortes()
-      .subscribe(listadoCortesResp => {
-        this.listadoCortes = listadoCortesResp;
-        this.cargandoCortes = false;
-      });
+  }
 
-
+  registrarNuevoVideotest() {
+    this.router.navigateByUrl('/dashboard/zona-tests/admin-videotest/registrar-nuevo-videotest');
   }
 
 }

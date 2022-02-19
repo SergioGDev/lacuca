@@ -1,0 +1,22 @@
+<div fxLayout="column">
+
+    <div class="titulo">
+        Registrar listado de partidos
+    </div>
+
+    <mat-card class="explicacion">
+        <mat-card-content>
+            Desde este lugar va a poder registrar partidos de una forma mucho más rápida. 
+            Solo tiene que <b>descargar la plantilla</b> que se facilita abajo y <b>rellenarla con 
+            los datos de los partidos</b> que va a registrar. Todos los campos (excepto el comentario)
+            son <b>obligatorios</b>.
+        </mat-card-content>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-actions fxLayoutAlign="end">
+            <a mat-button href="/assets/modelo-partido.csv" download="modelo-registro-partidos.csv"> Descargar plantilla </a>
+            <app-load-csv (onLoadCsv)="loadCsv($event)" [textoBoton]="textoBotonAdjuntar"></app-load-csv>
+        </mat-card-actions>
+    </mat-card>
+</div>

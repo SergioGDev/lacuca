@@ -1,0 +1,12 @@
+<div>
+
+    <mat-dialog-content>
+        <div> {{ mensajeDialog.toString() }} </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close (click)="clickVolver()">Volver</button>
+        <button mat-button color="warn" (click)="eliminado()" [mat-dialog-close]="true">Eliminar</button>
+    </mat-dialog-actions>
+
+</div>

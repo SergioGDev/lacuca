@@ -1,0 +1,120 @@
+<div>
+
+    <div class="header" fxLayout="row" fxLayout.xs="column">
+        <div class="titulo">Datos del informe</div>
+    </div>
+
+    <app-spinner-cargando *ngIf="cargandoInforme"></app-spinner-cargando>
+
+    <div class="content-informe" *ngIf="!cargandoInforme && datosInforme">
+
+        <div class="subtitulo">
+            Datos del informe
+        </div>
+
+        <div class="container-datos">
+            <div fxLayout="row wrap">
+                <!-- Árbitro principal -->
+                <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+                    Árbitro principal:
+                </div>
+            
+                <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+                    {{ datosInforme.datosArbitroPrincipal?.nombre }} {{ datosInforme.datosArbitroPrincipal?.apellidos }}
+                </div>
+            
+                <!-- Equipo visitante -->
+                <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+                    Árbitro auxiliar:
+                </div>
+            
+            
+                <div fxFlex="20" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+                    {{ datosInforme.datosArbitroAuxiliar?.nombre }} {{ datosInforme.datosArbitroAuxiliar?.apellidos }}
+                </div>
+            
+                <!-- Fecha -->
+                <div fxFlex="20" fxLayoutAlign="end" fxLayoutAlign.xs="start" fxFlex.sm="25" fxFlex.xs="100" class="etiqueta">
+                    Informador:
+                </div>
+            
+            
+                <div fxFlex="60" fxFlex.xs="100" fxFlex.sm="65" class="info-partido">
+                    {{ datosInforme.datosInformador?.nombre }} {{ datosInforme.datosInformador?.apellidos }}
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="subtitulo">
+            Datos del partido
+        </div>
+
+        <div class="container-datos">
+            <app-data-partido [datosPartido]="datosInforme!.datosPartido"></app-data-partido>
+        </div>
+
+        <div class="subtitulo">
+            Cortes del informe
+        </div>
+
+        <div class="container-cortes">
+            <app-listado-cortes [listadoCortes]="datosInforme!.listadoCortes!"></app-listado-cortes>
+        </div>
+
+        <div class="subtitulo">
+            Comentarios y nota sobre la actuación arbitral
+        </div>
+
+        <div class="container-comentarios">
+
+            <div class="segundo-subtitulo">
+                Comentario general
+            </div>
+
+            <div class="datos-comentarios">
+                <div>
+                    {{ datosInforme!.comentarioGeneral}}
+                </div>
+            </div>
+
+            <div class="segundo-subtitulo">
+                Árbitro principal
+            </div>
+
+            <div class="datos-comentarios">
+                <div>
+                    {{ datosInforme!.comentarioArbitroPrincipal}}
+                </div>
+    
+                <div class="nota-container">
+                    <span>Nota: </span><span>{{ datosInforme.notaArbitroPrincipal }}</span>
+                </div>
+            </div>
+    
+            
+
+            <div class="segundo-subtitulo">
+                Árbitro auxiliar
+            </div>
+    
+            <div class="datos-comentarios">
+                <div>
+                    {{ datosInforme!.comentarioArbitroAuxiliar}}
+                </div>
+    
+                <div class="nota-container">
+                    <span>Nota: </span><span>{{ datosInforme.notaArbitroAuxiliar }}</span>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="container-botones" fxLayoutAlign="end">
+            <button mat-raised-button (click)="volverAlListado()">Volver al listado</button>
+        </div>
+        
+
+    </div>
+
+</div>

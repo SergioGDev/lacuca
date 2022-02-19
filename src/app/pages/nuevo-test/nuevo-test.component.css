@@ -2,13 +2,6 @@
     color: var(--color-texto-negro);
 }
 
-.titulo {
-    font-size: 30pt;
-    color: var(--color-texto-negro);
-    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
-    margin-bottom: 25px;
-}
-
 .seleccion-preguntas {
     border: 1px solid var(--color-texto-negro-transparente);
     border-radius: 3px;

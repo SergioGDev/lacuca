@@ -1,76 +1,81 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { AuthService } from '../../services/auth.service';
-import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
 import { Usuario } from 'src/app/interfaces/usuario.interface';
+import { MatPaginator } from '@angular/material/paginator';
+import { InterdataService } from '../../services/interdata.service';
+import { GruposService } from '../../services/grupos.service';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
+import { DatosGrupo } from '../../interfaces/data.interface';
 
 @Component({
   selector: 'app-listado-usuarios',
   templateUrl: './listado-usuarios.component.html',
-  styles: [
-  ]
+  styleUrls: [ './listado-usuarios.component.css' ]
 })
 export class ListadoUsuariosComponent implements OnInit {
 
-  cargandoUsuarios: boolean = true;
   listadoUsuarios: Usuario[] = [];
+  listadoGrupos: DatosGrupo[] = [];
+
+  cargando: boolean = true;
   editMode = false;
   usuarioEdit: Usuario | undefined;
 
+  // Variables para la tabla y el paginador (Angular material)
+  dataSource: any;
+  displayedColums = ['nombre', 'apellidos', 'nif', 'delegacion', 'esInformador', 'esAdministrador', 'email', 'acciones'];
+  resultLength: number = 0;
+
+  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
+
   constructor(
     private authService: AuthService,
-    private dataService: DataService,
-    private router: Router
+    private gruposService: GruposService,
+    private interdataService: InterdataService,
+    private router: Router,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    this.authService.herokuGetUserList().subscribe(
-      data => {
-        this.listadoUsuarios = data.users;
-        console.log(data.users);
-        this.cargandoUsuarios = false;
+    this.interdataService.limpiarCache();
+    this.authService.herokuGetUserList().pipe(
+      switchMap( ({users}) => this.asignarListadoUsuariosYObtenerListadoGrupos(users))
+    ).subscribe(
+      listadoGruposResp => {
+        this.listadoGrupos = listadoGruposResp;
+        this.cargando = false;
       },
-      error => {
-        console.log(error);
+      err => {
+        console.log(err);
+        this.router.navigateByUrl('/dashboard');
+        this.dialog.open( DialogConfirmarComponent,
+          {
+            restoreFocus: false,
+            data: 'Ha ocurrido un error al obtener los datos. Inténtelo de nuevo más tarde. Contacte con el administrador del sitio.'
+          })
       }
-    );
-
+    )
   }
 
-  convertToDate(date: any) {
-    return date.toDate();
+  registrarUsuario() {
+    this.router.navigateByUrl('/dashboard/listado-usuarios/registrar-usuario');
   }
 
-  esInformador(user: Usuario): string{
-    if(user.role?.includes('ROLE_INFORMADOR')){
-      return 'Sí';
-    }
-    return 'No';
+  registrarListadoUsuarios() {
+    this.router.navigateByUrl('/dashboard/listado-usuarios/registrar-listado-usuarios')
   }
 
-  esAdmin(user: Usuario): string{
-    if(user.role?.includes('ROLE_ADMIN')){
-      return 'Sí';
-    }
-    return 'No';
+  asignarListadoUsuariosYObtenerListadoGrupos(listadoUsuariosResp: Usuario[]): Observable<any> {
+    this.listadoUsuarios = listadoUsuariosResp;
+    return this.gruposService.obtenerListadoGruposConDatos();
   }
 
-  editar(user: Usuario){
-    this.editMode = true;
-    this.usuarioEdit = user;
+  registrarGrupo() {
+    this.router.navigateByUrl('/dashboard/listado-usuarios/registrar-grupo');
   }
-
-  onUsuarioGuardado(usuario: Usuario){
-    console.log(usuario);
-    this.editMode = false;
-    this.authService.herokuGetUserList().subscribe(
-      data => {
-        this.listadoUsuarios = data.users;
-        console.log(data.users);
-        this.cargandoUsuarios = false;
-      }
-    );
-  }
-
 }
