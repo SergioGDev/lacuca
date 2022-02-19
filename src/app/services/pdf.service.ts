@@ -8,6 +8,8 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { DataService } from './data.service';
 import { forkJoin } from 'rxjs';
+import { PartidosService } from './partidos.service';
+import { CortesService } from './cortes.service';
 pdfMake.fonts = {
   Roboto: {
     normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
@@ -22,7 +24,10 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   providedIn: 'root',
 })
 export class PdfService {
-  constructor(private dataService: DataService) {}
+  constructor(
+    private partidosService: PartidosService,
+    private cortesService: CortesService,
+  ) {}
 
   generarPdfInforme() {
     const datosInforme: DatosInforme = {
@@ -39,10 +44,10 @@ export class PdfService {
       ],
     };
     forkJoin({
-      firstService: this.dataService.obtenerDatosPartido(
+      firstService: this.partidosService.obtenerDatosPartido(
         datosInforme.idPartido
       ),
-      secondService: this.dataService.obtenerDatosCortes(
+      secondService: this.cortesService.obtenerDatosCortes(
         datosInforme.cortesIds
       ),
       // fourthService: this.dataService.getDatosCortes(datosInforme.cortesIds)
