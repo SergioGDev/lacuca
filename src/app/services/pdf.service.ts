@@ -45,10 +45,10 @@ export class PdfService {
     };
     forkJoin({
       firstService: this.partidosService.obtenerDatosPartido(
-        datosInforme.idPartido
+        datosInforme.idPartido!
       ),
       secondService: this.cortesService.obtenerDatosCortes(
-        datosInforme.cortesIds
+        datosInforme.cortesIds!
       ),
       // fourthService: this.dataService.getDatosCortes(datosInforme.cortesIds)
     }).subscribe({

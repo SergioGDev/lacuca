@@ -56,7 +56,8 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/']);
       },
 
-      () => {
+      err => {
+        console.log(err)
         this.dialog.open( DialogConfirmarComponent, 
           {
             restoreFocus: false,

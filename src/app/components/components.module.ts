@@ -36,6 +36,7 @@ import { ListadoVideotestsComponent } from './listado-videotests/listado-videote
 import { DataUsuariosComponent } from './data-usuarios/data-usuarios.component';
 import { TarjetaDatosUsuarioComponent } from './tarjeta-datos-usuario/tarjeta-datos-usuario.component';
 import { DataListadoGruposComponent } from './data-listado-grupos/data-listado-grupos.component';
+import { VisorDatosVideotestComponent } from './visor-datos-videotest/visor-datos-videotest.component';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { DataListadoGruposComponent } from './data-listado-grupos/data-listado-g
     DataUsuariosComponent,
     TarjetaDatosUsuarioComponent,
     DataListadoGruposComponent,
+    VisorDatosVideotestComponent,
   ],
   imports: [
     CommonModule,
@@ -104,6 +106,7 @@ import { DataListadoGruposComponent } from './data-listado-grupos/data-listado-g
     VisualizadorDatosCorteComponent,
     SpinnerCargandoComponent,
     YtPlayerCorteComponent,
+    VisorDatosVideotestComponent,
   ]
 })
 export class ComponentsModule { }
