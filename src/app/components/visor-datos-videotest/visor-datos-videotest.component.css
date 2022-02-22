@@ -1,0 +1,43 @@
+.contenido-pregunta-resumen {
+    padding: 30px;
+}
+
+.nombre-videotest-resumen {
+    text-shadow: 1px 1px 1px var(--color-texto-negro-transparente);
+    font-size: 20pt;
+    margin: 10px 30px;
+}
+
+.descripcion-videotest-resumen {
+    font-size: 13pt;
+    margin: 15px 50px;
+    font-style: italic;
+    color: var(--color-texto-negro);
+    text-shadow: 1px 1px 1px var(--color-gris-claro-transparente);
+}
+
+.texto-pregunta-resumen {
+    margin: 10px;
+    font-weight: 500;
+    font-size: 12pt;
+    text-shadow: 1px 1px 1px var(--color-gris-transparente);
+}
+
+.texto-respuesta-resumen {
+    margin: 6px 0px;
+    color: var(--color-texto-negro);
+    font-size: 12pt;
+}
+
+.texto-solucion-resumen {
+    margin: 10px;
+    font-size: 12pt;
+}
+
+.texto-solucion-resumen .label {
+    font-weight: 500;
+}
+
+.texto-solucion-resumen .solucion {
+    font-style: italic;
+}

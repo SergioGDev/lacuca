@@ -1,0 +1,45 @@
+<div class="nombre-videotest-resumen">
+    {{ preguntasVideotest.nombre }}
+</div>
+
+<div class="descripcion-videotest-resumen">
+    {{ preguntasVideotest.descripcion }}
+</div>
+
+<div class="preguntas-videotest-resumen">
+    <div *ngFor="let pregunta of preguntasVideotest?.preguntas; let i = index" fxLayout="column">
+        <mat-divider></mat-divider>
+
+        <div class="p-3" fxLayout="row wrap">
+            <div class="clip-container">
+                <app-yt-player-corte class="youtube-player" [videoId]="pregunta.corte!.datosPartido?.url"
+                    [height]="getYoutubePlayerWidth() / 2" [width]="getYoutubePlayerWidth()"
+                    [startSecond]="pregunta.corte!.segundoInicio"
+                    [endSecond]="pregunta.corte!.segundoInicio + pregunta.corte!.duracion">
+                </app-yt-player-corte>
+            </div>
+
+            <div class="contenido-pregunta-resumen" fxFlex>
+
+                <div class="w-100 texto-pregunta-resumen">
+                    {{ i + 1 }}) {{ pregunta.pregunta }}
+                </div>
+
+                <div class="w-100 respuestas-resumen">
+                    <ol type="a">
+                        <li class="respuesta-resumen" *ngFor="let respuesta of pregunta.respuestas">
+                            {{ respuesta }}
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="w-100 texto-solucion-resumen">
+                    <span class="label">Respuesta correcta:</span> <span class="solucion"> {{ pregunta.solucion
+                        }}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+</div>
