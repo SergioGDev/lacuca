@@ -6,8 +6,6 @@ import { InterdataService } from '../../services/interdata.service';
 import { GruposService } from '../../services/grupos.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogEliminarComponent } from '../dialog-eliminar/dialog-eliminar.component';
-import { DialogConfirmarComponent } from '../dialog-confirmar/dialog-confirmar.component';
 
 @Component({
   selector: 'app-data-listado-grupos',
@@ -74,47 +72,8 @@ export class DataListadoGruposComponent implements OnInit {
     this.asignarDataSource();
   }
 
-  modificarGrupo(idGrupo: string) {
+  verDatosGrupo(idGrupo: string) {
     this.interdataService.setIdGrupoToCache(idGrupo);
-    this.router.navigateByUrl('/dashboard/listado-usuarios/editar-grupo');
-  }
-  
-  eliminarGrupo(grupo: DatosGrupo) {
-    const dialogRef = this.dialog.open( DialogEliminarComponent,
-      {
-        restoreFocus: false,
-        data: {
-          eliminado: false,
-          mensajeDialog: '¿Quieres eliminar los datos del grupo? ¡Cuidado! Esta acción no podrá deshacerse.'
-        }
-      })
-
-    dialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          this.gruposService.eliminarGrupo(grupo._id!).subscribe(
-            () => {
-              const index = this.listadoGrupos.indexOf(grupo);
-              this.listadoGrupos.splice(index, 1);
-              this.asignarDataSource();
-
-              this.dialog.open( DialogConfirmarComponent,
-                {
-                  restoreFocus: false,
-                  data: 'El grupo se ha eliminado correctamente.'
-                })
-            }, 
-            err => {
-              console.log(err);
-              this.dialog.open( DialogConfirmarComponent,
-                {
-                  restoreFocus: false,
-                  data: 'Ha ocurrido un error al eliminar los datos del grupo. Inténtelo de nuevo más tarde.'
-                });
-            }
-          )
-        }
-      }
-    )
+    this.router.navigateByUrl('/dashboard/listado-usuarios/datos-grupo')
   }
 }

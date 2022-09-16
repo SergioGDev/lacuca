@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewChild, EventEmitter, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 
@@ -17,12 +17,12 @@ import { CortesService } from '../../services/cortes.service';
   selector: 'app-buscador-cortes',
   templateUrl: './buscador-cortes.component.html'
 })
-export class BuscadorCortesComponent implements OnInit {
+export class BuscadorCortesComponent implements OnInit, AfterViewInit {
 
   // Listados de cortes
-  listadoCortes: DatosCorte[] = [];
+  @Input('listadoCortes') listadoCortes: DatosCorte[] = [];
   listadoOrdenado: DatosCorte[] = [];
-  listadoCompletoCortes: DatosCorte[] = [];
+  @Input('listadoCompletoCortes') listadoCompletoCortes: DatosCorte[] = [];
 
   eventsSubscription!: Subscription;
   @Input() eventActualizar!: Observable<DatosCorte>;
@@ -63,7 +63,6 @@ export class BuscadorCortesComponent implements OnInit {
 
   constructor(
     private operationService: OperationsService,
-    private cortesService: CortesService,
     private dataService: DataService,
     private dialog: MatDialog,
     private fb: FormBuilder,
@@ -81,16 +80,25 @@ export class BuscadorCortesComponent implements OnInit {
       });
   }
 
-  mostrarListadoCompletoCortes() {
-    this.cargandoCortes = true;
-    this.cortesService.obtenerListadoCompletoCortesConDatosPartidos()
-      .subscribe( listadoCortesResp => {
-          this.listadoCompletoCortes = listadoCortesResp;
-          this.listadoCortes = listadoCortesResp;
-          this.cargandoCortes = false;
-          this.asignarDataSource();
-      });
+  ngAfterViewInit(): void {
+    this.asignarDataSource();
   }
+
+  mostrarListadoCompletoCortes() {
+    this.listadoCortes = this.listadoCompletoCortes;
+    this.asignarDataSource();
+  }
+
+  // mostrarListadoCompletoCortes() {
+  //   this.cargandoCortes = true;
+  //   this.cortesService.obtenerListadoCompletoCortesConDatosPartidos()
+  //     .subscribe( listadoCortesResp => {
+  //         this.listadoCompletoCortes = listadoCortesResp;
+  //         this.listadoCortes = listadoCortesResp;
+  //         this.cargandoCortes = false;
+  //         this.asignarDataSource();
+  //     });
+  // }
 
   asignarDataSource() {
     this.dataSource = new MatTableDataSource<DatosCorte>(this.listadoCortes);

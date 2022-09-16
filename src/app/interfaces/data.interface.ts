@@ -154,5 +154,6 @@ export interface DatosGrupo {
     descripcion?:        string,
     responsables?:       string[],
     datosResponsables?:  Usuario[],
+    datosUsuarios?:      Usuario[],
     __v?:                string,
 }

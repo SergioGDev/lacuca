@@ -6,7 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
 import { switchMap } from 'rxjs/operators';
 import { Usuario } from '../../interfaces/usuario.interface';
-import { DatosInforme } from '../../interfaces/data.interface';
+import { DatosInforme, DatosGrupo } from '../../interfaces/data.interface';
+import { GruposService } from '../../services/grupos.service';
+import { forkJoin, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,16 +27,40 @@ export class DashboardComponent implements OnInit {
     private pdfService: PdfService,
     private authService: AuthService,
     private informesService: InformesService,
+    private gruposService: GruposService,
     private dialog: MatDialog
   ) { }
   
 
   ngOnInit(): void {
     this.authService.herokuRenew().pipe(
-      switchMap( resp => this.asignarUsuarioYObtenerInformes(resp))
+      switchMap( resp => this.asignarUsuarioYObtenerInformes(resp)),
     ).subscribe( listadoInformesResp => {
-      this.listadoInformesUsuario = listadoInformesResp;
-      this.cargandoMisInformes = false;
+        this.listadoInformesUsuario = listadoInformesResp;
+        this.currentUser!.datosGrupos = [];
+
+        if (this.currentUser?.grupos?.length === 0) {
+          this.cargandoMisInformes = false;
+        } else {
+
+          var vObs: Observable<any>[] = [];
+          this.currentUser!.grupos!.forEach( grupo => {
+            vObs.push(this.gruposService.obtenerGrupo(grupo))
+          })
+  
+          forkJoin(vObs).subscribe(
+            resp => {
+              const vGrupos: DatosGrupo[] = resp;
+              vGrupos.forEach( grupo => {
+                this.currentUser!.datosGrupos!.push(grupo);
+              })
+
+              this.cargandoMisInformes = false;
+            }
+          );
+
+        }
+
     }, err => {
       console.log(err);
       this.dialog.open( DialogConfirmarComponent,

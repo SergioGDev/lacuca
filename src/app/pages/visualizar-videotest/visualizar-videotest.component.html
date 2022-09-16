@@ -1,1 +1,11 @@
-<p>visualizar-videotest works!</p>
+<div>
+    <app-spinner-cargando *ngIf="cargandoVideotest"></app-spinner-cargando>
+
+    <div *ngIf="!cargandoVideotest">
+        <app-visor-datos-videotest [preguntasVideotest]="datosVideotest!"></app-visor-datos-videotest>
+
+        <div class="pt-3 pb-3 botones" fxLayoutAlign="end">
+            <button class="boton-volver" mat-raised-button (click)="volverAlListado()">Volver al listado</button>
+        </div>
+    </div>
+</div>

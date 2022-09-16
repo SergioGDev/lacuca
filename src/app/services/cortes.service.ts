@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DatosCorte, DatosPartido } from '../interfaces/data.interface';
 import { PartidosService } from './partidos.service';
+import { OperationsService } from './operations.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class CortesService {
 
   constructor(
     private http: HttpClient,
-    private partidosService: PartidosService
+    private partidosService: PartidosService,
+    private operationService: OperationsService
   ) { }
 
   guardarCorte(datosCorte: DatosCorte): Observable<any> {
@@ -34,9 +36,26 @@ export class CortesService {
     return this.http.put(`${environment.herokuUrl}/corte/${datosCorte._id}/`, datosCorte, {headers: {'token': token}});
   }
 
-  obtenerDatosCorte(idCorte: string) {
+  obtenerDatosCorte(idCorte: string): Observable<any> {
     const token = localStorage.getItem('token') || '';
-    return this.http.get(`${environment.herokuUrl}/corte/${idCorte}`, {headers: {'token': token}});
+    return this.http.get<any>(`${environment.herokuUrl}/corte/${idCorte}`, {headers: {'token': token}});
+  }
+
+  obtenerDatosCompletosCorte(idCorte: string): Observable<any> {
+    var corte: DatosCorte;
+    return this.http.get<any>(`${environment.herokuUrl}/corte/${idCorte}`, 
+      {headers: {'token': this.operationService.getToken()}})
+      .pipe(
+        switchMap( datosCorteResp => {
+            corte = datosCorteResp;
+            return this.partidosService.obtenerDatosPartido(corte.idPartido!);
+          }
+        ),
+        switchMap( ({partido}) => {
+          corte.datosPartido = partido;
+          return of(corte);
+        })
+      )
   }
 
   obtenerCortesDelPartido(idPartido: string): Observable<any> {
@@ -61,9 +80,18 @@ export class CortesService {
       )
   }
 
-  obtenerDatosCortes(idCorteList: string[]): Observable<DatosCorte[]> {
+  obtenerDatosListadoCortes(idCorteList: string[]): Observable<DatosCorte[]> {
     const idsString = idCorteList.join(',');
     return this.http.get<DatosCorte[]>(`${environment.herokuUrl}/corte/`, {headers: {'idlist': idsString}});
+  }
+
+  obtenerDatosCompletosListadoCortes(idCortesList: string[]): Observable<DatosCorte[]> {
+    const idsString = idCortesList.join(',');
+    return this.http.get<DatosCorte[]>(`${environment.herokuUrl}/corte/`, {headers: {'idlist': idsString}})
+    .pipe(
+      switchMap( listadoCortesResp => this.asignarCortesYObtenerListadoPartidos(listadoCortesResp)),
+      switchMap( listadoPartidosResp => this.asignarDatosPartidosAListadoCortes(listadoPartidosResp))
+    )
   }
 
   // Métodos auxiliares

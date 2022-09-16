@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { DatosVideotest } from '../../interfaces/data.interface';
 import { VideotestService } from '../../services/videotest.service';
+import { InterdataService } from '../../services/interdata.service';
 
 @Component({
   selector: 'app-panel-administracion-videotest',
@@ -18,19 +19,20 @@ export class PanelAdministracionVideotestComponent implements OnInit {
 
   constructor(
     private videotestService: VideotestService,
+    private interdataService: InterdataService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.cargandoVideotests = true;
-    
+    this.interdataService.limpiarCache();
+
+    this.cargandoVideotests = true; 
     this.videotestService.obtenerListadoCompletoVideotest().subscribe(
       ({videotests}) => {
         this.listadoVideotest = videotests;
         this.cargandoVideotests = false;
       }
     )
-
   }
 
   registrarNuevoVideotest() {

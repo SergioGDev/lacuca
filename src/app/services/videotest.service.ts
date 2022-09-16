@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 
-import { DatosVideotest } from '../interfaces/data.interface';
+import { DatosVideotest, DatosCorte } from '../interfaces/data.interface';
 import { OperationsService } from './operations.service';
 import { environment } from 'src/environments/environment';
 import { CortesService } from './cortes.service';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -34,15 +35,45 @@ export class VideotestService {
   }
 
   obtenerDatosVideotest(idVideotest: string) {
-    this.http.get(`${environment.herokuUrl}/videotest/${idVideotest}`,
+    return this.http.get(`${environment.herokuUrl}/videotest/${idVideotest}`,
+      {headers: {'token': this.operationService.getToken()}});
+  }
+
+  // Obtiene también los datos de los cortes asociados a las preguntas
+  obtenerDatosCompletosVideotest(idVideotest: string): Observable<any> {
+    var videotest: DatosVideotest;
+    return this.http.get<any>(`${environment.herokuUrl}/videotest/${idVideotest}`,
       {headers: {'token': this.operationService.getToken()}})
-      .subscribe(resp => console.log(resp))
+      .pipe(
+        switchMap( datosVideotestResp => {
+          videotest = datosVideotestResp;
+          var vObs: Observable<any>[] = []
+
+          videotest.preguntas?.forEach( pregunta => {
+            vObs.push(this.cortesService.obtenerDatosCompletosCorte(pregunta.idCorte));
+          })
+
+          return forkJoin(vObs);
+        }),
+        switchMap( listadoCompletoCortesResp => {
+          videotest.preguntas?.forEach( pregunta => {
+            listadoCompletoCortesResp.forEach( corte => {
+              if (corte._id === pregunta.idCorte) {
+                pregunta.corte = corte;
+              }
+            })
+          })
+
+          return of(videotest);
+        })
+      )
   }
 
   obtenerListadoCompletoVideotest(): Observable<any> {
     return this.http.get(`${environment.herokuUrl}/videotest`,
       {headers: {'token': this.operationService.getToken()}});
   }
+
 
   // Métodos adiccionales
 

@@ -19,3 +19,8 @@
 .no-grupo {
     font-style: italic;
 }
+
+.boton-volver {
+    background-color: var(--color-texto-negro);
+    color: var(--color-texto-blanco);
+}

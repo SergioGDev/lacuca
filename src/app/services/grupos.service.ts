@@ -53,6 +53,14 @@ export class GruposService {
       )
   }
 
+  obtenerGrupoConResponsablesYArbitros(idGrupo: string): Observable<DatosGrupo> {
+    return this.http.get<DatosGrupo>(`${environment.herokuUrl}/grupo/${idGrupo}`,
+      { headers: { 'token': this.operationsService.getToken() }}).pipe(
+        switchMap( datosGrupoResp => this.asignarGrupoYObtenerResponsables(datosGrupoResp) ),
+        switchMap( listadoUsuariosResp => this.asignarResponsablesYArbitrosYDevolverGrupo(listadoUsuariosResp))
+      )
+  }
+
   eliminarGrupo(idGrupo: string): Observable<any> {
     return this.http.delete(`${environment.herokuUrl}/grupo/${idGrupo}`,
     { headers: { 'token': this.operationsService.getToken() }});
@@ -103,4 +111,21 @@ export class GruposService {
     return of(this.datosGrupo!);
   }
 
+  asignarResponsablesYArbitrosYDevolverGrupo(listadoUsuarios: Usuario[]): Observable<DatosGrupo> {
+    this.datosGrupo!.datosUsuarios = [];
+    this.datosGrupo!.datosResponsables = [];
+    listadoUsuarios.forEach( usuario => {
+      this.datosGrupo!.responsables!.forEach( responsableId => {
+        if (responsableId === usuario._id) {
+          this.datosGrupo!.datosResponsables!.push(usuario);
+        }
+      })
+
+      if (usuario.grupos?.includes(this.datosGrupo?._id!)) {
+        this.datosGrupo!.datosUsuarios?.push(usuario);
+      }
+    })
+
+    return of(this.datosGrupo!);
+  }
 }

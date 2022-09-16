@@ -11,6 +11,10 @@ import { DialogRegistrarComponent } from '../../components/dialog-registrar/dial
 import { VideotestService } from '../../services/videotest.service';
 import { DialogConfirmarComponent } from '../../components/dialog-confirmar/dialog-confirmar.component';
 import { Router } from '@angular/router';
+import { InterdataService } from '../../services/interdata.service';
+import { CortesService } from '../../services/cortes.service';
+import { switchMap } from 'rxjs/operators';
+import { DialogModificarComponent } from '../../components/dialog-modificar/dialog-modificar.component';
 
 @Component({
   selector: 'app-registrar-nuevo-videotest',
@@ -19,7 +23,12 @@ import { Router } from '@angular/router';
 })
 export class RegistrarNuevoVideotestComponent implements OnInit {
 
+  editandoVideotest: boolean = false;
+  cargandoDatos: boolean = false;
+
   listadoCortesSeleccionados: DatosCorte[] = [];
+  listadoCompletoCortes: DatosCorte[] = [];
+  listadoCompletoCortesChecked: DatosCorte[] = [];
   preguntasVideotest: DatosVideotest = { preguntas: [] };
 
   eventsSubject: Subject<DatosCorte> = new Subject<DatosCorte>();
@@ -31,32 +40,79 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
 
   // Formulario del videotest
   formularioVideotest: FormGroup = this.fb.group({
-    nombreVideotest:         [, [Validators.required]],
-    descripcionVideotest:    [],
+    nombreVideotest: [, [Validators.required]],
+    descripcionVideotest: [],
   })
 
   textoPregunta: string = 'texto-pregunta';
   addRespuesta: string = 'add-respuesta';
   textoSolucion: string = 'texto-solucion';
 
-  mensajeErrorExcesoPreguntas: boolean [] = [];
+  mensajeErrorExcesoPreguntas: boolean[] = [];
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
-  
+
   constructor(
     private videotestService: VideotestService,
+    private cortesService: CortesService,
+    private interdataService: InterdataService,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.asignarDataSource();
+    const idVideotest = this.interdataService.getIdVideotestFromCache();
+
+    if (idVideotest) {
+      this.editandoVideotest = true;
+      this.obtenerListadoCortesYDatosVideotest(idVideotest);
+    } else {
+      this.obtenerListadoCompletoCortes();
+    }
+
   }
 
   /**********************************************************/
   /***********     MÉTODOS GENERALES              ***********/
   /**********************************************************/
+  obtenerListadoCompletoCortes() {
+    this.cargandoDatos = true;
+    this.cortesService.obtenerListadoCompletoCortesConDatosPartidos()
+      .subscribe(listadoCortesResp => {
+        this.listadoCompletoCortes = listadoCortesResp;
+        this.listadoCompletoCortesChecked = listadoCortesResp;
+        this.cargandoDatos = false;
+        this.asignarDataSource();
+      });
+  }
+
+  obtenerListadoCortesYDatosVideotest(idVideotest: string) {
+    this.cargandoDatos = true;
+
+    this.cortesService.obtenerListadoCompletoCortesConDatosPartidos().pipe(
+      switchMap(listadoCortesResp => {
+        this.listadoCompletoCortes = listadoCortesResp;
+        // this.listadoCompletoCortesChecked = listadoCortesResp;
+        this.asignarDataSource();
+        return this.videotestService.obtenerDatosCompletosVideotest(idVideotest);
+      })
+    ).subscribe(videotestResp => {
+      this.preguntasVideotest = videotestResp;
+
+      this.preguntasVideotest.preguntas?.forEach(pregunta => {
+        this.listadoCortesSeleccionados.push(pregunta.corte!);
+        const index = this.listadoCompletoCortes.findIndex( corte => corte._id === pregunta.idCorte );
+        this.listadoCompletoCortes[index].checked = true;
+      })
+
+      this.listadoCompletoCortesChecked = this.listadoCompletoCortes;
+
+      this.crearFormularioVideotest();
+      this.asignarDataSource();
+      this.cargandoDatos = false;
+    })
+  }
 
   // Asigna a la vista el dataSource existente para que se muestre en la tabla
   asignarDataSource() {
@@ -65,37 +121,50 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.resultsLength = this.listadoCortesSeleccionados.length;
   }
-  
+
   // Escucha el corte que se emite desde el buscador de cortes para insertarlo/eliminarlo en la lista
   escucharCorteEmitido(corte: DatosCorte) {
-    if (corte.checked) {            
+    if (corte.checked) {
       this.listadoCortesSeleccionados.push(corte);
       this.preguntasVideotest!.preguntas?.push({
-        pregunta:   '',
+        pregunta: '',
         respuestas: [],
-        solucion:   '',
-        idCorte:    corte._id!,
-        corte:      corte,
+        solucion: '',
+        idCorte: corte._id!,
+        corte: corte,
       });
 
-      this.crearFormularioVideotest();  
+      this.crearFormularioVideotest();
     } else {
       this.eliminarCorteDeLaLista(corte);
     }
     this.asignarDataSource();
   }
- 
+
   crearFormularioVideotest() {
     this.formularioVideotest = this.fb.group({
-      nombreVideotest:         [, [Validators.required]],
-      descripcionVideotest:    [],
+      nombreVideotest: [ this.preguntasVideotest.nombre ? this.preguntasVideotest.nombre : '', [Validators.required]],
+      descripcionVideotest: [ this.preguntasVideotest.descripcion ? this.preguntasVideotest.descripcion : '' ],
     })
 
     if (this.preguntasVideotest?.preguntas) {
       for (var i = 0; i < this.preguntasVideotest!.preguntas!.length; i++) {
-        this.formularioVideotest.addControl(`${this.textoPregunta}-${i}`, new FormControl('', Validators.required));
-        this.formularioVideotest.addControl(`${this.addRespuesta}-${i}`, new FormControl());
-        this.formularioVideotest.addControl(`${this.textoSolucion}-${i}`, new FormControl('', Validators.required))
+        this.formularioVideotest.addControl(
+          `${this.textoPregunta}-${i}`, 
+          new FormControl(this.preguntasVideotest.preguntas[i].pregunta ? 
+            this.preguntasVideotest.preguntas[i].pregunta : '', 
+            Validators.required)
+        );
+        this.formularioVideotest.addControl(
+          `${this.addRespuesta}-${i}`, 
+          new FormControl('')
+        );
+        this.formularioVideotest.addControl(
+          `${this.textoSolucion}-${i}`,
+          new FormControl(this.preguntasVideotest.preguntas[i].solucion ? 
+            this.preguntasVideotest.preguntas[i].solucion : '', 
+            Validators.required)
+        );
       }
     }
   }
@@ -126,7 +195,7 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
 
   // Abre un dialog para mostrar el corte
   verCorteEnDialog(corte: DatosCorte) {
-    this.dialog.open(DialogVerCorteComponent, {data: {datosCorte: corte}});
+    this.dialog.open(DialogVerCorteComponent, { data: { datosCorte: corte } });
   }
 
   /*************************************************/
@@ -157,7 +226,7 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
 
     if (this.formularioVideotest.invalid) {
       this.formularioVideotest.markAllAsTouched();
-    } 
+    }
 
     this.preguntasVideotest.nombre = this.formularioVideotest.get('nombreVideotest')?.value;
     this.preguntasVideotest.descripcion = this.formularioVideotest.get('descripcionVideotest')?.value;
@@ -188,27 +257,37 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
   /***********     PASO 3                ***********/
   /*************************************************/
   guardarVideotest() {
+
     if (this.formularioVideotest.invalid) {
       this.formularioVideotest.markAllAsTouched();
       return;
     }
 
-    const dialogRef = this.dialog.open( DialogRegistrarComponent,
+    // Diálogo de confirmación
+    const dialogRef = this.editandoVideotest ?
+      this.dialog.open( DialogModificarComponent,
+      {
+        restoreFocus: false,
+        data: { registrado: false, mensajeDialog: `¿Quieres editar el videotes "${this.preguntasVideotest.nombre}" con los datos indicados?` }
+      }) :
+      this.dialog.open( DialogRegistrarComponent,
       {
         restoreFocus: false,
         data: { registrado: false, mensajeDialog: '¿Registrar el videotest con los datos indicados?' }
       });
 
+    // Cuando aceptes realizar la acción, creas un nuevo registro o editas uno existente  
     dialogRef.afterClosed().subscribe(
       registrado => {
         if (registrado) {
           var registroVideotest: DatosVideotest = {
+            _id: this.preguntasVideotest._id,
             nombre: this.preguntasVideotest.nombre,
             descripcion: this.preguntasVideotest.descripcion,
             preguntas: []
           }
 
-          this.preguntasVideotest.preguntas?.forEach( pregunta => {
+          this.preguntasVideotest.preguntas?.forEach(pregunta => {
             registroVideotest.preguntas?.push({
               pregunta: pregunta.pregunta,
               solucion: pregunta.solucion,
@@ -217,24 +296,27 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
             })
           })
 
-          console.log(registroVideotest);
-          console.log(this.preguntasVideotest);
+          const obsService = this.editandoVideotest ?
+            this.videotestService.modificarVideotest(registroVideotest) :
+            this.videotestService.registrarVideotest(registroVideotest);
 
-          this.videotestService.registrarVideotest(registroVideotest).subscribe(
+          obsService.subscribe(
             () => {
               this.router.navigateByUrl('/dashboard/zona-tests/admin-videotest');
-              this.dialog.open( DialogConfirmarComponent,
+              this.dialog.open(DialogConfirmarComponent,
                 {
                   restoreFocus: false,
-                  data: 'El videotest se ha registrado correctamente.'
+                  data: this.editandoVideotest ? 'El videotest se ha editado correctamente' : 'El videotest se ha registrado correctamente.'
                 })
             },
             err => {
               console.log(err);
-              this.dialog.open( DialogConfirmarComponent,
+              this.dialog.open(DialogConfirmarComponent,
                 {
                   restoreFocus: false,
-                  data: 'Ha ocurrido un error al registrar el videotest. Inténtelo de nuevo más tarde. Contacte con el administrador del sitio.'
+                  data: this.editandoVideotest ?
+                    'Ha ocurrido un error al editar el videotest. Inténtelo de nuevo más tarde. Contacte con el administrador del sitio.' :
+                    'Ha ocurrido un error al registrar el videotest. Inténtelo de nuevo más tarde. Contacte con el administrador del sitio.'
                 })
             }
           )
@@ -242,7 +324,7 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
       }
     )
   }
-  
+
 
   // ************************************************** //
   // *******    TRATAMIENTO DATOS FORMULARIO    ******* //
@@ -261,5 +343,6 @@ export class RegistrarNuevoVideotestComponent implements OnInit {
   getYoutubePlayerWidth() {
     return window.innerWidth > 500 ? 500 : window.innerWidth;
   }
+
 
 }

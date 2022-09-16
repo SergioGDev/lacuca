@@ -60,9 +60,12 @@ export class DatosUsuarioComponent implements OnInit {
     this.router.navigateByUrl('/dashboard/listado-usuarios/editar-usuario')
   }
 
-  volverAlListado() {
+  volver() {
     this.interdataService.removeUserFromCache();
-    this.router.navigateByUrl('/dashboard/listado-usuarios');
+    const idGrupo = this.interdataService.getIdGrupoFromCache();
+    console.log(idGrupo)
+    this.router.navigateByUrl(idGrupo === null ? 
+      '/dashboard/listado-usuarios' : '/dashboard/listado-usuarios/datos-grupo');
   }
 
   // Obtiene un string con los roles del usuario

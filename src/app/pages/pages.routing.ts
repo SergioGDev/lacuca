@@ -18,7 +18,6 @@ import { PanelAdministracionVideotestComponent } from './panel-administracion-vi
 import { RegistrarNuevoCorteComponent } from './registrar-nuevo-corte/registrar-nuevo-corte.component';
 import { RegistrarNuevoPartidoComponent } from './registrar-nuevo-partido/registrar-nuevo-partido.component';
 import { ChangePasswordComponent } from '../components/change-password/change-password.component';
-import { CreateUserComponent } from '../components/create-user/create-user.component';
 import { IsAdminGuard } from '../guards/is-admin.guard';
 import { RegistrarNuevoUsuarioComponent } from './registrar-nuevo-usuario/registrar-nuevo-usuario.component';
 import { RegistrarPartidosCsvComponent } from './registrar-partidos-csv/registrar-partidos-csv.component';
@@ -31,6 +30,7 @@ import { VisualizarVideotestComponent } from './visualizar-videotest/visualizar-
 import { EditarMisDatosComponent } from './editar-mis-datos/editar-mis-datos.component';
 import { DatosUsuarioComponent } from './datos-usuario/datos-usuario.component';
 import { RegistrarGrupoComponent } from './registrar-grupo/registrar-grupo.component';
+import { DatosGrupoComponent } from './datos-grupo/datos-grupo.component';
 
 const routes: Routes = [
   {
@@ -44,6 +44,7 @@ const routes: Routes = [
       { path: 'zona-tests/solucion-test', component: SolucionTestComponent, data: { titulo: 'Solución test' } },
       { path: 'zona-tests/admin-videotest', component: PanelAdministracionVideotestComponent, data: { titulo: 'Panel Administración Videotest' } },
       { path: 'zona-tests/admin-videotest/registrar-nuevo-videotest', component: RegistrarNuevoVideotestComponent, data: { titulo: 'Registrar Nuevo Videotest' } },
+      { path: 'zona-tests/admin-videotest/editar-videotest', component: RegistrarNuevoVideotestComponent, data: { titulo: 'Editar Videotest' } },
       { path: 'zona-tests/admin-videotest/ver-videotest', component: VisualizarVideotestComponent, data: { titulo: 'Ver Videotest' } },
       { path: 'designaciones', component: DesignacionesComponent, data: { titulo: 'Designaciones' } },
       { path: 'partidos', component: ListadoPartidosComponent, data: { titulo: 'Partidos' } },
@@ -61,11 +62,12 @@ const routes: Routes = [
       { path: 'informes/ver-informe', component: VisualizarDatosInformeComponent, data: { titulo: 'Ver informe' } },
       { path: 'listado-usuarios', component: ListadoUsuariosComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Listado de usuarios' } },
       { path: 'listado-usuarios/editar-usuario', component: RegistrarNuevoUsuarioComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Editar datos del usuario' } },
-      { path: 'listado-usuarios/ver-datos', component: DatosUsuarioComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Datos del usuario' } },
+      { path: 'listado-usuarios/datos-usuario', component: DatosUsuarioComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Datos del usuario' } },
       { path: 'listado-usuarios/registrar-usuario', component: RegistrarNuevoUsuarioComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Registrar usuario' } },
       { path: 'listado-usuarios/registrar-listado-usuarios', component: RegistrarUsuariosCsvComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Registrar listado de usuarios' } },
       { path: 'listado-usuarios/registrar-grupo', component: RegistrarGrupoComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Registrar grupo' } },
       { path: 'listado-usuarios/editar-grupo', component: RegistrarGrupoComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Registrar grupo' } },
+      { path: 'listado-usuarios/datos-grupo', component: DatosGrupoComponent, canActivate: [IsAdminGuard], canLoad: [IsAdminGuard], data: { titulo: 'Datos del grupo' } },
       { path: 'change-password', component: ChangePasswordComponent },
       { path: 'editar-mis-datos', component: EditarMisDatosComponent, data: { titulo: 'Editar mis datos'} },
       { path: '**', redirectTo: 'inicio' },

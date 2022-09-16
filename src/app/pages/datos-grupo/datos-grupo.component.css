@@ -1,0 +1,7 @@
+.content-botones {
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 2px 2px 5px var(--color-texto-negro-transparente);
+    margin-bottom: 30px;
+    padding: 10px;
+  }

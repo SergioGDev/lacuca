@@ -99,7 +99,8 @@ export class ListadoVideotestsComponent implements OnInit {
   }
 
   modificarVideotest(idVideotest: string) {
-
+    this.interdataService.setIdVideotestToCache(idVideotest);
+    this.router.navigateByUrl('/dashboard/zona-tests/admin-videotest/editar-videotest');
   }
 
   eliminarVideotest(datosVideotest: DatosVideotest) {

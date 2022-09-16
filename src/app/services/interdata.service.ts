@@ -13,8 +13,11 @@ export class InterdataService {
   limpiarCache() {
     this.removeCortesInformeFromCache();
     this.removeIdCorteFromCache();
+    this.removeIdGrupoFromCache();
     this.removeIdInformeFromCache();
     this.removeIdPartidoFromCache();
+    this.removeIdVideotestFromCache();
+    this.removeUserFromCache();
   }
 
   // ID PARTIDO

@@ -23,23 +23,37 @@
             <div fxFlex="70" class="datos">
                 {{ datosUsuario.email }}
             </div>
-
+            
             <div fxFlex="20" class="etiqueta">
                 Delegación:
             </div>
-
+            
             <div fxFlex="20" class="datos">
                 {{ datosUsuario.delegacion }}
             </div>
-
+            
             <div fxFlex="20" class="etiqueta">
                 Tipo de usuario:
             </div>
-
+            
             <div fxFlex="20" class="datos">
                 {{ rolesDelUsuario() }}
             </div>
-
+            
+            <div fxFlex="20" class="etiqueta">
+                Grupo/s:
+            </div>
+            
+            <div fxFlex="70" class="datos" *ngIf="datosUsuario.datosGrupos!.length > 0">
+                <div *ngFor="let grupo of datosUsuario.datosGrupos">
+                    {{ grupo.descripcion }}
+                </div>
+            </div>
+            
+            <div fxFlex="70" class="datos" *ngIf="datosUsuario.datosGrupos!.length === 0">
+                No pertenece a ningún grupo
+            </div>
+            
 
 
         </div>

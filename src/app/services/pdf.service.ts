@@ -47,7 +47,7 @@ export class PdfService {
       firstService: this.partidosService.obtenerDatosPartido(
         datosInforme.idPartido!
       ),
-      secondService: this.cortesService.obtenerDatosCortes(
+      secondService: this.cortesService.obtenerDatosListadoCortes(
         datosInforme.cortesIds!
       ),
       // fourthService: this.dataService.getDatosCortes(datosInforme.cortesIds)

@@ -23,8 +23,8 @@ export class ListadoPartidosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.cargarListadoPartidos();
     this.interdataService.limpiarCache();
+    this.cargarListadoPartidos();
   }
   
   cargarListadoPartidos(): void {

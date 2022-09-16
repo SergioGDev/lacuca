@@ -1,0 +1,33 @@
+<div class="container-grupos">
+
+    <app-spinner-cargando *ngIf="cargandoDatosGrupo"></app-spinner-cargando>
+
+    <div *ngIf="!cargandoDatosGrupo">
+
+        <div class="titulo">
+            {{ datosGrupo?.descripcion }}
+        </div>
+
+        <div class="m-2" class="content-botones" fxLayoutAlign="end">
+            <button mat-button (click)="modificarGrupo()"> Editar componentes </button>
+            <button mat-button color="warn"> Eliminar grupo </button>
+        </div>
+
+        <div class="subtitulo">
+            Responsables
+        </div>
+
+        <div class="tabla-responsables w-100 mat-elevation-z2">
+            <app-data-usuarios [listadoUsuarios]="datosGrupo!.datosResponsables!"></app-data-usuarios>
+        </div>
+
+        <div class="subtitulo">
+            Árbitros del grupo
+        </div>
+
+        <div class="tabla-arbitros w-100 mat-elevation-z2">
+            <app-data-usuarios [listadoUsuarios]="datosGrupo!.datosUsuarios!"></app-data-usuarios>
+        </div>
+    </div>
+
+</div>

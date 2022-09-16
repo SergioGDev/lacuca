@@ -129,6 +129,6 @@ export class DataUsuariosComponent implements OnInit, AfterViewInit {
 
   verDatosUsuario(user: Usuario) {
     this.interdataService.setUserToCache(user);
-    this.router.navigateByUrl('/dashboard/listado-usuarios/ver-datos')
+    this.router.navigateByUrl('/dashboard/listado-usuarios/datos-usuario')
   }
 }
